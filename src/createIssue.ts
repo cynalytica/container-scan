@@ -34,25 +34,22 @@ let issues = [];
 
 async function getIssuesList(client){
     if (issues.length == 0) {
-        console.log(github.context.repo)
         issues = await client.paginate(client.rest.issues.listForRepo, {...github.context.repo, state: 'open'})
-        console.log(issues)
     }
     return issues
 }
 
 export async function createAnIssue(issue:Issue):Promise<void>{
     try {
-
+        core.info(JSON.stringify(issue))
         const client = github.getOctokit(githubToken)
         const issuesList = await getIssuesList(client)
-        console.log(issuesList)
-
         const issueExists = issuesList.findIndex(({title}) => title == issue.title)
         if (issueExists == -1 ) {
             core.debug(`creating new issue ${issue.title}`)
-            const newIssue = await client.rest.issues.create({...github.context.repo, ...issue})
-            newIssue.data.id
+            await client.rest.issues.create({...github.context.repo, ...issue})
+            issues.push({title: issue.title})//prevent duplication from US
+
         }
     }catch (e) {
         core.error(e)

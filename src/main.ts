@@ -30,26 +30,26 @@ async function createIssueFromVuln(vuln:trivyHelper.FilterOutput,imageName:strin
         //figure out labels
         const title = `${imageName} ${vuln.vulnerabilityId}`
         const body = `# ${vuln.vulnerabilityId}
-        
-        ${vuln.title}
-        
-        ${vuln.description}
-        
-        ## Version
-        ${vuln.version}
-        
-        ## Fixed Version
-        ${vuln.fixedVersion} 
-        
-        ## Severity Source
-        ${vuln.severity}
-        
-        ${vuln.severitySource}
-        
-        ## References
-        
-        ${arrayToMDlist(vuln.references)}
-        `
+
+${vuln.title}
+
+${vuln.description}
+
+## Version
+${vuln.version}
+
+## Fixed Version
+${vuln.fixedVersion || `None`} 
+
+## Severity Source
+${vuln.severity}
+
+${vuln.severitySource}
+
+## References
+
+${arrayToMDlist(vuln.references)}
+`
         const issue: issueHelper.Issue = {
             title,
             body,
