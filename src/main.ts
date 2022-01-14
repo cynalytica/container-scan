@@ -1,5 +1,5 @@
 import * as core from '@actions/core';
-import * as dockleHelper from './dockleHelper';
+// import * as dockleHelper from './dockleHelper';
 import * as inputHelper from './inputHelper';
 import * as allowedlistHandler from './allowedlistHandler';
 import * as trivyHelper from './trivyHelper';
@@ -75,7 +75,7 @@ async function runImage(image){
         errors.forEach(err => {
             core.error(err);
         });
-        throw new Error(`An error occurred while scanning container image: ${inputHelper.imageName} for vulnerabilities.`);
+        throw new Error(`An error occurred while scanning container image: ${image} for vulnerabilities.`);
     }
 
     // let dockleStatus: number;
