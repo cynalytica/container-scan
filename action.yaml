@@ -1,5 +1,8 @@
-name: 'Container image scan'
-description: 'Scan container images for vulnerabilities and CIS guidelines'
+name: 'Cynalytica Container image scan'
+description: 'Scan container images for vulnerabilities and issues from scan'
+branding:
+  icon: 'aperture'
+  color: 'orange'
 inputs:
   image-names:
     description: 'Docker images to scan, comma or space seperated image list to scan'
