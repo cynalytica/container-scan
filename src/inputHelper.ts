@@ -1,7 +1,6 @@
 import * as core from '@actions/core';
 
 export const imageNames = core.getInput("image-names");
-export const minSeverity = core.getInput("minimum-issue-severity");
 export const githubToken = core.getInput("token");
 export const username = core.getInput("username");
 export const password = core.getInput("password");

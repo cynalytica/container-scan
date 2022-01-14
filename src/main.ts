@@ -6,6 +6,7 @@ import * as trivyHelper from './trivyHelper';
 import * as utils from './utils';
 import * as issueHelper from './createIssue'
 import {getSecurityLevel, SecurtiyLabels} from "./createIssue";
+import {getSeveritiesToInclude} from "./trivyHelper";
 
 export async function run(): Promise<void> {
     inputHelper.validateRequiredInputs();
@@ -24,9 +25,8 @@ function arrayToMDlist(arr:string[]): string {
 }
 
 async function createIssueFromVuln(vuln:trivyHelper.FilterOutput,imageName:string) {
-
-    if(getSecurityLevel(inputHelper.minSeverity) >= getSecurityLevel(vuln.severity)) {
-        console.log(`${inputHelper.minSeverity} ${vuln.severity}`)
+    const severities = trivyHelper.getSeveritiesToInclude();
+    if(severities.includes(vuln.severity)) {
         //figure out labels
         const title = `${imageName} ${vuln.vulnerabilityId}`
         const body = `# ${vuln.vulnerabilityId}
