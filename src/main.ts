@@ -11,9 +11,8 @@ export async function run(): Promise<void> {
     inputHelper.validateRequiredInputs();
     allowedlistHandler.init();
     const images = inputHelper.imageNames.split(/\s|,/).filter(v => v !== "")//white space or comma seperated. remove any empty ones also.
-    for await (const i of images) {
-        await runImage(i)
-    }
+    console.log(images)
+    await Promise.allSettled(images.map(runImage))
 }
 
 
@@ -25,6 +24,7 @@ function arrayToMDlist(arr:string[]): string {
 }
 
 async function createIssueFromVuln(vuln:trivyHelper.FilterOutput,imageName:string) {
+    console.log(`${inputHelper.minSeverity} ${vuln.severity}`)
     core.debug(`${inputHelper.minSeverity} ${vuln.severity}`)
     if(getSecurityLevel(inputHelper.minSeverity) >= getSecurityLevel(vuln.severity)) {
         //figure out labels
@@ -63,7 +63,7 @@ async function createIssueFromVuln(vuln:trivyHelper.FilterOutput,imageName:strin
 async function runImage(image){
     const trivyResult = await trivyHelper.runTrivy(image);
     const trivyStatus = trivyResult.status;
-
+    console.log(trivyResult)
     if (trivyStatus === trivyHelper.TRIVY_EXIT_CODE) {
         //create issues here?!
         const vulns = trivyHelper.getFilteredOutput();
