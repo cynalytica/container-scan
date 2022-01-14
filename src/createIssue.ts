@@ -22,11 +22,11 @@ export function getSecurityLevel(level:string):number {
 }
 
 export const SecurtiyLabels = {
-    SEVERITY_CRITICAL: [dockerLabel,securityLabel,csastLabel+"1",SEVERITY_CRITICAL.toLowerCase()],
-    SEVERITY_HIGH: [dockerLabel,securityLabel,csastLabel+"2",SEVERITY_HIGH.toLowerCase()],
-    SEVERITY_MEDIUM: [dockerLabel,securityLabel,csastLabel+"2",SEVERITY_MEDIUM.toLowerCase()],
-    SEVERITY_LOW: [dockerLabel,securityLabel,csastLabel+"3",SEVERITY_LOW.toLowerCase()],
-    SEVERITY_UNKNOWN: [dockerLabel,securityLabel,csastLabel+"3",SEVERITY_UNKNOWN.toLowerCase()],
+    [SEVERITY_CRITICAL]: [dockerLabel,securityLabel,csastLabel+"1",SEVERITY_CRITICAL.toLowerCase()],
+    [SEVERITY_HIGH]: [dockerLabel,securityLabel,csastLabel+"2",SEVERITY_HIGH.toLowerCase()],
+    [SEVERITY_MEDIUM]: [dockerLabel,securityLabel,csastLabel+"2",SEVERITY_MEDIUM.toLowerCase()],
+    [SEVERITY_LOW]: [dockerLabel,securityLabel,csastLabel+"3",SEVERITY_LOW.toLowerCase()],
+    [SEVERITY_UNKNOWN]: [dockerLabel,securityLabel,csastLabel+"3",SEVERITY_UNKNOWN.toLowerCase()],
 }
 
 //used to cache issues list
