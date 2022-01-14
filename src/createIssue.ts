@@ -33,7 +33,7 @@ export const SecurtiyLabels = {
 }
 
 //used to cache issues list
-let issues: issuesArray[];
+let issues: issuesArray[] = [];
 
 async function getIssuesList(client):Promise<issuesArray[]>{
     if (issues.length == 0) {

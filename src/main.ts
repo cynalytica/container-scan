@@ -24,9 +24,9 @@ function arrayToMDlist(arr:string[]): string {
 }
 
 async function createIssueFromVuln(vuln:trivyHelper.FilterOutput,imageName:string) {
-    console.log(`${inputHelper.minSeverity} ${vuln.severity}`)
-    core.debug(`${inputHelper.minSeverity} ${vuln.severity}`)
+
     if(getSecurityLevel(inputHelper.minSeverity) >= getSecurityLevel(vuln.severity)) {
+        console.log(`${inputHelper.minSeverity} ${vuln.severity}`)
         //figure out labels
         const title = `${imageName} ${vuln.vulnerabilityId}`
         const body = `# ${vuln.vulnerabilityId}
