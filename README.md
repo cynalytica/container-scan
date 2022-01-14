@@ -21,9 +21,14 @@ Please checkout [Trivy](https://github.com/aquasecurity/trivy/blob/main/LICENSE)
     </tr>
   </thead>
   <tr>
-    <td><code>image-name</code></td>
-    <td>(Required) The Docker image to be scanned</td>
+    <td><code>image-names</code></td>
+    <td>(Required) The Docker images to be scanned</td>
     <td>''</td>
+  </tr>
+  <tr>
+    <td><code>minimum-issue-severity</code></td>
+    <td>(Optional) Minimum severity threshold set to control issue creation</td>
+    <td>MEDIUM</td>
   </tr>
   <tr>
     <td><code>severity-threshold</code></td>

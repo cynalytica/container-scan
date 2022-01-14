@@ -18,15 +18,24 @@ const stableTrivyVersion = "0.5.2";
 const trivyLatestReleaseUrl = "https://api.github.com/repos/aquasecurity/trivy/releases/latest";
 const KEY_TARGET = "Target";
 const KEY_VULNERABILITIES = "Vulnerabilities";
+
 const KEY_VULNERABILITY_ID = "VulnerabilityID";
+const KEY_VERSION = "InstalledVersion";
+const KEY_FIXED_VERSION = "FixedVersion";
+const KEY_REFS = "References";
 const KEY_PACKAGE_NAME = "PkgName";
+const KEY_SEVERITY_SOURCE = "SeveritySource";
 const KEY_SEVERITY = "Severity";
+const KEY_TITLE = "Title" //GH title = Image Name + CVE_NAME
+
+
+
 const KEY_DESCRIPTION = "Description";
-const SEVERITY_CRITICAL = "CRITICAL";
-const SEVERITY_HIGH = "HIGH";
-const SEVERITY_MEDIUM = "MEDIUM";
-const SEVERITY_LOW = "LOW";
-const SEVERITY_UNKNOWN = "UNKNOWN";
+export const SEVERITY_CRITICAL = "CRITICAL";
+export const SEVERITY_HIGH = "HIGH";
+export const SEVERITY_MEDIUM = "MEDIUM";
+export const SEVERITY_LOW = "LOW";
+export const SEVERITY_UNKNOWN = "UNKNOWN";
 const TITLE_COUNT = "COUNT";
 const TITLE_VULNERABILITY_ID = "VULNERABILITY ID";
 const TITLE_PACKAGE_NAME = "PACKAGE NAME";
@@ -39,10 +48,10 @@ export interface TrivyResult {
     timestamp: string;
 };
 
-export async function runTrivy(): Promise<TrivyResult> {
+export async function runTrivy(imageName): Promise<TrivyResult> {
     const trivyPath = await getTrivy();
 
-    const imageName = inputHelper.imageName;
+    // const imageName = inputHelper.imageName;
     const trivyOptions: ExecOptions = await getTrivyExecOptions();
     console.log(`Scanning for vulnerabilties in image: ${imageName}`);
     const trivyToolRunner = new ToolRunner(trivyPath, [imageName], trivyOptions);
@@ -191,20 +200,35 @@ export function getSeveritiesToInclude(warnIfInvalid?: boolean): string[] {
     return severities;
 }
 
-export function getFilteredOutput(): any {
+export interface FilterOutput {
+    title: string
+    description: string
+    vulnerabilityId: string
+    packageName: string
+    severity: string
+    severitySource: string
+    version: string
+    fixedVersion: string
+    target: string
+    references: string[]
+
+}
+
+export function getFilteredOutput():FilterOutput[] {
     const vulnerabilities = getVulnerabilities();
-    let filteredVulnerabilities = [];
-    vulnerabilities.forEach((cve: any) => {
-        let vulnObject = {
+    return vulnerabilities.map((cve: any) => (
+        {
+            title: cve[KEY_TITLE],
+            "description": cve[KEY_DESCRIPTION],
             "vulnerabilityId": cve[KEY_VULNERABILITY_ID],
             "packageName": cve[KEY_PACKAGE_NAME],
             "severity": cve[KEY_SEVERITY],
-            "description": cve[KEY_DESCRIPTION],
-            "target": cve[KEY_TARGET]
-        };
-        filteredVulnerabilities.push(vulnObject);
-    });
-    return filteredVulnerabilities;
+            "severitySource": cve[KEY_SEVERITY_SOURCE],
+            "version": cve[KEY_VERSION],
+            "fixedVersion": cve[KEY_FIXED_VERSION],
+            "target": cve[KEY_TARGET],
+            "references": cve[KEY_REFS]
+        }))
 }
 
 async function getTrivyEnvVariables(): Promise<{ [key: string]: string }> {

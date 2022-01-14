@@ -37,17 +37,17 @@ export async function createScanResult(trivyStatus: number, dockleStatus: number
 }
 
 export function getScanReport(trivyResult: trivyHelper.TrivyResult, dockleStatus: number): string {
-  const trivyStatus = trivyResult.status;
+  // const trivyStatus = trivyResult.status;
   const scanReportPath = `${fileHelper.getContainerScanDirectory()}/scanreport.json`;
-  let trivyOutput = [];
-  if (trivyStatus === trivyHelper.TRIVY_EXIT_CODE)
-    trivyOutput = trivyHelper.getFilteredOutput();
+  // let trivyOutput = [];
+  // if (trivyStatus === trivyHelper.TRIVY_EXIT_CODE)
+  //   trivyOutput = trivyHelper.getFilteredOutput();
   let dockleOutput = [];
   if (inputHelper.isRunQualityChecksEnabled() && dockleStatus === dockleHelper.DOCKLE_EXIT_CODE)
     dockleOutput = dockleHelper.getFilteredOutput();
   const scanReportObject = {
     "imageName": inputHelper.imageName,
-    "vulnerabilities": trivyOutput,
+    // "vulnerabilities": trivyOutput,
     "bestPracticeViolations": dockleOutput,
     "vulnerabilityScanTimestamp": trivyResult.timestamp
   };
