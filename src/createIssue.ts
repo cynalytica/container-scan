@@ -57,6 +57,7 @@ export const SecurtiyLabels = {
 interface IssueItem {
     title:string
     id:number
+    number: number
     state:'open'|'closed'
     labels:{
         name:string
@@ -105,7 +106,8 @@ export async function createAnIssue(client: Octokit & any, issuesList: IssueItem
 
         const issueExists = issuesList.findIndex(({title}) => title === issue.title)
         if ( issueExists !== -1 ) {
-                const { id, state, labels:issueLabels } = issuesList[issueExists]
+                const { number:id, state, labels:issueLabels } = issuesList[issueExists]
+                core.info(JSON.stringify(issuesList[issueExists]))
                 const hasWontFix = (issueLabels.findIndex(({name}) => name === inputHelper.wontFixLabel) !== -1)
                 const isFixed = (issueLabels.findIndex(({name}) => name === inputHelper.isFixedLabel) !== -1)
                 const cantFixLabel = (issueLabels.findIndex(({name}) => name === inputHelper.noFixYetLabel) !== -1)
