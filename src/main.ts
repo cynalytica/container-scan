@@ -20,7 +20,11 @@ export async function run(): Promise<void> {
 
 
 function arrayToMDlist(arr:string[]): string {
+
     let ret = ""
+    if(arr === undefined || arr === null){
+        return ret
+    }
     arr.forEach(s => ret += `* [${s}](${s})\r\n`)
     return ret
 

@@ -1,13 +1,9 @@
 
 import * as core from '@actions/core';
 import * as github from '@actions/github';
-import { githubToken } from "./inputHelper";
+import {githubToken, isFixedLabel} from "./inputHelper";
 import { Octokit } from '@octokit/rest';
-// import { throttling } from '@octokit/plugin-throttling';
-
-
-// const MyOctoKit = Octokit.plugin(throttling);
-
+import * as inputHelper from './inputHelper'
 import { SEVERITY_CRITICAL, SEVERITY_HIGH, SEVERITY_MEDIUM, SEVERITY_LOW, SEVERITY_UNKNOWN } from './trivyHelper'
 
 export interface Issue {
@@ -50,7 +46,8 @@ async function createIssue(client:Octokit & any,issue:Issue):Promise<any>{
 }
 async function reopenIssue(client:Octokit & any,issue_number:number) {
     await client.rest.issues.update({...github.context.repo, issue_number, state: 'open'})
-    await client.rest.issues.createComment({...github.context.repo,issue_number, body: `Issue has been reopened due to being found again.`})
+    await client.rest.issues.createComment({...github.context.repo,issue_number, body: `CVE remains present in image, reopening issue. 
+If this issue has already been applied please apply the \`${inputHelper.isFixedLabel}\` and close this issue again.`})
 }
 
 
@@ -59,37 +56,26 @@ async function removeLabelFromIssue(client:Octokit & any,issue_number:number, na
 }
 
 async function issueCanBeFixedNow(client:Octokit & any,issue_number:number,fixedVersion:string){
-    await removeLabelFromIssue(client,issue_number,'no-fix')
+    await removeLabelFromIssue(client,issue_number,inputHelper.noFixYetLabel)
     await client.rest.issues.createComment({...github.context.repo,issue_number, body: `A Fix can be found now by updating to version(s) ${fixedVersion}`})
 }
 
 export async function createAnIssue(issue:Issue,fixedVersion?: string):Promise<void>{
     try {
         const client = github.getOctokit(githubToken)
-        // const client = new MyOctoKit({
-        //     auth: "token " + githubToken,
-        //     throttle: {
-        //         onRateLimit: (retryAfter, options) => {
-        //             core.warning(`Request quota exhausted for request ${options.method} ${options.url}`);
-        //         },
-        //         onAbuseLimit: (retryAfter, options) => {
-        //             // does not retry, only logs a warning
-        //             core.warning(`Abuse detected for request ${options.method} ${options.url}`);
-        //         }
-        //     }
-        // })
         const issuesList = await getIssuesList(client)
         const issueExists = issuesList.findIndex(({title}) => title === issue.title)
         if ( issueExists !== -1 ) {
                 const { id, state, labels:issueLabels } = issuesList[issueExists]
-                const hasWontFix = (issueLabels.findIndex(({name}) => name === "wontfix") !== -1)
-                const isFixed = (issueLabels.findIndex(({name}) => name === "fixed") !== -1)
-                const cantFixLabel = (issueLabels.findIndex(({name}) => name === "no-fix") !== -1)
+                const hasWontFix = (issueLabels.findIndex(({name}) => name === inputHelper.wontFixLabel) !== -1)
+                const isFixed = (issueLabels.findIndex(({name}) => name === inputHelper.isFixedLabel) !== -1)
+                const cantFixLabel = (issueLabels.findIndex(({name}) => name === inputHelper.noFixYetLabel) !== -1)
                 if (state === "closed" && hasWontFix) {
                     core.debug(`issue has wont fix and is closed. doing nothing.`)
                 }else if(state === "closed" && !hasWontFix && isFixed) {
                     core.debug(`issue has been fixed. doing nothing.`)
                 }else if(state === "closed" && !hasWontFix && !isFixed) {
+                    core.debug(`reopening issue. doing nothing.`)
                     await reopenIssue(client,id)
                 }
                 else if(state === "open" && cantFixLabel && fixedVersion !== undefined){
