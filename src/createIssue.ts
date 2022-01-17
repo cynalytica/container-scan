@@ -1,15 +1,11 @@
 
 import * as core from '@actions/core';
-import * as github from './client/github';
-import {githubToken, isFixedLabel} from "./inputHelper";
 import { Octokit } from '@octokit/rest';
+import * as github from './client/github';
 import * as inputHelper from './inputHelper'
 import { SEVERITY_CRITICAL, SEVERITY_HIGH, SEVERITY_MEDIUM, SEVERITY_LOW, SEVERITY_UNKNOWN } from './trivyHelper'
-import any = jasmine.any;
 
-
-
-const client = github.getOctokit(githubToken,{throttle:{
+export const globalClient = github.getOctokit(inputHelper.githubToken,{throttle:{
         onRateLimit: (retryAfter, options) => {
             core.warning(
                 `Request quota exhausted for request ${options.method} ${options.url}`
@@ -90,7 +86,7 @@ async function issueCanBeFixedNow(client:Octokit & any,issue_number:number,fixed
     await client.rest.issues.createComment({...github.context.repo,issue_number, body: `A Fix can be found now by updating to version(s) ${fixedVersion}`})
 }
 
-export async function createAnIssue(issuesList: IssueItem[], issue:Issue,fixedVersion?: string):Promise<void>{
+export async function createAnIssue(client: Octokit & any, issuesList: IssueItem[], issue:Issue,fixedVersion?: string):Promise<void>{
     try {
 
         const issueExists = issuesList.findIndex(({title}) => title === issue.title)

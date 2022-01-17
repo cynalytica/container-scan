@@ -5,7 +5,7 @@ import * as allowedlistHandler from './allowedlistHandler';
 import * as trivyHelper from './trivyHelper';
 import * as utils from './utils';
 import * as issueHelper from './createIssue'
-import {getSecurityLevel, SecurtiyLabels} from "./createIssue";
+import {getSecurityLevel, globalClient, SecurtiyLabels} from "./createIssue";
 import {getSeveritiesToInclude} from "./trivyHelper";
 // let issuesList = [];
 
@@ -13,7 +13,7 @@ export async function run(): Promise<void> {
     inputHelper.validateRequiredInputs();
     allowedlistHandler.init();
     const images = inputHelper.imageNames.split(/\s|,/).filter(v => v !== "")//white space or comma seperated. remove any empty ones also.
-    await issueHelper.getIssuesList()// populate isssues here.
+    await issueHelper.getIssuesList(issueHelper.globalClient)// populate isssues here.
     await Promise.allSettled(images.map(runImage))
     //TODO: create audit log output (configurable output location)
     //TODO: create a SARIF output for each image, concat - upload to Github Code Scanning
@@ -68,7 +68,7 @@ ${arrayToMDlist(vuln.references)}
             body,
             labels: labels,
         }
-        await issueHelper.createAnIssue(issueHelper.issues,issue,vuln.fixedVersion)
+        await issueHelper.createAnIssue(issueHelper.globalClient,issueHelper.issues,issue,vuln.fixedVersion)
     }
 
 
