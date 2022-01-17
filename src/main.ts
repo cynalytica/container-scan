@@ -14,6 +14,9 @@ export async function run(): Promise<void> {
     const images = inputHelper.imageNames.split(/\s|,/).filter(v => v !== "")//white space or comma seperated. remove any empty ones also.
     console.log(images)
     await Promise.allSettled(images.map(runImage))
+    //TODO: create audit log output (configurable output location)
+    //TODO: create a SARIF output for each image, concat - upload to Github Code Scanning
+
 }
 
 
@@ -50,12 +53,17 @@ ${vuln.severitySource}
 
 ${arrayToMDlist(vuln.references)}
 `
+        //Add in the no-fix label
+        const labels = SecurtiyLabels[vuln.severity]
+        if(vuln.fixedVersion === undefined){
+            labels.push('no-fix')
+        }
         const issue: issueHelper.Issue = {
             title,
             body,
             labels: SecurtiyLabels[vuln.severity],
         }
-        await issueHelper.createAnIssue(issue)
+        await issueHelper.createAnIssue(issue,vuln.fixedVersion)
     }
 
 
@@ -68,6 +76,7 @@ async function runImage(image){
         //create issues here?!
         const vulns = trivyHelper.getFilteredOutput();
         vulns.forEach(v => createIssueFromVuln(v,image))
+        //create a AUDIT entry for image.
     } else if (trivyStatus === 0) {
         core.info("No vulnerabilities were detected in the container image");
     } else {
