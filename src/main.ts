@@ -64,7 +64,7 @@ ${arrayToMDlist(vuln.references)}
         const issue: issueHelper.Issue = {
             title,
             body,
-            labels: SecurtiyLabels[vuln.severity],
+            labels: labels,
         }
         await issueHelper.createAnIssue(issue,vuln.fixedVersion)
     }
