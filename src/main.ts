@@ -7,11 +7,13 @@ import * as utils from './utils';
 import * as issueHelper from './createIssue'
 import {getSecurityLevel, SecurtiyLabels} from "./createIssue";
 import {getSeveritiesToInclude} from "./trivyHelper";
+// let issuesList = [];
 
 export async function run(): Promise<void> {
     inputHelper.validateRequiredInputs();
     allowedlistHandler.init();
     const images = inputHelper.imageNames.split(/\s|,/).filter(v => v !== "")//white space or comma seperated. remove any empty ones also.
+    await issueHelper.getIssuesList()// populate isssues here.
     await Promise.allSettled(images.map(runImage))
     //TODO: create audit log output (configurable output location)
     //TODO: create a SARIF output for each image, concat - upload to Github Code Scanning
@@ -66,7 +68,7 @@ ${arrayToMDlist(vuln.references)}
             body,
             labels: labels,
         }
-        await issueHelper.createAnIssue(issue,vuln.fixedVersion)
+        await issueHelper.createAnIssue(issueHelper.issues,issue,vuln.fixedVersion)
     }
 
 
@@ -77,7 +79,9 @@ async function runImage(image){
     if (trivyStatus === trivyHelper.TRIVY_EXIT_CODE) {
         //create issues here?!
         const vulns = trivyHelper.getFilteredOutput();
-        vulns.forEach(v => createIssueFromVuln(v,image))
+        await Promise.allSettled(vulns.map(v => createIssueFromVuln(v,image)))
+        core.info(`Completed issue list for ${image}`)
+        // vulns.forEach(v => createIssueFromVuln(v,image))
         //create a AUDIT entry for image.
     } else if (trivyStatus === 0) {
         core.info("No vulnerabilities were detected in the container image");

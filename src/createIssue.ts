@@ -5,6 +5,26 @@ import {githubToken, isFixedLabel} from "./inputHelper";
 import { Octokit } from '@octokit/rest';
 import * as inputHelper from './inputHelper'
 import { SEVERITY_CRITICAL, SEVERITY_HIGH, SEVERITY_MEDIUM, SEVERITY_LOW, SEVERITY_UNKNOWN } from './trivyHelper'
+import any = jasmine.any;
+
+
+
+const client = github.getOctokit(githubToken,{throttle:{
+        onRateLimit: (retryAfter, options) => {
+            core.warning(
+                `Request quota exhausted for request ${options.method} ${options.url}`
+            );
+            core.info(`Retrying after ${retryAfter} seconds!`);
+            return true;
+        },
+        onAbuseLimit: (retryAfter, options) => {
+            // does not retry, only logs a warning
+
+            core.warning(
+                `Abuse detected for request ${options.method} ${options.url}. Retrying after ${retryAfter} seconds!`
+            );
+        },
+    }})
 
 export interface Issue {
     title: string
@@ -31,10 +51,20 @@ export const SecurtiyLabels = {
     [SEVERITY_UNKNOWN]: [dockerLabel,securityLabel,csastLabel+"3",SEVERITY_UNKNOWN.toLowerCase()],
 }
 
-//used to cache issues list
-let issues = [];
 
-async function getIssuesList(client: Octokit & any){
+interface IssueItem {
+    title:string
+    id:number
+    state:'open'|'closed'
+    labels:{
+        name:string
+    }[]
+}
+
+//used to cache issues list
+export let issues:IssueItem[] = [];
+
+export async function getIssuesList(client?: Octokit & any){
     if (issues.length == 0) {
         issues = await client.paginate(client.rest.issues.listForRepo, { ...github.context.repo })
     }
@@ -60,28 +90,9 @@ async function issueCanBeFixedNow(client:Octokit & any,issue_number:number,fixed
     await client.rest.issues.createComment({...github.context.repo,issue_number, body: `A Fix can be found now by updating to version(s) ${fixedVersion}`})
 }
 
-export async function createAnIssue(issue:Issue,fixedVersion?: string):Promise<void>{
+export async function createAnIssue(issuesList: IssueItem[], issue:Issue,fixedVersion?: string):Promise<void>{
     try {
-        const client = github.getOctokit(githubToken,{throttle:{
-                onRateLimit: (retryAfter, options) => {
-                    core.warning(
-                        `Request quota exhausted for request ${options.method} ${options.url}`
-                    );
 
-                    // Retry twice after hitting a rate limit error, then give up
-                    if (options.request.retryCount <= 2) {
-                        console.log(`Retrying after ${retryAfter} seconds!`);
-                        return true;
-                    }
-                },
-                onAbuseLimit: (retryAfter, options) => {
-                    // does not retry, only logs a warning
-                    core.warning(
-                        `Abuse detected for request ${options.method} ${options.url}`
-                    );
-                },
-            }})
-        const issuesList = await getIssuesList(client)
         const issueExists = issuesList.findIndex(({title}) => title === issue.title)
         if ( issueExists !== -1 ) {
                 const { id, state, labels:issueLabels } = issuesList[issueExists]
