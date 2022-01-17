@@ -3,22 +3,11 @@ import * as core from '@actions/core';
 import * as github from '@actions/github';
 import { githubToken } from "./inputHelper";
 import { Octokit } from '@octokit/rest';
-import { throttling } from '@octokit/plugin-throttling';
+// import { throttling } from '@octokit/plugin-throttling';
 
 
-const MyOctoKit = Octokit.plugin(throttling);
-const client = new MyOctoKit({
-    auth: "token " + githubToken,
-    throttle: {
-        onRateLimit: (retryAfter, options) => {
-            core.warning(`Request quota exhausted for request ${options.method} ${options.url}`);
-        },
-        onAbuseLimit: (retryAfter, options) => {
-            // does not retry, only logs a warning
-            core.warning(`Abuse detected for request ${options.method} ${options.url}`);
-        }
-    }
-})
+// const MyOctoKit = Octokit.plugin(throttling);
+
 import { SEVERITY_CRITICAL, SEVERITY_HIGH, SEVERITY_MEDIUM, SEVERITY_LOW, SEVERITY_UNKNOWN } from './trivyHelper'
 
 export interface Issue {
@@ -49,34 +38,46 @@ export const SecurtiyLabels = {
 //used to cache issues list
 let issues = [];
 
-async function getIssuesList(client: Octokit){
+async function getIssuesList(client: Octokit & any){
     if (issues.length == 0) {
         issues = await client.paginate(client.rest.issues.listForRepo, { ...github.context.repo })
     }
     return issues
 }
 
-async function createIssue(issue:Issue):Promise<any>{
+async function createIssue(client:Octokit & any,issue:Issue):Promise<any>{
     return await client.rest.issues.create({...github.context.repo, ...issue})
 }
-async function reopenIssue(issue_number:number) {
+async function reopenIssue(client:Octokit & any,issue_number:number) {
     await client.rest.issues.update({...github.context.repo, issue_number, state: 'open'})
     await client.rest.issues.createComment({...github.context.repo,issue_number, body: `Issue has been reopened due to being found again.`})
 }
 
 
-async function removeLabelFromIssue(issue_number:number, name: string) {
+async function removeLabelFromIssue(client:Octokit & any,issue_number:number, name: string) {
     await client.rest.issues.removeLabel({...github.context.repo, issue_number,name})
 }
 
-async function issueCanBeFixedNow(issue_number:number,fixedVersion:string){
-    await removeLabelFromIssue(issue_number,'no-fix')
+async function issueCanBeFixedNow(client:Octokit & any,issue_number:number,fixedVersion:string){
+    await removeLabelFromIssue(client,issue_number,'no-fix')
     await client.rest.issues.createComment({...github.context.repo,issue_number, body: `A Fix can be found now by updating to version(s) ${fixedVersion}`})
 }
 
 export async function createAnIssue(issue:Issue,fixedVersion?: string):Promise<void>{
     try {
-        // const client = github.getOctokit(githubToken)
+        const client = github.getOctokit(githubToken)
+        // const client = new MyOctoKit({
+        //     auth: "token " + githubToken,
+        //     throttle: {
+        //         onRateLimit: (retryAfter, options) => {
+        //             core.warning(`Request quota exhausted for request ${options.method} ${options.url}`);
+        //         },
+        //         onAbuseLimit: (retryAfter, options) => {
+        //             // does not retry, only logs a warning
+        //             core.warning(`Abuse detected for request ${options.method} ${options.url}`);
+        //         }
+        //     }
+        // })
         const issuesList = await getIssuesList(client)
         const issueExists = issuesList.findIndex(({title}) => title === issue.title)
         if ( issueExists !== -1 ) {
@@ -89,15 +90,15 @@ export async function createAnIssue(issue:Issue,fixedVersion?: string):Promise<v
                 }else if(state === "closed" && !hasWontFix && isFixed) {
                     core.debug(`issue has been fixed. doing nothing.`)
                 }else if(state === "closed" && !hasWontFix && !isFixed) {
-                    await reopenIssue(id)
+                    await reopenIssue(client,id)
                 }
                 else if(state === "open" && cantFixLabel && fixedVersion !== undefined){
-                    await issueCanBeFixedNow(id,fixedVersion)
+                    await issueCanBeFixedNow(client,id,fixedVersion)
                 }
         }
         else if (issueExists == -1 ) {
             core.debug(`new issue, creating ${issue.title}`)
-            const newIssue = await createIssue(issue)
+            const newIssue = await createIssue(client,issue)
             issues.push(newIssue)//prevent duplication from US
         }
     }catch (e) {
