@@ -1,6 +1,6 @@
 
 import * as core from '@actions/core';
-import * as github from '@actions/github';
+import * as github from './client/github';
 import {githubToken, isFixedLabel} from "./inputHelper";
 import { Octokit } from '@octokit/rest';
 import * as inputHelper from './inputHelper'
@@ -62,7 +62,25 @@ async function issueCanBeFixedNow(client:Octokit & any,issue_number:number,fixed
 
 export async function createAnIssue(issue:Issue,fixedVersion?: string):Promise<void>{
     try {
-        const client = github.getOctokit(githubToken)
+        const client = github.getOctokit(githubToken,{throttle:{
+                onRateLimit: (retryAfter, options) => {
+                    core.warning(
+                        `Request quota exhausted for request ${options.method} ${options.url}`
+                    );
+
+                    // Retry twice after hitting a rate limit error, then give up
+                    if (options.request.retryCount <= 2) {
+                        console.log(`Retrying after ${retryAfter} seconds!`);
+                        return true;
+                    }
+                },
+                onAbuseLimit: (retryAfter, options) => {
+                    // does not retry, only logs a warning
+                    core.warning(
+                        `Abuse detected for request ${options.method} ${options.url}`
+                    );
+                },
+            }})
         const issuesList = await getIssuesList(client)
         const issueExists = issuesList.findIndex(({title}) => title === issue.title)
         if ( issueExists !== -1 ) {
