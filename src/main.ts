@@ -79,8 +79,8 @@ async function runImage(image){
     if (trivyStatus === trivyHelper.TRIVY_EXIT_CODE) {
         //create issues here?!
         const vulns = trivyHelper.getFilteredOutput();
-        await Promise.allSettled(vulns.map(v => createIssueFromVuln(v,image)))
-        core.info(`Completed issue list for ${image}`)
+        vulns.forEach(v => createIssueFromVuln(v,image))
+
         // vulns.forEach(v => createIssueFromVuln(v,image))
         //create a AUDIT entry for image.
     } else if (trivyStatus === 0) {
