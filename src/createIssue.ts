@@ -102,21 +102,22 @@ export async function createAnIssue(client: Octokit & any, issuesList: IssueItem
                 const isFixed = (issueLabels.findIndex(({name}) => name === inputHelper.isFixedLabel) !== -1)
                 const cantFixLabel = (issueLabels.findIndex(({name}) => name === inputHelper.noFixYetLabel) !== -1)
                 if (state === "closed" && hasWontFix) {
-                    core.debug(`issue has wont fix and is closed. doing nothing.`)
+                    core.info(`issue has wont fix and is closed. doing nothing.`)
                 }else if(state === "closed" && !hasWontFix && isFixed) {
-                    core.debug(`issue has been fixed. doing nothing.`)
+                    core.info(`issue has been fixed. doing nothing.`)
                 }else if(state === "closed" && !hasWontFix && !isFixed) {
-                    core.debug(`reopening issue. doing nothing.`)
+                    core.info(`reopening issue. doing nothing.`)
                     await reopenIssue(client,id)
                 }
                 else if(state === "open" && cantFixLabel && fixedVersion !== undefined){
+                    core.info(`Fix has been found. Removing Label.`)
                     await issueCanBeFixedNow(client,id,fixedVersion)
                 }
         }
         else if (issueExists == -1 ) {
             core.debug(`new issue, creating ${issue.title}`)
             const newIssue = await createIssue(client,issue)
-            issues.push(newIssue)//prevent duplication from US
+            issues.push({...newIssue,title:issue.title})//prevent duplication from US
         }
     }catch (e) {
         core.error(e)
