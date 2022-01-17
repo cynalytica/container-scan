@@ -12,7 +12,6 @@ export async function run(): Promise<void> {
     inputHelper.validateRequiredInputs();
     allowedlistHandler.init();
     const images = inputHelper.imageNames.split(/\s|,/).filter(v => v !== "")//white space or comma seperated. remove any empty ones also.
-    console.log(images)
     await Promise.allSettled(images.map(runImage))
     //TODO: create audit log output (configurable output location)
     //TODO: create a SARIF output for each image, concat - upload to Github Code Scanning
@@ -71,7 +70,6 @@ ${arrayToMDlist(vuln.references)}
 async function runImage(image){
     const trivyResult = await trivyHelper.runTrivy(image);
     const trivyStatus = trivyResult.status;
-    console.log(trivyResult)
     if (trivyStatus === trivyHelper.TRIVY_EXIT_CODE) {
         //create issues here?!
         const vulns = trivyHelper.getFilteredOutput();
