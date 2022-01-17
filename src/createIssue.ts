@@ -4,18 +4,24 @@ import { Octokit } from '@octokit/rest';
 import * as github from './client/github';
 import * as inputHelper from './inputHelper'
 import { SEVERITY_CRITICAL, SEVERITY_HIGH, SEVERITY_MEDIUM, SEVERITY_LOW, SEVERITY_UNKNOWN } from './trivyHelper'
+import {maxCreationRetryCount} from "./inputHelper";
 
 export const globalClient = github.getOctokit(inputHelper.githubToken,{throttle:{
         onRateLimit: (retryAfter, options) => {
             core.warning(
                 `Request quota exhausted for request ${options.method} ${options.url}`
             );
+            if(options.request.retyCount <= parseInt(inputHelper.maxCreationRetryCount,10)){
+                return true
+            }
             core.info(`Retrying after ${retryAfter} seconds!`);
             return true;
         },
         onAbuseLimit: (retryAfter, options) => {
             // does not retry, only logs a warning
-
+            if(options.request.retyCount <= parseInt(inputHelper.maxCreationRetryCount,10)){
+                return true
+            }
             core.warning(
                 `Abuse detected for request ${options.method} ${options.url}. Retrying after ${retryAfter} seconds!`
             );

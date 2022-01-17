@@ -23,6 +23,10 @@ inputs:
     description: "User applied label to prevent issues from being reopened."
     default: "fixed"
     required: true
+  max-create-retry:
+    description: "Maximum number of times to try and create an issue. otherwise just call it a day."
+    default: "2"
+    required: false
   username:
     description: 'Username to authenticate to the Docker registry'
     required: false
