@@ -69,7 +69,7 @@ export let issues:IssueItem[] = [];
 
 export async function getIssuesList(client?: Octokit & any){
     if (issues.length == 0) {
-        issues = await client.paginate(client.rest.issues.listForRepo, { ...github.context.repo })
+        issues = await client.paginate(client.rest.issues.listForRepo, { ...github.context.repo , state: 'all'})
     }
     return issues
 }
@@ -107,7 +107,6 @@ export async function createAnIssue(client: Octokit & any, issuesList: IssueItem
         const issueExists = issuesList.findIndex(({title}) => title === issue.title)
         if ( issueExists !== -1 ) {
                 const { number:id, state, labels:issueLabels } = issuesList[issueExists]
-                core.info(JSON.stringify(issuesList[issueExists]))
                 const hasWontFix = (issueLabels.findIndex(({name}) => name === inputHelper.wontFixLabel) !== -1)
                 const isFixed = (issueLabels.findIndex(({name}) => name === inputHelper.isFixedLabel) !== -1)
                 const cantFixLabel = (issueLabels.findIndex(({name}) => name === inputHelper.noFixYetLabel) !== -1)
