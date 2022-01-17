@@ -84,12 +84,20 @@ If this issue has already been applied please apply the \`${inputHelper.isFixedL
 
 
 async function removeLabelFromIssue(client:Octokit & any,issue_number:number, name: string) {
-    await client.rest.issues.removeLabel({...github.context.repo, issue_number,name})
+    try {
+        await client.rest.issues.removeLabel({...github.context.repo, issue_number, name})
+    }catch (e){
+        core.error(`removeLabelFromIssue:${issue_number},${name}, ${e}`)
+    }
 }
 
 async function issueCanBeFixedNow(client:Octokit & any,issue_number:number,fixedVersion:string){
     await removeLabelFromIssue(client,issue_number,inputHelper.noFixYetLabel)
-    await client.rest.issues.createComment({...github.context.repo,issue_number, body: `A Fix can be found now by updating to version(s) ${fixedVersion}`})
+    try{
+        await client.rest.issues.createComment({...github.context.repo,issue_number, body: `A Fix can be found now by updating to version(s) ${fixedVersion}`})
+    }catch (e){
+        core.error(`createComment:${issue_number}, ${e}`)
+    }
 }
 
 export async function createAnIssue(client: Octokit & any, issuesList: IssueItem[], issue:Issue,fixedVersion?: string):Promise<void>{
