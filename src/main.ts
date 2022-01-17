@@ -6,12 +6,13 @@ import * as trivyHelper from './trivyHelper';
 import * as utils from './utils';
 import * as issueHelper from './createIssue'
 import {getSecurityLevel, globalClient, SecurtiyLabels} from "./createIssue";
-import {getSeveritiesToInclude} from "./trivyHelper";
+import {getSeveritiesToInclude, getTrivy} from "./trivyHelper";
 // let issuesList = [];
 
 export async function run(): Promise<void> {
     inputHelper.validateRequiredInputs();
     allowedlistHandler.init();
+    await trivyHelper.getTrivy()//get trivy download first this will prevent multiple downloads.
     const images = inputHelper.imageNames.split(/\s|,/).filter(v => v !== "")//white space or comma seperated. remove any empty ones also.
     await issueHelper.getIssuesList(issueHelper.globalClient)// populate isssues here.
     await Promise.allSettled(images.map(runImage))
@@ -78,7 +79,7 @@ async function runImage(image){
     const trivyStatus = trivyResult.status;
     if (trivyStatus === trivyHelper.TRIVY_EXIT_CODE) {
         //create issues here?!
-        const vulns = trivyHelper.getFilteredOutput();
+        const vulns = trivyHelper.getFilteredOutput(image);
         vulns.forEach(v => createIssueFromVuln(v,image))
 
         // vulns.forEach(v => createIssueFromVuln(v,image))
@@ -86,7 +87,7 @@ async function runImage(image){
     } else if (trivyStatus === 0) {
         core.info("No vulnerabilities were detected in the container image");
     } else {
-        const errors = utils.extractErrorsFromLogs(trivyHelper.getTrivyLogPath(), trivyHelper.trivyToolName);
+        const errors = utils.extractErrorsFromLogs(trivyHelper.getTrivyLogPath(image), trivyHelper.trivyToolName);
         errors.forEach(err => {
             core.error(err);
         });

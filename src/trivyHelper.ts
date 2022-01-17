@@ -49,19 +49,25 @@ export interface TrivyResult {
 };
 
 export async function runTrivy(imageName): Promise<TrivyResult> {
-    const trivyPath = await getTrivy();
+    let trivyResult: TrivyResult;
+    try {
 
-    // const imageName = inputHelper.imageName;
-    const trivyOptions: ExecOptions = await getTrivyExecOptions();
-    console.log(`Scanning for vulnerabilties in image: ${imageName}`);
-    const trivyToolRunner = new ToolRunner(trivyPath, [imageName], trivyOptions);
-    const timestamp = new Date().toISOString();
-    const trivyStatus = await trivyToolRunner.exec();
-    utils.addLogsToDebug(getTrivyLogPath());
-    const trivyResult: TrivyResult = {
-        status: trivyStatus,
-        timestamp: timestamp
-    };
+
+        const trivyPath = await getTrivy();
+        // const imageName = inputHelper.imageName;
+        const trivyOptions: ExecOptions = await getTrivyExecOptions(imageName);
+        core.info(`Scanning for vulnerabilities in image: ${imageName}`);
+        const trivyToolRunner = new ToolRunner(trivyPath, [imageName], trivyOptions);
+        const timestamp = new Date().toISOString();
+        const trivyStatus = await trivyToolRunner.exec();
+        utils.addLogsToDebug(getTrivyLogPath(imageName));
+        trivyResult = {
+            status: trivyStatus,
+            timestamp: timestamp
+        };
+    }catch (e) {
+        core.error(e)
+    }
     return trivyResult;
 }
 
@@ -92,19 +98,25 @@ export async function getTrivy(): Promise<string> {
     return trivyToolPath;
 }
 
-export function getOutputPath(): string {
-    const trivyOutputPath = `${fileHelper.getContainerScanDirectory()}/trivyoutput.json`;
+export function getOutputPath(image:string): string {
+    //image name format = group/name:version
+    //lets take the name:version as the output
+    const reReplace = /[\/:]/g;
+    const iName = image.replace(reReplace,"_");
+    const trivyOutputPath = `${fileHelper.getContainerScanDirectory()}/${iName}_trivyoutput.json`;
     return trivyOutputPath;
 }
 
-export function getTrivyLogPath(): string {
-    const trivyLogPath = `${fileHelper.getContainerScanDirectory()}/trivylog`;
+export function getTrivyLogPath(image:string): string {
+    const reReplace = /[\/:]/g;
+    const iName = image.replace(reReplace,"_");
+    const trivyLogPath = `${fileHelper.getContainerScanDirectory()}/${iName}_trivylog`;
     return trivyLogPath;
 }
 
-export function getText(trivyStatus: number): string {
+export function getText(image:string,trivyStatus: number): string {
     let clusteredVulnerabilities = '';
-    const vulnerabilityIdsBySeverity = getVulnerabilityIdsBySeverity(trivyStatus, true);
+    const vulnerabilityIdsBySeverity = getVulnerabilityIdsBySeverity(image,trivyStatus, true);
     for (let severity in vulnerabilityIdsBySeverity) {
         if (vulnerabilityIdsBySeverity[severity].length > 0) {
             clusteredVulnerabilities = `${clusteredVulnerabilities}\n- **${severity}**:\n${vulnerabilityIdsBySeverity[severity].join('\n')}`;
@@ -114,7 +126,7 @@ export function getText(trivyStatus: number): string {
     return `**Vulnerabilities** -${clusteredVulnerabilities ? clusteredVulnerabilities : '\nNone found.'}`;
 }
 
-export function getSummary(trivyStatus: number): string {
+export function getSummary(image:string, trivyStatus: number): string {
     let summary = '';
     switch (trivyStatus) {
         case 0:
@@ -123,7 +135,7 @@ export function getSummary(trivyStatus: number): string {
         case TRIVY_EXIT_CODE:
             let summaryDetails = '';
             let total = 0;
-            const vulnerabilityIdsBySeverity = getVulnerabilityIdsBySeverity(trivyStatus, true);
+            const vulnerabilityIdsBySeverity = getVulnerabilityIdsBySeverity(image,trivyStatus, true);
             for (let severity in vulnerabilityIdsBySeverity) {
                 const severityCount = vulnerabilityIdsBySeverity[severity].length;
                 const isBold = severityCount > 0;
@@ -144,12 +156,12 @@ export function getSummary(trivyStatus: number): string {
     return `- ${summary}`;
 }
 
-export function printFormattedOutput() {
+export function printFormattedOutput(image:string) {
     let rows = [];
     let titles = [TITLE_VULNERABILITY_ID, TITLE_PACKAGE_NAME, TITLE_SEVERITY, TITLE_DESCRIPTION, TITLE_TARGET];
     rows.push(titles);
 
-    const vulnerabilities = getVulnerabilities();
+    const vulnerabilities = getVulnerabilities(image);
     vulnerabilities.forEach((cve: any) => {
         let row = [];
         row.push(cve[KEY_VULNERABILITY_ID]);
@@ -214,8 +226,8 @@ export interface FilterOutput {
 
 }
 
-export function getFilteredOutput():FilterOutput[] {
-    const vulnerabilities = getVulnerabilities();
+export function getFilteredOutput(image:string):FilterOutput[] {
+    const vulnerabilities = getVulnerabilities(image);
     return vulnerabilities.map((cve: any) => (
         {
             title: cve[KEY_TITLE],
@@ -231,7 +243,7 @@ export function getFilteredOutput():FilterOutput[] {
         }))
 }
 
-async function getTrivyEnvVariables(): Promise<{ [key: string]: string }> {
+async function getTrivyEnvVariables(image:string): Promise<{ [key: string]: string }> {
     let trivyEnv: { [key: string]: string } = {};
     for (let key in process.env) {
         trivyEnv[key] = process.env[key] || "";
@@ -246,7 +258,7 @@ async function getTrivyEnvVariables(): Promise<{ [key: string]: string }> {
 
     trivyEnv["TRIVY_EXIT_CODE"] = TRIVY_EXIT_CODE.toString();
     trivyEnv["TRIVY_FORMAT"] = "json";
-    trivyEnv["TRIVY_OUTPUT"] = getOutputPath();
+    trivyEnv["TRIVY_OUTPUT"] = getOutputPath(image);
     trivyEnv["GITHUB_TOKEN"] = inputHelper.githubToken;
 
     if (allowedlistHandler.trivyAllowedlistExists) {
@@ -259,12 +271,12 @@ async function getTrivyEnvVariables(): Promise<{ [key: string]: string }> {
     return trivyEnv;
 }
 
-function getVulnerabilityIdsBySeverity(trivyStatus: number, removeDuplicates?: boolean): any {
+function getVulnerabilityIdsBySeverity(image:string,trivyStatus: number, removeDuplicates?: boolean): any {
     const severities = getSeveritiesToInclude();
     let vulnerabilityIdsBySeverity: any = {};
 
     if (trivyStatus == TRIVY_EXIT_CODE) {
-        const vulnerabilities = getVulnerabilities(removeDuplicates);
+        const vulnerabilities = getVulnerabilities(image,removeDuplicates);
         for (let severity of severities) {
             vulnerabilityIdsBySeverity[severity] = vulnerabilities
                 .filter(v => v[KEY_SEVERITY].toUpperCase() === severity)
@@ -275,8 +287,8 @@ function getVulnerabilityIdsBySeverity(trivyStatus: number, removeDuplicates?: b
     return vulnerabilityIdsBySeverity;
 }
 
-function getTrivyOutput(): any {
-    const path = getOutputPath();
+function getTrivyOutput(image:string): any {
+    const path = getOutputPath(image);
     return fileHelper.getFileJson(path);
 }
 
@@ -290,8 +302,8 @@ function getTrivyResult(trivyOutputJson: any): any {
         : trivyOutputJson["Results"];
 }
 
-function getVulnerabilities(removeDuplicates?: boolean): any[] {
-    const trivyOutputJson = getTrivyOutput();
+function getVulnerabilities(image:string, removeDuplicates?: boolean): any[] {
+    const trivyOutputJson = getTrivyOutput(image);
     let vulnerabilities: any[] = [];
     const trivyResult = getTrivyResult(trivyOutputJson);
     trivyResult.forEach((ele: any) => {
@@ -337,11 +349,11 @@ function getTrivyDownloadUrl(trivyVersion: string): string {
     }
 }
 
-async function getTrivyExecOptions() {    
-    const trivyEnv = await getTrivyEnvVariables();
+async function getTrivyExecOptions(image: string) {
+    const trivyEnv = await getTrivyEnvVariables(image);
     return {
         env: trivyEnv,
         ignoreReturnCode: true,
-        outStream: fs.createWriteStream(getTrivyLogPath())
+        outStream: fs.createWriteStream(getTrivyLogPath(image))
     };
 }
