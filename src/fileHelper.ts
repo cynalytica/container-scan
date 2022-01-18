@@ -20,7 +20,7 @@ export function writeFileJson(path: string,json:object): any {
 
 export function getContainerScanDirectory(): string {
     if (!CONTAINER_SCAN_DIRECTORY) {
-        CONTAINER_SCAN_DIRECTORY = `${process.env['GITHUB_WORKSPACE']}/_temp/containerscan}`;
+        CONTAINER_SCAN_DIRECTORY = `${process.env['GITHUB_WORKSPACE']}/_temp/containerscan`;
         ensureDirExists(CONTAINER_SCAN_DIRECTORY);
     }
 

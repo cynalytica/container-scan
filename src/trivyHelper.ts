@@ -132,7 +132,7 @@ export function getTrivyLogPath(image:string): string {
 export function getTrivySarifOutputPath(image:string): string {
     const reReplace = /[\/:]/g;
     const iName = image.replace(reReplace,"_");
-    return `${fileHelper.getContainerScanDirectory()}/${iName}_sarif.json`;
+    return `${fileHelper.getContainerScanDirectory()}/${iName}.sarif.json`;
 }
 
 

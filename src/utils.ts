@@ -25,6 +25,7 @@ export async function concatSarifs(){
     throw new Error("unable to find container scan directory")
   }
   const files=fs.readdirSync(dir);
+  core.info(JSON.stringify(files))
   for(let i=0;i<files.length;i++){
     const filename=path.join(dir,files[i]);
     if (/\.sarif.json$/.test(filename)) sarifs.push(fileHelper.getFileJson(filename) as SarifFormat);
