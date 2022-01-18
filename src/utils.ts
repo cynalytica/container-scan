@@ -2,7 +2,7 @@ import * as fs from 'fs';
 import * as path from 'path';
 import * as core from '@actions/core';
 import * as fileHelper from "./fileHelper";
-import { SarifFormat, SarifRun } from "./sarif/sarif";
+import { StaticAnalysisResultsFormatSARIFVersion210Rtm0JSONSchema as SarifFormat, Run as SarifRun } from "./sarif/interfaces";
 
 export function extractErrorsFromLogs(outputPath: string, toolName?: string): any {
   const out = fs.readFileSync(outputPath, 'utf8');
