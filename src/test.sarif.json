@@ -2674,1075 +2674,1072 @@
       }
     }
   },
-    [{
-      "tool": {
-        "driver": {
-          "name": "Trivy",
-          "informationUri": "https://github.com/aquasecurity/trivy",
-          "fullName": "Trivy Vulnerability Scanner",
-          "version": "0.15.0",
-          "rules": [{
-            "id": "CVE-2021-35942",
-            "name": "OsPackageVulnerability",
-            "shortDescription": {
-              "text": "CVE-2021-35942"
-            },
-            "fullDescription": {
-              "text": "glibc: Arbitrary read in wordexp()."
-            },
-            "defaultConfiguration": {
-              "level": "warning"
-            },
-            "helpUri": "https://avd.aquasec.com/nvd/cve-2021-35942",
-            "help": {
-              "text": "Vulnerability CVE-2021-35942\nThe wordexp function in the GNU C Library (aka glibc) through 2.33 may crash or read arbitrary memory in parse_param (in posix/wordexp.c) when called with an untrusted, crafted pattern, potentially resulting in a denial of service or disclosure of information. This occurs because atoi was used but strtoul should have been used to ensure correct calculations.\nSeverity: MEDIUM\nPackage: libc-bin\nFixed Version: \nLink: [CVE-2021-35942](https://avd.aquasec.com/nvd/cve-2021-35942)",
-              "markdown": "**Vulnerability CVE-2021-35942**\nThe wordexp function in the GNU C Library (aka glibc) through 2.33 may crash or read arbitrary memory in parse_param (in posix/wordexp.c) when called with an untrusted, crafted pattern, potentially resulting in a denial of service or disclosure of information. This occurs because atoi was used but strtoul should have been used to ensure correct calculations.\n| Severity | Package | Fixed Version | Link |\n| --- | --- | --- | --- |\n|MEDIUM|libc-bin||[CVE-2021-35942](https://avd.aquasec.com/nvd/cve-2021-35942)|\n"
-            },
-            "properties": {
-              "tags": ["vulnerability", "MEDIUM"],
-              "precision": "very-high"
-            }
-          }, {
-            "id": "CVE-2021-38604",
-            "name": "OsPackageVulnerability",
-            "shortDescription": {
-              "text": "CVE-2021-38604"
-            },
-            "fullDescription": {
-              "text": "glibc: NULL pointer dereference in helper_thread() in mq_notify.c while handling NOTIFY_REMOVED messages."
-            },
-            "defaultConfiguration": {
-              "level": "warning"
-            },
-            "helpUri": "https://avd.aquasec.com/nvd/cve-2021-38604",
-            "help": {
-              "text": "Vulnerability CVE-2021-38604\nIn librt in the GNU C Library (aka glibc) through 2.34, sysdeps/unix/sysv/linux/mq_notify.c mishandles certain NOTIFY_REMOVED data, leading to a NULL pointer dereference. NOTE: this vulnerability was introduced as a side effect of the CVE-2021-33574 fix.\nSeverity: MEDIUM\nPackage: libc-bin\nFixed Version: \nLink: [CVE-2021-38604](https://avd.aquasec.com/nvd/cve-2021-38604)",
-              "markdown": "**Vulnerability CVE-2021-38604**\nIn librt in the GNU C Library (aka glibc) through 2.34, sysdeps/unix/sysv/linux/mq_notify.c mishandles certain NOTIFY_REMOVED data, leading to a NULL pointer dereference. NOTE: this vulnerability was introduced as a side effect of the CVE-2021-33574 fix.\n| Severity | Package | Fixed Version | Link |\n| --- | --- | --- | --- |\n|MEDIUM|libc-bin||[CVE-2021-38604](https://avd.aquasec.com/nvd/cve-2021-38604)|\n"
-            },
-            "properties": {
-              "tags": ["vulnerability", "MEDIUM"],
-              "precision": "very-high"
-            }
-          }, {
-            "id": "CVE-2021-36222",
-            "name": "OsPackageVulnerability",
-            "shortDescription": {
-              "text": "CVE-2021-36222"
-            },
-            "fullDescription": {
-              "text": "krb5: Sending a request containing PA-ENCRYPTED-CHALLENGE padata element without using FAST could result in NULL dereference in KDC which leads to DoS."
-            },
-            "defaultConfiguration": {
-              "level": "warning"
-            },
-            "helpUri": "https://avd.aquasec.com/nvd/cve-2021-36222",
-            "help": {
-              "text": "Vulnerability CVE-2021-36222\nec_verify in kdc/kdc_preauth_ec.c in the Key Distribution Center (KDC) in MIT Kerberos 5 (aka krb5) before 1.18.4 and 1.19.x before 1.19.2 allows remote attackers to cause a NULL pointer dereference and daemon crash. This occurs because a return value is not properly managed in a certain situation.\nSeverity: MEDIUM\nPackage: libgssapi-krb5-2\nFixed Version: \nLink: [CVE-2021-36222](https://avd.aquasec.com/nvd/cve-2021-36222)",
-              "markdown": "**Vulnerability CVE-2021-36222**\nec_verify in kdc/kdc_preauth_ec.c in the Key Distribution Center (KDC) in MIT Kerberos 5 (aka krb5) before 1.18.4 and 1.19.x before 1.19.2 allows remote attackers to cause a NULL pointer dereference and daemon crash. This occurs because a return value is not properly managed in a certain situation.\n| Severity | Package | Fixed Version | Link |\n| --- | --- | --- | --- |\n|MEDIUM|libgssapi-krb5-2||[CVE-2021-36222](https://avd.aquasec.com/nvd/cve-2021-36222)|\n"
-            },
-            "properties": {
-              "tags": ["vulnerability", "MEDIUM"],
-              "precision": "very-high"
-            }
-          }, {
-            "id": "CVE-2020-9794",
-            "name": "OsPackageVulnerability",
-            "shortDescription": {
-              "text": "CVE-2020-9794"
-            },
-            "fullDescription": {
-              "text": "."
-            },
-            "defaultConfiguration": {
-              "level": "warning"
-            },
-            "helpUri": "https://avd.aquasec.com/nvd/cve-2020-9794",
-            "help": {
-              "text": "Vulnerability CVE-2020-9794\nAn out-of-bounds read was addressed with improved bounds checking. This issue is fixed in iOS 13.5 and iPadOS 13.5, macOS Catalina 10.15.5, tvOS 13.4.5, watchOS 6.2.5, iTunes 12.10.7 for Windows, iCloud for Windows 11.2, iCloud for Windows 7.19. A malicious application may cause a denial of service or potentially disclose memory contents.\nSeverity: MEDIUM\nPackage: libsqlite3-0\nFixed Version: \nLink: [CVE-2020-9794](https://avd.aquasec.com/nvd/cve-2020-9794)",
-              "markdown": "**Vulnerability CVE-2020-9794**\nAn out-of-bounds read was addressed with improved bounds checking. This issue is fixed in iOS 13.5 and iPadOS 13.5, macOS Catalina 10.15.5, tvOS 13.4.5, watchOS 6.2.5, iTunes 12.10.7 for Windows, iCloud for Windows 11.2, iCloud for Windows 7.19. A malicious application may cause a denial of service or potentially disclose memory contents.\n| Severity | Package | Fixed Version | Link |\n| --- | --- | --- | --- |\n|MEDIUM|libsqlite3-0||[CVE-2020-9794](https://avd.aquasec.com/nvd/cve-2020-9794)|\n"
-            },
-            "properties": {
-              "tags": ["vulnerability", "MEDIUM"],
-              "precision": "very-high"
-            }
-          }, {
-            "id": "CVE-2021-3997",
-            "name": "OsPackageVulnerability",
-            "shortDescription": {
-              "text": "CVE-2021-3997"
-            },
-            "fullDescription": {
-              "text": "systemd: Uncontrolled recursion in systemd-tmpfiles when removing files."
-            },
-            "defaultConfiguration": {
-              "level": "warning"
-            },
-            "helpUri": "https://avd.aquasec.com/nvd/cve-2021-3997",
-            "help": {
-              "text": "Vulnerability CVE-2021-3997\nA flaw was found in systemd. An uncontrolled recursion in systemd-tmpfiles may lead to a denial of service at boot time when too many nested directories are created in /tmp.\nSeverity: MEDIUM\nPackage: libsystemd0\nFixed Version: 245.4-4ubuntu3.15\nLink: [CVE-2021-3997](https://avd.aquasec.com/nvd/cve-2021-3997)",
-              "markdown": "**Vulnerability CVE-2021-3997**\nA flaw was found in systemd. An uncontrolled recursion in systemd-tmpfiles may lead to a denial of service at boot time when too many nested directories are created in /tmp.\n| Severity | Package | Fixed Version | Link |\n| --- | --- | --- | --- |\n|MEDIUM|libsystemd0|245.4-4ubuntu3.15|[CVE-2021-3997](https://avd.aquasec.com/nvd/cve-2021-3997)|\n"
-            },
-            "properties": {
-              "tags": ["vulnerability", "MEDIUM"],
-              "precision": "very-high"
-            }
-          }, {
-            "id": "CVE-2020-16156",
-            "name": "OsPackageVulnerability",
-            "shortDescription": {
-              "text": "CVE-2020-16156"
-            },
-            "fullDescription": {
-              "text": "perl-CPAN: Bypass of verification of signatures in CHECKSUMS files."
-            },
-            "defaultConfiguration": {
-              "level": "warning"
-            },
-            "helpUri": "https://avd.aquasec.com/nvd/cve-2020-16156",
-            "help": {
-              "text": "Vulnerability CVE-2020-16156\nCPAN 2.28 allows Signature Verification Bypass.\nSeverity: MEDIUM\nPackage: perl-base\nFixed Version: \nLink: [CVE-2020-16156](https://avd.aquasec.com/nvd/cve-2020-16156)",
-              "markdown": "**Vulnerability CVE-2020-16156**\nCPAN 2.28 allows Signature Verification Bypass.\n| Severity | Package | Fixed Version | Link |\n| --- | --- | --- | --- |\n|MEDIUM|perl-base||[CVE-2020-16156](https://avd.aquasec.com/nvd/cve-2020-16156)|\n"
-            },
-            "properties": {
-              "tags": ["vulnerability", "MEDIUM"],
-              "precision": "very-high"
-            }
-          }, {
-            "id": "CVE-2021-3984",
-            "name": "OsPackageVulnerability",
-            "shortDescription": {
-              "text": "CVE-2021-3984"
-            },
-            "fullDescription": {
-              "text": "vim: illegal memory access in find_start_brace() in cindent.c when C-indenting."
-            },
-            "defaultConfiguration": {
-              "level": "warning"
-            },
-            "helpUri": "https://avd.aquasec.com/nvd/cve-2021-3984",
-            "help": {
-              "text": "Vulnerability CVE-2021-3984\nvim is vulnerable to Heap-based Buffer Overflow\nSeverity: MEDIUM\nPackage: vim-common\nFixed Version: \nLink: [CVE-2021-3984](https://avd.aquasec.com/nvd/cve-2021-3984)",
-              "markdown": "**Vulnerability CVE-2021-3984**\nvim is vulnerable to Heap-based Buffer Overflow\n| Severity | Package | Fixed Version | Link |\n| --- | --- | --- | --- |\n|MEDIUM|vim-common||[CVE-2021-3984](https://avd.aquasec.com/nvd/cve-2021-3984)|\n"
-            },
-            "properties": {
-              "tags": ["vulnerability", "MEDIUM"],
-              "precision": "very-high"
-            }
-          }, {
-            "id": "CVE-2021-4019",
-            "name": "OsPackageVulnerability",
-            "shortDescription": {
-              "text": "CVE-2021-4019"
-            },
-            "fullDescription": {
-              "text": "vim: heap-based buffer overflow in find_help_tags() in help.c."
-            },
-            "defaultConfiguration": {
-              "level": "warning"
-            },
-            "helpUri": "https://avd.aquasec.com/nvd/cve-2021-4019",
-            "help": {
-              "text": "Vulnerability CVE-2021-4019\nvim is vulnerable to Heap-based Buffer Overflow\nSeverity: MEDIUM\nPackage: vim-common\nFixed Version: \nLink: [CVE-2021-4019](https://avd.aquasec.com/nvd/cve-2021-4019)",
-              "markdown": "**Vulnerability CVE-2021-4019**\nvim is vulnerable to Heap-based Buffer Overflow\n| Severity | Package | Fixed Version | Link |\n| --- | --- | --- | --- |\n|MEDIUM|vim-common||[CVE-2021-4019](https://avd.aquasec.com/nvd/cve-2021-4019)|\n"
-            },
-            "properties": {
-              "tags": ["vulnerability", "MEDIUM"],
-              "precision": "very-high"
-            }
-          }, {
-            "id": "CVE-2021-4069",
-            "name": "OsPackageVulnerability",
-            "shortDescription": {
-              "text": "CVE-2021-4069"
-            },
-            "fullDescription": {
-              "text": "vim: use-after-free in ex_open() in src/ex_docmd.c."
-            },
-            "defaultConfiguration": {
-              "level": "warning"
-            },
-            "helpUri": "https://avd.aquasec.com/nvd/cve-2021-4069",
-            "help": {
-              "text": "Vulnerability CVE-2021-4069\nvim is vulnerable to Use After Free\nSeverity: MEDIUM\nPackage: vim-common\nFixed Version: \nLink: [CVE-2021-4069](https://avd.aquasec.com/nvd/cve-2021-4069)",
-              "markdown": "**Vulnerability CVE-2021-4069**\nvim is vulnerable to Use After Free\n| Severity | Package | Fixed Version | Link |\n| --- | --- | --- | --- |\n|MEDIUM|vim-common||[CVE-2021-4069](https://avd.aquasec.com/nvd/cve-2021-4069)|\n"
-            },
-            "properties": {
-              "tags": ["vulnerability", "MEDIUM"],
-              "precision": "very-high"
-            }
-          }, {
-            "id": "CVE-2021-4166",
-            "name": "OsPackageVulnerability",
-            "shortDescription": {
-              "text": "CVE-2021-4166"
-            },
-            "fullDescription": {
-              "text": "vim: out-of-bounds read in do_arg_all() in src/arglist.c."
-            },
-            "defaultConfiguration": {
-              "level": "warning"
-            },
-            "helpUri": "https://avd.aquasec.com/nvd/cve-2021-4166",
-            "help": {
-              "text": "Vulnerability CVE-2021-4166\nvim is vulnerable to Out-of-bounds Read\nSeverity: MEDIUM\nPackage: vim-common\nFixed Version: \nLink: [CVE-2021-4166](https://avd.aquasec.com/nvd/cve-2021-4166)",
-              "markdown": "**Vulnerability CVE-2021-4166**\nvim is vulnerable to Out-of-bounds Read\n| Severity | Package | Fixed Version | Link |\n| --- | --- | --- | --- |\n|MEDIUM|vim-common||[CVE-2021-4166](https://avd.aquasec.com/nvd/cve-2021-4166)|\n"
-            },
-            "properties": {
-              "tags": ["vulnerability", "MEDIUM"],
-              "precision": "very-high"
-            }
-          }, {
-            "id": "CVE-2020-25649",
-            "name": "OtherVulnerability",
-            "shortDescription": {
-              "text": "CVE-2020-25649"
-            },
-            "fullDescription": {
-              "text": "jackson-databind: FasterXML DOMDeserializer insecure entity expansion is vulnerable to XML external entity (XXE)."
-            },
-            "defaultConfiguration": {
-              "level": "error"
-            },
-            "helpUri": "https://avd.aquasec.com/nvd/cve-2020-25649",
-            "help": {
-              "text": "Vulnerability CVE-2020-25649\nA flaw was found in FasterXML Jackson Databind, where it did not have entity expansion secured properly. This flaw allows vulnerability to XML external entity (XXE) attacks. The highest threat from this vulnerability is data integrity.\nSeverity: HIGH\nPackage: com.fasterxml.jackson.core:jackson-databind\nFixed Version: 2.6.7.4, 2.9.10.7, 2.10.5.1\nLink: [CVE-2020-25649](https://avd.aquasec.com/nvd/cve-2020-25649)",
-              "markdown": "**Vulnerability CVE-2020-25649**\nA flaw was found in FasterXML Jackson Databind, where it did not have entity expansion secured properly. This flaw allows vulnerability to XML external entity (XXE) attacks. The highest threat from this vulnerability is data integrity.\n| Severity | Package | Fixed Version | Link |\n| --- | --- | --- | --- |\n|HIGH|com.fasterxml.jackson.core:jackson-databind|2.6.7.4, 2.9.10.7, 2.10.5.1|[CVE-2020-25649](https://avd.aquasec.com/nvd/cve-2020-25649)|\n"
-            },
-            "properties": {
-              "tags": ["vulnerability", "HIGH"],
-              "precision": "very-high"
-            }
-          }, {
-            "id": "CVE-2018-10237",
-            "name": "OtherVulnerability",
-            "shortDescription": {
-              "text": "CVE-2018-10237"
-            },
-            "fullDescription": {
-              "text": "guava: Unbounded memory allocation in AtomicDoubleArray and CompoundOrdering classes allow remote attackers to cause a denial of service."
-            },
-            "defaultConfiguration": {
-              "level": "warning"
-            },
-            "helpUri": "https://avd.aquasec.com/nvd/cve-2018-10237",
-            "help": {
-              "text": "Vulnerability CVE-2018-10237\nUnbounded memory allocation in Google Guava 11.0 through 24.x before 24.1.1 allows remote attackers to conduct denial of service attacks against servers that depend on this library and deserialize attacker-provided data, because the AtomicDoubleArray class (when serialized with Java serialization) and the CompoundOrdering class (when serialized with GWT serialization) perform eager allocation without appropriate checks on what a client has sent and whether the data size is reasonable.\nSeverity: MEDIUM\nPackage: com.google.guava:guava\nFixed Version: 24.1.1-jre, 24.1.1-android\nLink: [CVE-2018-10237](https://avd.aquasec.com/nvd/cve-2018-10237)",
-              "markdown": "**Vulnerability CVE-2018-10237**\nUnbounded memory allocation in Google Guava 11.0 through 24.x before 24.1.1 allows remote attackers to conduct denial of service attacks against servers that depend on this library and deserialize attacker-provided data, because the AtomicDoubleArray class (when serialized with Java serialization) and the CompoundOrdering class (when serialized with GWT serialization) perform eager allocation without appropriate checks on what a client has sent and whether the data size is reasonable.\n| Severity | Package | Fixed Version | Link |\n| --- | --- | --- | --- |\n|MEDIUM|com.google.guava:guava|24.1.1-jre, 24.1.1-android|[CVE-2018-10237](https://avd.aquasec.com/nvd/cve-2018-10237)|\n"
-            },
-            "properties": {
-              "tags": ["vulnerability", "MEDIUM"],
-              "precision": "very-high"
-            }
-          }, {
-            "id": "CVE-2021-22569",
-            "name": "OtherVulnerability",
-            "shortDescription": {
-              "text": "CVE-2021-22569"
-            },
-            "fullDescription": {
-              "text": "protobuf-java: potential DoS in the parsing procedure for binary data."
-            },
-            "defaultConfiguration": {
-              "level": "error"
-            },
-            "helpUri": "https://avd.aquasec.com/nvd/cve-2021-22569",
-            "help": {
-              "text": "Vulnerability CVE-2021-22569\nAn issue in protobuf-java allowed the interleaving of com.google.protobuf.UnknownFieldSet fields in such a way that would be processed out of order. A small malicious payload can occupy the parser for several minutes by creating large numbers of short-lived objects that cause frequent, repeated pauses. We recommend upgrading libraries beyond the vulnerable versions.\nSeverity: HIGH\nPackage: com.google.protobuf:protobuf-java\nFixed Version: 3.19.2, 3.18.2, 3.16.1\nLink: [CVE-2021-22569](https://avd.aquasec.com/nvd/cve-2021-22569)",
-              "markdown": "**Vulnerability CVE-2021-22569**\nAn issue in protobuf-java allowed the interleaving of com.google.protobuf.UnknownFieldSet fields in such a way that would be processed out of order. A small malicious payload can occupy the parser for several minutes by creating large numbers of short-lived objects that cause frequent, repeated pauses. We recommend upgrading libraries beyond the vulnerable versions.\n| Severity | Package | Fixed Version | Link |\n| --- | --- | --- | --- |\n|HIGH|com.google.protobuf:protobuf-java|3.19.2, 3.18.2, 3.16.1|[CVE-2021-22569](https://avd.aquasec.com/nvd/cve-2021-22569)|\n"
-            },
-            "properties": {
-              "tags": ["vulnerability", "HIGH"],
-              "precision": "very-high"
-            }
-          }, {
-            "id": "CVE-2021-37136",
-            "name": "OtherVulnerability",
-            "shortDescription": {
-              "text": "CVE-2021-37136"
-            },
-            "fullDescription": {
-              "text": "netty-codec: Bzip2Decoder doesn&#39;t allow setting size restrictions for decompressed data."
-            },
-            "defaultConfiguration": {
-              "level": "warning"
-            },
-            "helpUri": "https://avd.aquasec.com/nvd/cve-2021-37136",
-            "help": {
-              "text": "Vulnerability CVE-2021-37136\nThe Bzip2 decompression decoder function doesn't allow setting size restrictions on the decompressed output data (which affects the allocation size used during decompression). All users of Bzip2Decoder are affected. The malicious input can trigger an OOME and so a DoS attack\nSeverity: MEDIUM\nPackage: io.netty:netty-codec\nFixed Version: 4.1.68.Final\nLink: [CVE-2021-37136](https://avd.aquasec.com/nvd/cve-2021-37136)",
-              "markdown": "**Vulnerability CVE-2021-37136**\nThe Bzip2 decompression decoder function doesn't allow setting size restrictions on the decompressed output data (which affects the allocation size used during decompression). All users of Bzip2Decoder are affected. The malicious input can trigger an OOME and so a DoS attack\n| Severity | Package | Fixed Version | Link |\n| --- | --- | --- | --- |\n|MEDIUM|io.netty:netty-codec|4.1.68.Final|[CVE-2021-37136](https://avd.aquasec.com/nvd/cve-2021-37136)|\n"
-            },
-            "properties": {
-              "tags": ["vulnerability", "MEDIUM"],
-              "precision": "very-high"
-            }
-          }, {
-            "id": "CVE-2021-37137",
-            "name": "OtherVulnerability",
-            "shortDescription": {
-              "text": "CVE-2021-37137"
-            },
-            "fullDescription": {
-              "text": "netty-codec: SnappyFrameDecoder doesn&#39;t restrict chunk length and may buffer skippable chunks in an unnecessary way."
-            },
-            "defaultConfiguration": {
-              "level": "warning"
-            },
-            "helpUri": "https://avd.aquasec.com/nvd/cve-2021-37137",
-            "help": {
-              "text": "Vulnerability CVE-2021-37137\nThe Snappy frame decoder function doesn't restrict the chunk length which may lead to excessive memory usage. Beside this it also may buffer reserved skippable chunks until the whole chunk was received which may lead to excessive memory usage as well. This vulnerability can be triggered by supplying malicious input that decompresses to a very big size (via a network stream or a file) or by sending a huge skippable chunk.\nSeverity: MEDIUM\nPackage: io.netty:netty-codec\nFixed Version: 4.1.68.Final\nLink: [CVE-2021-37137](https://avd.aquasec.com/nvd/cve-2021-37137)",
-              "markdown": "**Vulnerability CVE-2021-37137**\nThe Snappy frame decoder function doesn't restrict the chunk length which may lead to excessive memory usage. Beside this it also may buffer reserved skippable chunks until the whole chunk was received which may lead to excessive memory usage as well. This vulnerability can be triggered by supplying malicious input that decompresses to a very big size (via a network stream or a file) or by sending a huge skippable chunk.\n| Severity | Package | Fixed Version | Link |\n| --- | --- | --- | --- |\n|MEDIUM|io.netty:netty-codec|4.1.68.Final|[CVE-2021-37137](https://avd.aquasec.com/nvd/cve-2021-37137)|\n"
-            },
-            "properties": {
-              "tags": ["vulnerability", "MEDIUM"],
-              "precision": "very-high"
-            }
-          }, {
-            "id": "CVE-2021-43797",
-            "name": "OtherVulnerability",
-            "shortDescription": {
-              "text": "CVE-2021-43797"
-            },
-            "fullDescription": {
-              "text": "netty: control chars in header names may lead to HTTP request smuggling."
-            },
-            "defaultConfiguration": {
-              "level": "warning"
-            },
-            "helpUri": "https://avd.aquasec.com/nvd/cve-2021-43797",
-            "help": {
-              "text": "Vulnerability CVE-2021-43797\nNetty is an asynchronous event-driven network application framework for rapid development of maintainable high performance protocol servers & clients. Netty prior to version 4.1.7.1.Final skips control chars when they are present at the beginning / end of the header name. It should instead fail fast as these are not allowed by the spec and could lead to HTTP request smuggling. Failing to do the validation might cause netty to \"sanitize\" header names before it forward these to another remote system when used as proxy. This remote system can't see the invalid usage anymore, and therefore does not do the validation itself. Users should upgrade to version 4.1.7.1.Final to receive a patch.\nSeverity: MEDIUM\nPackage: io.netty:netty-codec-http\nFixed Version: 4.1.71.Final\nLink: [CVE-2021-43797](https://avd.aquasec.com/nvd/cve-2021-43797)",
-              "markdown": "**Vulnerability CVE-2021-43797**\nNetty is an asynchronous event-driven network application framework for rapid development of maintainable high performance protocol servers & clients. Netty prior to version 4.1.7.1.Final skips control chars when they are present at the beginning / end of the header name. It should instead fail fast as these are not allowed by the spec and could lead to HTTP request smuggling. Failing to do the validation might cause netty to \"sanitize\" header names before it forward these to another remote system when used as proxy. This remote system can't see the invalid usage anymore, and therefore does not do the validation itself. Users should upgrade to version 4.1.7.1.Final to receive a patch.\n| Severity | Package | Fixed Version | Link |\n| --- | --- | --- | --- |\n|MEDIUM|io.netty:netty-codec-http|4.1.71.Final|[CVE-2021-43797](https://avd.aquasec.com/nvd/cve-2021-43797)|\n"
-            },
-            "properties": {
-              "tags": ["vulnerability", "MEDIUM"],
-              "precision": "very-high"
-            }
-          }, {
-            "id": "CVE-2020-13956",
-            "name": "OtherVulnerability",
-            "shortDescription": {
-              "text": "CVE-2020-13956"
-            },
-            "fullDescription": {
-              "text": "apache-httpclient: incorrect handling of malformed authority component in request URIs."
-            },
-            "defaultConfiguration": {
-              "level": "warning"
-            },
-            "helpUri": "https://avd.aquasec.com/nvd/cve-2020-13956",
-            "help": {
-              "text": "Vulnerability CVE-2020-13956\nApache HttpClient versions prior to version 4.5.13 and 5.0.3 can misinterpret malformed authority component in request URIs passed to the library as java.net.URI object and pick the wrong target host for request execution.\nSeverity: MEDIUM\nPackage: org.apache.httpcomponents:httpclient\nFixed Version: 4.5.13\nLink: [CVE-2020-13956](https://avd.aquasec.com/nvd/cve-2020-13956)",
-              "markdown": "**Vulnerability CVE-2020-13956**\nApache HttpClient versions prior to version 4.5.13 and 5.0.3 can misinterpret malformed authority component in request URIs passed to the library as java.net.URI object and pick the wrong target host for request execution.\n| Severity | Package | Fixed Version | Link |\n| --- | --- | --- | --- |\n|MEDIUM|org.apache.httpcomponents:httpclient|4.5.13|[CVE-2020-13956](https://avd.aquasec.com/nvd/cve-2020-13956)|\n"
-            },
-            "properties": {
-              "tags": ["vulnerability", "MEDIUM"],
-              "precision": "very-high"
-            }
-          }, {
-            "id": "CVE-2021-44832",
-            "name": "OtherVulnerability",
-            "shortDescription": {
-              "text": "CVE-2021-44832"
-            },
-            "fullDescription": {
-              "text": "log4j-core: remote code execution via JDBC Appender."
-            },
-            "defaultConfiguration": {
-              "level": "warning"
-            },
-            "helpUri": "https://avd.aquasec.com/nvd/cve-2021-44832",
-            "help": {
-              "text": "Vulnerability CVE-2021-44832\nApache Log4j2 versions 2.0-beta7 through 2.17.0 (excluding security fix releases 2.3.2 and 2.12.4) are vulnerable to a remote code execution (RCE) attack when a configuration uses a JDBC Appender with a JNDI LDAP data source URI when an attacker has control of the target LDAP server. This issue is fixed by limiting JNDI data source names to the java protocol in Log4j2 versions 2.17.1, 2.12.4, and 2.3.2.\nSeverity: MEDIUM\nPackage: org.apache.logging.log4j:log4j-api\nFixed Version: 2.17.1, 2.12.4, 2.3.2\nLink: [CVE-2021-44832](https://avd.aquasec.com/nvd/cve-2021-44832)",
-              "markdown": "**Vulnerability CVE-2021-44832**\nApache Log4j2 versions 2.0-beta7 through 2.17.0 (excluding security fix releases 2.3.2 and 2.12.4) are vulnerable to a remote code execution (RCE) attack when a configuration uses a JDBC Appender with a JNDI LDAP data source URI when an attacker has control of the target LDAP server. This issue is fixed by limiting JNDI data source names to the java protocol in Log4j2 versions 2.17.1, 2.12.4, and 2.3.2.\n| Severity | Package | Fixed Version | Link |\n| --- | --- | --- | --- |\n|MEDIUM|org.apache.logging.log4j:log4j-api|2.17.1, 2.12.4, 2.3.2|[CVE-2021-44832](https://avd.aquasec.com/nvd/cve-2021-44832)|\n"
-            },
-            "properties": {
-              "tags": ["vulnerability", "MEDIUM"],
-              "precision": "very-high"
-            }
-          }, {
-            "id": "CVE-2021-40690",
-            "name": "OtherVulnerability",
-            "shortDescription": {
-              "text": "CVE-2021-40690"
-            },
-            "fullDescription": {
-              "text": "xml-security: XPath Transform abuse allows for information disclosure."
-            },
-            "defaultConfiguration": {
-              "level": "error"
-            },
-            "helpUri": "https://avd.aquasec.com/nvd/cve-2021-40690",
-            "help": {
-              "text": "Vulnerability CVE-2021-40690\nAll versions of Apache Santuario - XML Security for Java prior to 2.2.3 and 2.1.7 are vulnerable to an issue where the \"secureValidation\" property is not passed correctly when creating a KeyInfo from a KeyInfoReference element. This allows an attacker to abuse an XPath Transform to extract any local .xml files in a RetrievalMethod element.\nSeverity: HIGH\nPackage: org.apache.santuario:xmlsec\nFixed Version: 2.1.7, 2.2.3\nLink: [CVE-2021-40690](https://avd.aquasec.com/nvd/cve-2021-40690)",
-              "markdown": "**Vulnerability CVE-2021-40690**\nAll versions of Apache Santuario - XML Security for Java prior to 2.2.3 and 2.1.7 are vulnerable to an issue where the \"secureValidation\" property is not passed correctly when creating a KeyInfo from a KeyInfoReference element. This allows an attacker to abuse an XPath Transform to extract any local .xml files in a RetrievalMethod element.\n| Severity | Package | Fixed Version | Link |\n| --- | --- | --- | --- |\n|HIGH|org.apache.santuario:xmlsec|2.1.7, 2.2.3|[CVE-2021-40690](https://avd.aquasec.com/nvd/cve-2021-40690)|\n"
-            },
-            "properties": {
-              "tags": ["vulnerability", "HIGH"],
-              "precision": "very-high"
-            }
-          }, {
-            "id": "CVE-2020-15522",
-            "name": "OtherVulnerability",
-            "shortDescription": {
-              "text": "CVE-2020-15522"
-            },
-            "fullDescription": {
-              "text": "bouncycastle: Timing issue within the EC math library."
-            },
-            "defaultConfiguration": {
-              "level": "warning"
-            },
-            "helpUri": "https://avd.aquasec.com/nvd/cve-2020-15522",
-            "help": {
-              "text": "Vulnerability CVE-2020-15522\nBouncy Castle BC Java before 1.66, BC C# .NET before 1.8.7, BC-FJA before 1.0.1.2, 1.0.2.1, and BC-FNA before 1.0.1.1 have a timing issue within the EC math library that can expose information about the private key when an attacker is able to observe timing information for the generation of multiple deterministic ECDSA signatures.\nSeverity: MEDIUM\nPackage: org.bouncycastle:bc-fips\nFixed Version: 1.0.2.1\nLink: [CVE-2020-15522](https://avd.aquasec.com/nvd/cve-2020-15522)",
-              "markdown": "**Vulnerability CVE-2020-15522**\nBouncy Castle BC Java before 1.66, BC C# .NET before 1.8.7, BC-FJA before 1.0.1.2, 1.0.2.1, and BC-FNA before 1.0.1.1 have a timing issue within the EC math library that can expose information about the private key when an attacker is able to observe timing information for the generation of multiple deterministic ECDSA signatures.\n| Severity | Package | Fixed Version | Link |\n| --- | --- | --- | --- |\n|MEDIUM|org.bouncycastle:bc-fips|1.0.2.1|[CVE-2020-15522](https://avd.aquasec.com/nvd/cve-2020-15522)|\n"
-            },
-            "properties": {
-              "tags": ["vulnerability", "MEDIUM"],
-              "precision": "very-high"
-            }
-          }]
-        }
-      },
-      "results": [{
-        "ruleId": "CVE-2021-35942",
-        "ruleIndex": 0,
-        "level": "warning",
-        "message": {
-          "text": "Package: libc-bin\nInstalled Version: 2.31-0ubuntu9.2\nVulnerability CVE-2021-35942\nSeverity: MEDIUM\nFixed Version: \nLink: [CVE-2021-35942](https://avd.aquasec.com/nvd/cve-2021-35942)"
-        },
-        "locations": [{
-          "physicalLocation": {
-            "artifactLocation": {
-              "uri": "elasticsearch:7.16.2",
-              "uriBaseId": "ROOTPATH"
-            },
-            "region": {
-              "startLine": 1
-            }
+    {
+    "tool": {
+      "driver": {
+        "name": "Trivy",
+        "informationUri": "https://github.com/aquasecurity/trivy",
+        "fullName": "Trivy Vulnerability Scanner",
+        "version": "0.15.0",
+        "rules": [{
+          "id": "CVE-2021-35942",
+          "name": "OsPackageVulnerability",
+          "shortDescription": {
+            "text": "CVE-2021-35942"
+          },
+          "fullDescription": {
+            "text": "glibc: Arbitrary read in wordexp()."
+          },
+          "defaultConfiguration": {
+            "level": "warning"
+          },
+          "helpUri": "https://avd.aquasec.com/nvd/cve-2021-35942",
+          "help": {
+            "text": "Vulnerability CVE-2021-35942\nThe wordexp function in the GNU C Library (aka glibc) through 2.33 may crash or read arbitrary memory in parse_param (in posix/wordexp.c) when called with an untrusted, crafted pattern, potentially resulting in a denial of service or disclosure of information. This occurs because atoi was used but strtoul should have been used to ensure correct calculations.\nSeverity: MEDIUM\nPackage: libc-bin\nFixed Version: \nLink: [CVE-2021-35942](https://avd.aquasec.com/nvd/cve-2021-35942)",
+            "markdown": "**Vulnerability CVE-2021-35942**\nThe wordexp function in the GNU C Library (aka glibc) through 2.33 may crash or read arbitrary memory in parse_param (in posix/wordexp.c) when called with an untrusted, crafted pattern, potentially resulting in a denial of service or disclosure of information. This occurs because atoi was used but strtoul should have been used to ensure correct calculations.\n| Severity | Package | Fixed Version | Link |\n| --- | --- | --- | --- |\n|MEDIUM|libc-bin||[CVE-2021-35942](https://avd.aquasec.com/nvd/cve-2021-35942)|\n"
+          },
+          "properties": {
+            "tags": ["vulnerability", "MEDIUM"],
+            "precision": "very-high"
+          }
+        }, {
+          "id": "CVE-2021-38604",
+          "name": "OsPackageVulnerability",
+          "shortDescription": {
+            "text": "CVE-2021-38604"
+          },
+          "fullDescription": {
+            "text": "glibc: NULL pointer dereference in helper_thread() in mq_notify.c while handling NOTIFY_REMOVED messages."
+          },
+          "defaultConfiguration": {
+            "level": "warning"
+          },
+          "helpUri": "https://avd.aquasec.com/nvd/cve-2021-38604",
+          "help": {
+            "text": "Vulnerability CVE-2021-38604\nIn librt in the GNU C Library (aka glibc) through 2.34, sysdeps/unix/sysv/linux/mq_notify.c mishandles certain NOTIFY_REMOVED data, leading to a NULL pointer dereference. NOTE: this vulnerability was introduced as a side effect of the CVE-2021-33574 fix.\nSeverity: MEDIUM\nPackage: libc-bin\nFixed Version: \nLink: [CVE-2021-38604](https://avd.aquasec.com/nvd/cve-2021-38604)",
+            "markdown": "**Vulnerability CVE-2021-38604**\nIn librt in the GNU C Library (aka glibc) through 2.34, sysdeps/unix/sysv/linux/mq_notify.c mishandles certain NOTIFY_REMOVED data, leading to a NULL pointer dereference. NOTE: this vulnerability was introduced as a side effect of the CVE-2021-33574 fix.\n| Severity | Package | Fixed Version | Link |\n| --- | --- | --- | --- |\n|MEDIUM|libc-bin||[CVE-2021-38604](https://avd.aquasec.com/nvd/cve-2021-38604)|\n"
+          },
+          "properties": {
+            "tags": ["vulnerability", "MEDIUM"],
+            "precision": "very-high"
+          }
+        }, {
+          "id": "CVE-2021-36222",
+          "name": "OsPackageVulnerability",
+          "shortDescription": {
+            "text": "CVE-2021-36222"
+          },
+          "fullDescription": {
+            "text": "krb5: Sending a request containing PA-ENCRYPTED-CHALLENGE padata element without using FAST could result in NULL dereference in KDC which leads to DoS."
+          },
+          "defaultConfiguration": {
+            "level": "warning"
+          },
+          "helpUri": "https://avd.aquasec.com/nvd/cve-2021-36222",
+          "help": {
+            "text": "Vulnerability CVE-2021-36222\nec_verify in kdc/kdc_preauth_ec.c in the Key Distribution Center (KDC) in MIT Kerberos 5 (aka krb5) before 1.18.4 and 1.19.x before 1.19.2 allows remote attackers to cause a NULL pointer dereference and daemon crash. This occurs because a return value is not properly managed in a certain situation.\nSeverity: MEDIUM\nPackage: libgssapi-krb5-2\nFixed Version: \nLink: [CVE-2021-36222](https://avd.aquasec.com/nvd/cve-2021-36222)",
+            "markdown": "**Vulnerability CVE-2021-36222**\nec_verify in kdc/kdc_preauth_ec.c in the Key Distribution Center (KDC) in MIT Kerberos 5 (aka krb5) before 1.18.4 and 1.19.x before 1.19.2 allows remote attackers to cause a NULL pointer dereference and daemon crash. This occurs because a return value is not properly managed in a certain situation.\n| Severity | Package | Fixed Version | Link |\n| --- | --- | --- | --- |\n|MEDIUM|libgssapi-krb5-2||[CVE-2021-36222](https://avd.aquasec.com/nvd/cve-2021-36222)|\n"
+          },
+          "properties": {
+            "tags": ["vulnerability", "MEDIUM"],
+            "precision": "very-high"
+          }
+        }, {
+          "id": "CVE-2020-9794",
+          "name": "OsPackageVulnerability",
+          "shortDescription": {
+            "text": "CVE-2020-9794"
+          },
+          "fullDescription": {
+            "text": "."
+          },
+          "defaultConfiguration": {
+            "level": "warning"
+          },
+          "helpUri": "https://avd.aquasec.com/nvd/cve-2020-9794",
+          "help": {
+            "text": "Vulnerability CVE-2020-9794\nAn out-of-bounds read was addressed with improved bounds checking. This issue is fixed in iOS 13.5 and iPadOS 13.5, macOS Catalina 10.15.5, tvOS 13.4.5, watchOS 6.2.5, iTunes 12.10.7 for Windows, iCloud for Windows 11.2, iCloud for Windows 7.19. A malicious application may cause a denial of service or potentially disclose memory contents.\nSeverity: MEDIUM\nPackage: libsqlite3-0\nFixed Version: \nLink: [CVE-2020-9794](https://avd.aquasec.com/nvd/cve-2020-9794)",
+            "markdown": "**Vulnerability CVE-2020-9794**\nAn out-of-bounds read was addressed with improved bounds checking. This issue is fixed in iOS 13.5 and iPadOS 13.5, macOS Catalina 10.15.5, tvOS 13.4.5, watchOS 6.2.5, iTunes 12.10.7 for Windows, iCloud for Windows 11.2, iCloud for Windows 7.19. A malicious application may cause a denial of service or potentially disclose memory contents.\n| Severity | Package | Fixed Version | Link |\n| --- | --- | --- | --- |\n|MEDIUM|libsqlite3-0||[CVE-2020-9794](https://avd.aquasec.com/nvd/cve-2020-9794)|\n"
+          },
+          "properties": {
+            "tags": ["vulnerability", "MEDIUM"],
+            "precision": "very-high"
+          }
+        }, {
+          "id": "CVE-2021-3997",
+          "name": "OsPackageVulnerability",
+          "shortDescription": {
+            "text": "CVE-2021-3997"
+          },
+          "fullDescription": {
+            "text": "systemd: Uncontrolled recursion in systemd-tmpfiles when removing files."
+          },
+          "defaultConfiguration": {
+            "level": "warning"
+          },
+          "helpUri": "https://avd.aquasec.com/nvd/cve-2021-3997",
+          "help": {
+            "text": "Vulnerability CVE-2021-3997\nA flaw was found in systemd. An uncontrolled recursion in systemd-tmpfiles may lead to a denial of service at boot time when too many nested directories are created in /tmp.\nSeverity: MEDIUM\nPackage: libsystemd0\nFixed Version: 245.4-4ubuntu3.15\nLink: [CVE-2021-3997](https://avd.aquasec.com/nvd/cve-2021-3997)",
+            "markdown": "**Vulnerability CVE-2021-3997**\nA flaw was found in systemd. An uncontrolled recursion in systemd-tmpfiles may lead to a denial of service at boot time when too many nested directories are created in /tmp.\n| Severity | Package | Fixed Version | Link |\n| --- | --- | --- | --- |\n|MEDIUM|libsystemd0|245.4-4ubuntu3.15|[CVE-2021-3997](https://avd.aquasec.com/nvd/cve-2021-3997)|\n"
+          },
+          "properties": {
+            "tags": ["vulnerability", "MEDIUM"],
+            "precision": "very-high"
+          }
+        }, {
+          "id": "CVE-2020-16156",
+          "name": "OsPackageVulnerability",
+          "shortDescription": {
+            "text": "CVE-2020-16156"
+          },
+          "fullDescription": {
+            "text": "perl-CPAN: Bypass of verification of signatures in CHECKSUMS files."
+          },
+          "defaultConfiguration": {
+            "level": "warning"
+          },
+          "helpUri": "https://avd.aquasec.com/nvd/cve-2020-16156",
+          "help": {
+            "text": "Vulnerability CVE-2020-16156\nCPAN 2.28 allows Signature Verification Bypass.\nSeverity: MEDIUM\nPackage: perl-base\nFixed Version: \nLink: [CVE-2020-16156](https://avd.aquasec.com/nvd/cve-2020-16156)",
+            "markdown": "**Vulnerability CVE-2020-16156**\nCPAN 2.28 allows Signature Verification Bypass.\n| Severity | Package | Fixed Version | Link |\n| --- | --- | --- | --- |\n|MEDIUM|perl-base||[CVE-2020-16156](https://avd.aquasec.com/nvd/cve-2020-16156)|\n"
+          },
+          "properties": {
+            "tags": ["vulnerability", "MEDIUM"],
+            "precision": "very-high"
+          }
+        }, {
+          "id": "CVE-2021-3984",
+          "name": "OsPackageVulnerability",
+          "shortDescription": {
+            "text": "CVE-2021-3984"
+          },
+          "fullDescription": {
+            "text": "vim: illegal memory access in find_start_brace() in cindent.c when C-indenting."
+          },
+          "defaultConfiguration": {
+            "level": "warning"
+          },
+          "helpUri": "https://avd.aquasec.com/nvd/cve-2021-3984",
+          "help": {
+            "text": "Vulnerability CVE-2021-3984\nvim is vulnerable to Heap-based Buffer Overflow\nSeverity: MEDIUM\nPackage: vim-common\nFixed Version: \nLink: [CVE-2021-3984](https://avd.aquasec.com/nvd/cve-2021-3984)",
+            "markdown": "**Vulnerability CVE-2021-3984**\nvim is vulnerable to Heap-based Buffer Overflow\n| Severity | Package | Fixed Version | Link |\n| --- | --- | --- | --- |\n|MEDIUM|vim-common||[CVE-2021-3984](https://avd.aquasec.com/nvd/cve-2021-3984)|\n"
+          },
+          "properties": {
+            "tags": ["vulnerability", "MEDIUM"],
+            "precision": "very-high"
+          }
+        }, {
+          "id": "CVE-2021-4019",
+          "name": "OsPackageVulnerability",
+          "shortDescription": {
+            "text": "CVE-2021-4019"
+          },
+          "fullDescription": {
+            "text": "vim: heap-based buffer overflow in find_help_tags() in help.c."
+          },
+          "defaultConfiguration": {
+            "level": "warning"
+          },
+          "helpUri": "https://avd.aquasec.com/nvd/cve-2021-4019",
+          "help": {
+            "text": "Vulnerability CVE-2021-4019\nvim is vulnerable to Heap-based Buffer Overflow\nSeverity: MEDIUM\nPackage: vim-common\nFixed Version: \nLink: [CVE-2021-4019](https://avd.aquasec.com/nvd/cve-2021-4019)",
+            "markdown": "**Vulnerability CVE-2021-4019**\nvim is vulnerable to Heap-based Buffer Overflow\n| Severity | Package | Fixed Version | Link |\n| --- | --- | --- | --- |\n|MEDIUM|vim-common||[CVE-2021-4019](https://avd.aquasec.com/nvd/cve-2021-4019)|\n"
+          },
+          "properties": {
+            "tags": ["vulnerability", "MEDIUM"],
+            "precision": "very-high"
+          }
+        }, {
+          "id": "CVE-2021-4069",
+          "name": "OsPackageVulnerability",
+          "shortDescription": {
+            "text": "CVE-2021-4069"
+          },
+          "fullDescription": {
+            "text": "vim: use-after-free in ex_open() in src/ex_docmd.c."
+          },
+          "defaultConfiguration": {
+            "level": "warning"
+          },
+          "helpUri": "https://avd.aquasec.com/nvd/cve-2021-4069",
+          "help": {
+            "text": "Vulnerability CVE-2021-4069\nvim is vulnerable to Use After Free\nSeverity: MEDIUM\nPackage: vim-common\nFixed Version: \nLink: [CVE-2021-4069](https://avd.aquasec.com/nvd/cve-2021-4069)",
+            "markdown": "**Vulnerability CVE-2021-4069**\nvim is vulnerable to Use After Free\n| Severity | Package | Fixed Version | Link |\n| --- | --- | --- | --- |\n|MEDIUM|vim-common||[CVE-2021-4069](https://avd.aquasec.com/nvd/cve-2021-4069)|\n"
+          },
+          "properties": {
+            "tags": ["vulnerability", "MEDIUM"],
+            "precision": "very-high"
+          }
+        }, {
+          "id": "CVE-2021-4166",
+          "name": "OsPackageVulnerability",
+          "shortDescription": {
+            "text": "CVE-2021-4166"
+          },
+          "fullDescription": {
+            "text": "vim: out-of-bounds read in do_arg_all() in src/arglist.c."
+          },
+          "defaultConfiguration": {
+            "level": "warning"
+          },
+          "helpUri": "https://avd.aquasec.com/nvd/cve-2021-4166",
+          "help": {
+            "text": "Vulnerability CVE-2021-4166\nvim is vulnerable to Out-of-bounds Read\nSeverity: MEDIUM\nPackage: vim-common\nFixed Version: \nLink: [CVE-2021-4166](https://avd.aquasec.com/nvd/cve-2021-4166)",
+            "markdown": "**Vulnerability CVE-2021-4166**\nvim is vulnerable to Out-of-bounds Read\n| Severity | Package | Fixed Version | Link |\n| --- | --- | --- | --- |\n|MEDIUM|vim-common||[CVE-2021-4166](https://avd.aquasec.com/nvd/cve-2021-4166)|\n"
+          },
+          "properties": {
+            "tags": ["vulnerability", "MEDIUM"],
+            "precision": "very-high"
+          }
+        }, {
+          "id": "CVE-2020-25649",
+          "name": "OtherVulnerability",
+          "shortDescription": {
+            "text": "CVE-2020-25649"
+          },
+          "fullDescription": {
+            "text": "jackson-databind: FasterXML DOMDeserializer insecure entity expansion is vulnerable to XML external entity (XXE)."
+          },
+          "defaultConfiguration": {
+            "level": "error"
+          },
+          "helpUri": "https://avd.aquasec.com/nvd/cve-2020-25649",
+          "help": {
+            "text": "Vulnerability CVE-2020-25649\nA flaw was found in FasterXML Jackson Databind, where it did not have entity expansion secured properly. This flaw allows vulnerability to XML external entity (XXE) attacks. The highest threat from this vulnerability is data integrity.\nSeverity: HIGH\nPackage: com.fasterxml.jackson.core:jackson-databind\nFixed Version: 2.6.7.4, 2.9.10.7, 2.10.5.1\nLink: [CVE-2020-25649](https://avd.aquasec.com/nvd/cve-2020-25649)",
+            "markdown": "**Vulnerability CVE-2020-25649**\nA flaw was found in FasterXML Jackson Databind, where it did not have entity expansion secured properly. This flaw allows vulnerability to XML external entity (XXE) attacks. The highest threat from this vulnerability is data integrity.\n| Severity | Package | Fixed Version | Link |\n| --- | --- | --- | --- |\n|HIGH|com.fasterxml.jackson.core:jackson-databind|2.6.7.4, 2.9.10.7, 2.10.5.1|[CVE-2020-25649](https://avd.aquasec.com/nvd/cve-2020-25649)|\n"
+          },
+          "properties": {
+            "tags": ["vulnerability", "HIGH"],
+            "precision": "very-high"
+          }
+        }, {
+          "id": "CVE-2018-10237",
+          "name": "OtherVulnerability",
+          "shortDescription": {
+            "text": "CVE-2018-10237"
+          },
+          "fullDescription": {
+            "text": "guava: Unbounded memory allocation in AtomicDoubleArray and CompoundOrdering classes allow remote attackers to cause a denial of service."
+          },
+          "defaultConfiguration": {
+            "level": "warning"
+          },
+          "helpUri": "https://avd.aquasec.com/nvd/cve-2018-10237",
+          "help": {
+            "text": "Vulnerability CVE-2018-10237\nUnbounded memory allocation in Google Guava 11.0 through 24.x before 24.1.1 allows remote attackers to conduct denial of service attacks against servers that depend on this library and deserialize attacker-provided data, because the AtomicDoubleArray class (when serialized with Java serialization) and the CompoundOrdering class (when serialized with GWT serialization) perform eager allocation without appropriate checks on what a client has sent and whether the data size is reasonable.\nSeverity: MEDIUM\nPackage: com.google.guava:guava\nFixed Version: 24.1.1-jre, 24.1.1-android\nLink: [CVE-2018-10237](https://avd.aquasec.com/nvd/cve-2018-10237)",
+            "markdown": "**Vulnerability CVE-2018-10237**\nUnbounded memory allocation in Google Guava 11.0 through 24.x before 24.1.1 allows remote attackers to conduct denial of service attacks against servers that depend on this library and deserialize attacker-provided data, because the AtomicDoubleArray class (when serialized with Java serialization) and the CompoundOrdering class (when serialized with GWT serialization) perform eager allocation without appropriate checks on what a client has sent and whether the data size is reasonable.\n| Severity | Package | Fixed Version | Link |\n| --- | --- | --- | --- |\n|MEDIUM|com.google.guava:guava|24.1.1-jre, 24.1.1-android|[CVE-2018-10237](https://avd.aquasec.com/nvd/cve-2018-10237)|\n"
+          },
+          "properties": {
+            "tags": ["vulnerability", "MEDIUM"],
+            "precision": "very-high"
+          }
+        }, {
+          "id": "CVE-2021-22569",
+          "name": "OtherVulnerability",
+          "shortDescription": {
+            "text": "CVE-2021-22569"
+          },
+          "fullDescription": {
+            "text": "protobuf-java: potential DoS in the parsing procedure for binary data."
+          },
+          "defaultConfiguration": {
+            "level": "error"
+          },
+          "helpUri": "https://avd.aquasec.com/nvd/cve-2021-22569",
+          "help": {
+            "text": "Vulnerability CVE-2021-22569\nAn issue in protobuf-java allowed the interleaving of com.google.protobuf.UnknownFieldSet fields in such a way that would be processed out of order. A small malicious payload can occupy the parser for several minutes by creating large numbers of short-lived objects that cause frequent, repeated pauses. We recommend upgrading libraries beyond the vulnerable versions.\nSeverity: HIGH\nPackage: com.google.protobuf:protobuf-java\nFixed Version: 3.19.2, 3.18.2, 3.16.1\nLink: [CVE-2021-22569](https://avd.aquasec.com/nvd/cve-2021-22569)",
+            "markdown": "**Vulnerability CVE-2021-22569**\nAn issue in protobuf-java allowed the interleaving of com.google.protobuf.UnknownFieldSet fields in such a way that would be processed out of order. A small malicious payload can occupy the parser for several minutes by creating large numbers of short-lived objects that cause frequent, repeated pauses. We recommend upgrading libraries beyond the vulnerable versions.\n| Severity | Package | Fixed Version | Link |\n| --- | --- | --- | --- |\n|HIGH|com.google.protobuf:protobuf-java|3.19.2, 3.18.2, 3.16.1|[CVE-2021-22569](https://avd.aquasec.com/nvd/cve-2021-22569)|\n"
+          },
+          "properties": {
+            "tags": ["vulnerability", "HIGH"],
+            "precision": "very-high"
+          }
+        }, {
+          "id": "CVE-2021-37136",
+          "name": "OtherVulnerability",
+          "shortDescription": {
+            "text": "CVE-2021-37136"
+          },
+          "fullDescription": {
+            "text": "netty-codec: Bzip2Decoder doesn&#39;t allow setting size restrictions for decompressed data."
+          },
+          "defaultConfiguration": {
+            "level": "warning"
+          },
+          "helpUri": "https://avd.aquasec.com/nvd/cve-2021-37136",
+          "help": {
+            "text": "Vulnerability CVE-2021-37136\nThe Bzip2 decompression decoder function doesn't allow setting size restrictions on the decompressed output data (which affects the allocation size used during decompression). All users of Bzip2Decoder are affected. The malicious input can trigger an OOME and so a DoS attack\nSeverity: MEDIUM\nPackage: io.netty:netty-codec\nFixed Version: 4.1.68.Final\nLink: [CVE-2021-37136](https://avd.aquasec.com/nvd/cve-2021-37136)",
+            "markdown": "**Vulnerability CVE-2021-37136**\nThe Bzip2 decompression decoder function doesn't allow setting size restrictions on the decompressed output data (which affects the allocation size used during decompression). All users of Bzip2Decoder are affected. The malicious input can trigger an OOME and so a DoS attack\n| Severity | Package | Fixed Version | Link |\n| --- | --- | --- | --- |\n|MEDIUM|io.netty:netty-codec|4.1.68.Final|[CVE-2021-37136](https://avd.aquasec.com/nvd/cve-2021-37136)|\n"
+          },
+          "properties": {
+            "tags": ["vulnerability", "MEDIUM"],
+            "precision": "very-high"
+          }
+        }, {
+          "id": "CVE-2021-37137",
+          "name": "OtherVulnerability",
+          "shortDescription": {
+            "text": "CVE-2021-37137"
+          },
+          "fullDescription": {
+            "text": "netty-codec: SnappyFrameDecoder doesn&#39;t restrict chunk length and may buffer skippable chunks in an unnecessary way."
+          },
+          "defaultConfiguration": {
+            "level": "warning"
+          },
+          "helpUri": "https://avd.aquasec.com/nvd/cve-2021-37137",
+          "help": {
+            "text": "Vulnerability CVE-2021-37137\nThe Snappy frame decoder function doesn't restrict the chunk length which may lead to excessive memory usage. Beside this it also may buffer reserved skippable chunks until the whole chunk was received which may lead to excessive memory usage as well. This vulnerability can be triggered by supplying malicious input that decompresses to a very big size (via a network stream or a file) or by sending a huge skippable chunk.\nSeverity: MEDIUM\nPackage: io.netty:netty-codec\nFixed Version: 4.1.68.Final\nLink: [CVE-2021-37137](https://avd.aquasec.com/nvd/cve-2021-37137)",
+            "markdown": "**Vulnerability CVE-2021-37137**\nThe Snappy frame decoder function doesn't restrict the chunk length which may lead to excessive memory usage. Beside this it also may buffer reserved skippable chunks until the whole chunk was received which may lead to excessive memory usage as well. This vulnerability can be triggered by supplying malicious input that decompresses to a very big size (via a network stream or a file) or by sending a huge skippable chunk.\n| Severity | Package | Fixed Version | Link |\n| --- | --- | --- | --- |\n|MEDIUM|io.netty:netty-codec|4.1.68.Final|[CVE-2021-37137](https://avd.aquasec.com/nvd/cve-2021-37137)|\n"
+          },
+          "properties": {
+            "tags": ["vulnerability", "MEDIUM"],
+            "precision": "very-high"
+          }
+        }, {
+          "id": "CVE-2021-43797",
+          "name": "OtherVulnerability",
+          "shortDescription": {
+            "text": "CVE-2021-43797"
+          },
+          "fullDescription": {
+            "text": "netty: control chars in header names may lead to HTTP request smuggling."
+          },
+          "defaultConfiguration": {
+            "level": "warning"
+          },
+          "helpUri": "https://avd.aquasec.com/nvd/cve-2021-43797",
+          "help": {
+            "text": "Vulnerability CVE-2021-43797\nNetty is an asynchronous event-driven network application framework for rapid development of maintainable high performance protocol servers & clients. Netty prior to version 4.1.7.1.Final skips control chars when they are present at the beginning / end of the header name. It should instead fail fast as these are not allowed by the spec and could lead to HTTP request smuggling. Failing to do the validation might cause netty to \"sanitize\" header names before it forward these to another remote system when used as proxy. This remote system can't see the invalid usage anymore, and therefore does not do the validation itself. Users should upgrade to version 4.1.7.1.Final to receive a patch.\nSeverity: MEDIUM\nPackage: io.netty:netty-codec-http\nFixed Version: 4.1.71.Final\nLink: [CVE-2021-43797](https://avd.aquasec.com/nvd/cve-2021-43797)",
+            "markdown": "**Vulnerability CVE-2021-43797**\nNetty is an asynchronous event-driven network application framework for rapid development of maintainable high performance protocol servers & clients. Netty prior to version 4.1.7.1.Final skips control chars when they are present at the beginning / end of the header name. It should instead fail fast as these are not allowed by the spec and could lead to HTTP request smuggling. Failing to do the validation might cause netty to \"sanitize\" header names before it forward these to another remote system when used as proxy. This remote system can't see the invalid usage anymore, and therefore does not do the validation itself. Users should upgrade to version 4.1.7.1.Final to receive a patch.\n| Severity | Package | Fixed Version | Link |\n| --- | --- | --- | --- |\n|MEDIUM|io.netty:netty-codec-http|4.1.71.Final|[CVE-2021-43797](https://avd.aquasec.com/nvd/cve-2021-43797)|\n"
+          },
+          "properties": {
+            "tags": ["vulnerability", "MEDIUM"],
+            "precision": "very-high"
+          }
+        }, {
+          "id": "CVE-2020-13956",
+          "name": "OtherVulnerability",
+          "shortDescription": {
+            "text": "CVE-2020-13956"
+          },
+          "fullDescription": {
+            "text": "apache-httpclient: incorrect handling of malformed authority component in request URIs."
+          },
+          "defaultConfiguration": {
+            "level": "warning"
+          },
+          "helpUri": "https://avd.aquasec.com/nvd/cve-2020-13956",
+          "help": {
+            "text": "Vulnerability CVE-2020-13956\nApache HttpClient versions prior to version 4.5.13 and 5.0.3 can misinterpret malformed authority component in request URIs passed to the library as java.net.URI object and pick the wrong target host for request execution.\nSeverity: MEDIUM\nPackage: org.apache.httpcomponents:httpclient\nFixed Version: 4.5.13\nLink: [CVE-2020-13956](https://avd.aquasec.com/nvd/cve-2020-13956)",
+            "markdown": "**Vulnerability CVE-2020-13956**\nApache HttpClient versions prior to version 4.5.13 and 5.0.3 can misinterpret malformed authority component in request URIs passed to the library as java.net.URI object and pick the wrong target host for request execution.\n| Severity | Package | Fixed Version | Link |\n| --- | --- | --- | --- |\n|MEDIUM|org.apache.httpcomponents:httpclient|4.5.13|[CVE-2020-13956](https://avd.aquasec.com/nvd/cve-2020-13956)|\n"
+          },
+          "properties": {
+            "tags": ["vulnerability", "MEDIUM"],
+            "precision": "very-high"
+          }
+        }, {
+          "id": "CVE-2021-44832",
+          "name": "OtherVulnerability",
+          "shortDescription": {
+            "text": "CVE-2021-44832"
+          },
+          "fullDescription": {
+            "text": "log4j-core: remote code execution via JDBC Appender."
+          },
+          "defaultConfiguration": {
+            "level": "warning"
+          },
+          "helpUri": "https://avd.aquasec.com/nvd/cve-2021-44832",
+          "help": {
+            "text": "Vulnerability CVE-2021-44832\nApache Log4j2 versions 2.0-beta7 through 2.17.0 (excluding security fix releases 2.3.2 and 2.12.4) are vulnerable to a remote code execution (RCE) attack when a configuration uses a JDBC Appender with a JNDI LDAP data source URI when an attacker has control of the target LDAP server. This issue is fixed by limiting JNDI data source names to the java protocol in Log4j2 versions 2.17.1, 2.12.4, and 2.3.2.\nSeverity: MEDIUM\nPackage: org.apache.logging.log4j:log4j-api\nFixed Version: 2.17.1, 2.12.4, 2.3.2\nLink: [CVE-2021-44832](https://avd.aquasec.com/nvd/cve-2021-44832)",
+            "markdown": "**Vulnerability CVE-2021-44832**\nApache Log4j2 versions 2.0-beta7 through 2.17.0 (excluding security fix releases 2.3.2 and 2.12.4) are vulnerable to a remote code execution (RCE) attack when a configuration uses a JDBC Appender with a JNDI LDAP data source URI when an attacker has control of the target LDAP server. This issue is fixed by limiting JNDI data source names to the java protocol in Log4j2 versions 2.17.1, 2.12.4, and 2.3.2.\n| Severity | Package | Fixed Version | Link |\n| --- | --- | --- | --- |\n|MEDIUM|org.apache.logging.log4j:log4j-api|2.17.1, 2.12.4, 2.3.2|[CVE-2021-44832](https://avd.aquasec.com/nvd/cve-2021-44832)|\n"
+          },
+          "properties": {
+            "tags": ["vulnerability", "MEDIUM"],
+            "precision": "very-high"
+          }
+        }, {
+          "id": "CVE-2021-40690",
+          "name": "OtherVulnerability",
+          "shortDescription": {
+            "text": "CVE-2021-40690"
+          },
+          "fullDescription": {
+            "text": "xml-security: XPath Transform abuse allows for information disclosure."
+          },
+          "defaultConfiguration": {
+            "level": "error"
+          },
+          "helpUri": "https://avd.aquasec.com/nvd/cve-2021-40690",
+          "help": {
+            "text": "Vulnerability CVE-2021-40690\nAll versions of Apache Santuario - XML Security for Java prior to 2.2.3 and 2.1.7 are vulnerable to an issue where the \"secureValidation\" property is not passed correctly when creating a KeyInfo from a KeyInfoReference element. This allows an attacker to abuse an XPath Transform to extract any local .xml files in a RetrievalMethod element.\nSeverity: HIGH\nPackage: org.apache.santuario:xmlsec\nFixed Version: 2.1.7, 2.2.3\nLink: [CVE-2021-40690](https://avd.aquasec.com/nvd/cve-2021-40690)",
+            "markdown": "**Vulnerability CVE-2021-40690**\nAll versions of Apache Santuario - XML Security for Java prior to 2.2.3 and 2.1.7 are vulnerable to an issue where the \"secureValidation\" property is not passed correctly when creating a KeyInfo from a KeyInfoReference element. This allows an attacker to abuse an XPath Transform to extract any local .xml files in a RetrievalMethod element.\n| Severity | Package | Fixed Version | Link |\n| --- | --- | --- | --- |\n|HIGH|org.apache.santuario:xmlsec|2.1.7, 2.2.3|[CVE-2021-40690](https://avd.aquasec.com/nvd/cve-2021-40690)|\n"
+          },
+          "properties": {
+            "tags": ["vulnerability", "HIGH"],
+            "precision": "very-high"
+          }
+        }, {
+          "id": "CVE-2020-15522",
+          "name": "OtherVulnerability",
+          "shortDescription": {
+            "text": "CVE-2020-15522"
+          },
+          "fullDescription": {
+            "text": "bouncycastle: Timing issue within the EC math library."
+          },
+          "defaultConfiguration": {
+            "level": "warning"
+          },
+          "helpUri": "https://avd.aquasec.com/nvd/cve-2020-15522",
+          "help": {
+            "text": "Vulnerability CVE-2020-15522\nBouncy Castle BC Java before 1.66, BC C# .NET before 1.8.7, BC-FJA before 1.0.1.2, 1.0.2.1, and BC-FNA before 1.0.1.1 have a timing issue within the EC math library that can expose information about the private key when an attacker is able to observe timing information for the generation of multiple deterministic ECDSA signatures.\nSeverity: MEDIUM\nPackage: org.bouncycastle:bc-fips\nFixed Version: 1.0.2.1\nLink: [CVE-2020-15522](https://avd.aquasec.com/nvd/cve-2020-15522)",
+            "markdown": "**Vulnerability CVE-2020-15522**\nBouncy Castle BC Java before 1.66, BC C# .NET before 1.8.7, BC-FJA before 1.0.1.2, 1.0.2.1, and BC-FNA before 1.0.1.1 have a timing issue within the EC math library that can expose information about the private key when an attacker is able to observe timing information for the generation of multiple deterministic ECDSA signatures.\n| Severity | Package | Fixed Version | Link |\n| --- | --- | --- | --- |\n|MEDIUM|org.bouncycastle:bc-fips|1.0.2.1|[CVE-2020-15522](https://avd.aquasec.com/nvd/cve-2020-15522)|\n"
+          },
+          "properties": {
+            "tags": ["vulnerability", "MEDIUM"],
+            "precision": "very-high"
           }
         }]
-      }, {
-        "ruleId": "CVE-2021-38604",
-        "ruleIndex": 1,
-        "level": "warning",
-        "message": {
-          "text": "Package: libc-bin\nInstalled Version: 2.31-0ubuntu9.2\nVulnerability CVE-2021-38604\nSeverity: MEDIUM\nFixed Version: \nLink: [CVE-2021-38604](https://avd.aquasec.com/nvd/cve-2021-38604)"
-        },
-        "locations": [{
-          "physicalLocation": {
-            "artifactLocation": {
-              "uri": "elasticsearch:7.16.2",
-              "uriBaseId": "ROOTPATH"
-            },
-            "region": {
-              "startLine": 1
-            }
-          }
-        }]
-      }, {
-        "ruleId": "CVE-2021-35942",
-        "ruleIndex": 0,
-        "level": "warning",
-        "message": {
-          "text": "Package: libc6\nInstalled Version: 2.31-0ubuntu9.2\nVulnerability CVE-2021-35942\nSeverity: MEDIUM\nFixed Version: \nLink: [CVE-2021-35942](https://avd.aquasec.com/nvd/cve-2021-35942)"
-        },
-        "locations": [{
-          "physicalLocation": {
-            "artifactLocation": {
-              "uri": "elasticsearch:7.16.2",
-              "uriBaseId": "ROOTPATH"
-            },
-            "region": {
-              "startLine": 1
-            }
-          }
-        }]
-      }, {
-        "ruleId": "CVE-2021-38604",
-        "ruleIndex": 1,
-        "level": "warning",
-        "message": {
-          "text": "Package: libc6\nInstalled Version: 2.31-0ubuntu9.2\nVulnerability CVE-2021-38604\nSeverity: MEDIUM\nFixed Version: \nLink: [CVE-2021-38604](https://avd.aquasec.com/nvd/cve-2021-38604)"
-        },
-        "locations": [{
-          "physicalLocation": {
-            "artifactLocation": {
-              "uri": "elasticsearch:7.16.2",
-              "uriBaseId": "ROOTPATH"
-            },
-            "region": {
-              "startLine": 1
-            }
-          }
-        }]
-      }, {
-        "ruleId": "CVE-2021-36222",
-        "ruleIndex": 2,
-        "level": "warning",
-        "message": {
-          "text": "Package: libgssapi-krb5-2\nInstalled Version: 1.17-6ubuntu4.1\nVulnerability CVE-2021-36222\nSeverity: MEDIUM\nFixed Version: \nLink: [CVE-2021-36222](https://avd.aquasec.com/nvd/cve-2021-36222)"
-        },
-        "locations": [{
-          "physicalLocation": {
-            "artifactLocation": {
-              "uri": "elasticsearch:7.16.2",
-              "uriBaseId": "ROOTPATH"
-            },
-            "region": {
-              "startLine": 1
-            }
-          }
-        }]
-      }, {
-        "ruleId": "CVE-2021-36222",
-        "ruleIndex": 2,
-        "level": "warning",
-        "message": {
-          "text": "Package: libk5crypto3\nInstalled Version: 1.17-6ubuntu4.1\nVulnerability CVE-2021-36222\nSeverity: MEDIUM\nFixed Version: \nLink: [CVE-2021-36222](https://avd.aquasec.com/nvd/cve-2021-36222)"
-        },
-        "locations": [{
-          "physicalLocation": {
-            "artifactLocation": {
-              "uri": "elasticsearch:7.16.2",
-              "uriBaseId": "ROOTPATH"
-            },
-            "region": {
-              "startLine": 1
-            }
-          }
-        }]
-      }, {
-        "ruleId": "CVE-2021-36222",
-        "ruleIndex": 2,
-        "level": "warning",
-        "message": {
-          "text": "Package: libkrb5-3\nInstalled Version: 1.17-6ubuntu4.1\nVulnerability CVE-2021-36222\nSeverity: MEDIUM\nFixed Version: \nLink: [CVE-2021-36222](https://avd.aquasec.com/nvd/cve-2021-36222)"
-        },
-        "locations": [{
-          "physicalLocation": {
-            "artifactLocation": {
-              "uri": "elasticsearch:7.16.2",
-              "uriBaseId": "ROOTPATH"
-            },
-            "region": {
-              "startLine": 1
-            }
-          }
-        }]
-      }, {
-        "ruleId": "CVE-2021-36222",
-        "ruleIndex": 2,
-        "level": "warning",
-        "message": {
-          "text": "Package: libkrb5support0\nInstalled Version: 1.17-6ubuntu4.1\nVulnerability CVE-2021-36222\nSeverity: MEDIUM\nFixed Version: \nLink: [CVE-2021-36222](https://avd.aquasec.com/nvd/cve-2021-36222)"
-        },
-        "locations": [{
-          "physicalLocation": {
-            "artifactLocation": {
-              "uri": "elasticsearch:7.16.2",
-              "uriBaseId": "ROOTPATH"
-            },
-            "region": {
-              "startLine": 1
-            }
-          }
-        }]
-      }, {
-        "ruleId": "CVE-2020-9794",
-        "ruleIndex": 3,
-        "level": "warning",
-        "message": {
-          "text": "Package: libsqlite3-0\nInstalled Version: 3.31.1-4ubuntu0.2\nVulnerability CVE-2020-9794\nSeverity: MEDIUM\nFixed Version: \nLink: [CVE-2020-9794](https://avd.aquasec.com/nvd/cve-2020-9794)"
-        },
-        "locations": [{
-          "physicalLocation": {
-            "artifactLocation": {
-              "uri": "elasticsearch:7.16.2",
-              "uriBaseId": "ROOTPATH"
-            },
-            "region": {
-              "startLine": 1
-            }
-          }
-        }]
-      }, {
-        "ruleId": "CVE-2021-3997",
-        "ruleIndex": 4,
-        "level": "warning",
-        "message": {
-          "text": "Package: libsystemd0\nInstalled Version: 245.4-4ubuntu3.13\nVulnerability CVE-2021-3997\nSeverity: MEDIUM\nFixed Version: 245.4-4ubuntu3.15\nLink: [CVE-2021-3997](https://avd.aquasec.com/nvd/cve-2021-3997)"
-        },
-        "locations": [{
-          "physicalLocation": {
-            "artifactLocation": {
-              "uri": "elasticsearch:7.16.2",
-              "uriBaseId": "ROOTPATH"
-            },
-            "region": {
-              "startLine": 1
-            }
-          }
-        }]
-      }, {
-        "ruleId": "CVE-2021-3997",
-        "ruleIndex": 4,
-        "level": "warning",
-        "message": {
-          "text": "Package: libudev1\nInstalled Version: 245.4-4ubuntu3.13\nVulnerability CVE-2021-3997\nSeverity: MEDIUM\nFixed Version: 245.4-4ubuntu3.15\nLink: [CVE-2021-3997](https://avd.aquasec.com/nvd/cve-2021-3997)"
-        },
-        "locations": [{
-          "physicalLocation": {
-            "artifactLocation": {
-              "uri": "elasticsearch:7.16.2",
-              "uriBaseId": "ROOTPATH"
-            },
-            "region": {
-              "startLine": 1
-            }
-          }
-        }]
-      }, {
-        "ruleId": "CVE-2020-16156",
-        "ruleIndex": 5,
-        "level": "warning",
-        "message": {
-          "text": "Package: perl-base\nInstalled Version: 5.30.0-9ubuntu0.2\nVulnerability CVE-2020-16156\nSeverity: MEDIUM\nFixed Version: \nLink: [CVE-2020-16156](https://avd.aquasec.com/nvd/cve-2020-16156)"
-        },
-        "locations": [{
-          "physicalLocation": {
-            "artifactLocation": {
-              "uri": "elasticsearch:7.16.2",
-              "uriBaseId": "ROOTPATH"
-            },
-            "region": {
-              "startLine": 1
-            }
-          }
-        }]
-      }, {
-        "ruleId": "CVE-2021-3984",
-        "ruleIndex": 6,
-        "level": "warning",
-        "message": {
-          "text": "Package: vim-common\nInstalled Version: 2:8.1.2269-1ubuntu5.4\nVulnerability CVE-2021-3984\nSeverity: MEDIUM\nFixed Version: \nLink: [CVE-2021-3984](https://avd.aquasec.com/nvd/cve-2021-3984)"
-        },
-        "locations": [{
-          "physicalLocation": {
-            "artifactLocation": {
-              "uri": "elasticsearch:7.16.2",
-              "uriBaseId": "ROOTPATH"
-            },
-            "region": {
-              "startLine": 1
-            }
-          }
-        }]
-      }, {
-        "ruleId": "CVE-2021-4019",
-        "ruleIndex": 7,
-        "level": "warning",
-        "message": {
-          "text": "Package: vim-common\nInstalled Version: 2:8.1.2269-1ubuntu5.4\nVulnerability CVE-2021-4019\nSeverity: MEDIUM\nFixed Version: \nLink: [CVE-2021-4019](https://avd.aquasec.com/nvd/cve-2021-4019)"
-        },
-        "locations": [{
-          "physicalLocation": {
-            "artifactLocation": {
-              "uri": "elasticsearch:7.16.2",
-              "uriBaseId": "ROOTPATH"
-            },
-            "region": {
-              "startLine": 1
-            }
-          }
-        }]
-      }, {
-        "ruleId": "CVE-2021-4069",
-        "ruleIndex": 8,
-        "level": "warning",
-        "message": {
-          "text": "Package: vim-common\nInstalled Version: 2:8.1.2269-1ubuntu5.4\nVulnerability CVE-2021-4069\nSeverity: MEDIUM\nFixed Version: \nLink: [CVE-2021-4069](https://avd.aquasec.com/nvd/cve-2021-4069)"
-        },
-        "locations": [{
-          "physicalLocation": {
-            "artifactLocation": {
-              "uri": "elasticsearch:7.16.2",
-              "uriBaseId": "ROOTPATH"
-            },
-            "region": {
-              "startLine": 1
-            }
-          }
-        }]
-      }, {
-        "ruleId": "CVE-2021-4166",
-        "ruleIndex": 9,
-        "level": "warning",
-        "message": {
-          "text": "Package: vim-common\nInstalled Version: 2:8.1.2269-1ubuntu5.4\nVulnerability CVE-2021-4166\nSeverity: MEDIUM\nFixed Version: \nLink: [CVE-2021-4166](https://avd.aquasec.com/nvd/cve-2021-4166)"
-        },
-        "locations": [{
-          "physicalLocation": {
-            "artifactLocation": {
-              "uri": "elasticsearch:7.16.2",
-              "uriBaseId": "ROOTPATH"
-            },
-            "region": {
-              "startLine": 1
-            }
-          }
-        }]
-      }, {
-        "ruleId": "CVE-2021-3984",
-        "ruleIndex": 6,
-        "level": "warning",
-        "message": {
-          "text": "Package: vim-tiny\nInstalled Version: 2:8.1.2269-1ubuntu5.4\nVulnerability CVE-2021-3984\nSeverity: MEDIUM\nFixed Version: \nLink: [CVE-2021-3984](https://avd.aquasec.com/nvd/cve-2021-3984)"
-        },
-        "locations": [{
-          "physicalLocation": {
-            "artifactLocation": {
-              "uri": "elasticsearch:7.16.2",
-              "uriBaseId": "ROOTPATH"
-            },
-            "region": {
-              "startLine": 1
-            }
-          }
-        }]
-      }, {
-        "ruleId": "CVE-2021-4019",
-        "ruleIndex": 7,
-        "level": "warning",
-        "message": {
-          "text": "Package: vim-tiny\nInstalled Version: 2:8.1.2269-1ubuntu5.4\nVulnerability CVE-2021-4019\nSeverity: MEDIUM\nFixed Version: \nLink: [CVE-2021-4019](https://avd.aquasec.com/nvd/cve-2021-4019)"
-        },
-        "locations": [{
-          "physicalLocation": {
-            "artifactLocation": {
-              "uri": "elasticsearch:7.16.2",
-              "uriBaseId": "ROOTPATH"
-            },
-            "region": {
-              "startLine": 1
-            }
-          }
-        }]
-      }, {
-        "ruleId": "CVE-2021-4069",
-        "ruleIndex": 8,
-        "level": "warning",
-        "message": {
-          "text": "Package: vim-tiny\nInstalled Version: 2:8.1.2269-1ubuntu5.4\nVulnerability CVE-2021-4069\nSeverity: MEDIUM\nFixed Version: \nLink: [CVE-2021-4069](https://avd.aquasec.com/nvd/cve-2021-4069)"
-        },
-        "locations": [{
-          "physicalLocation": {
-            "artifactLocation": {
-              "uri": "elasticsearch:7.16.2",
-              "uriBaseId": "ROOTPATH"
-            },
-            "region": {
-              "startLine": 1
-            }
-          }
-        }]
-      }, {
-        "ruleId": "CVE-2021-4166",
-        "ruleIndex": 9,
-        "level": "warning",
-        "message": {
-          "text": "Package: vim-tiny\nInstalled Version: 2:8.1.2269-1ubuntu5.4\nVulnerability CVE-2021-4166\nSeverity: MEDIUM\nFixed Version: \nLink: [CVE-2021-4166](https://avd.aquasec.com/nvd/cve-2021-4166)"
-        },
-        "locations": [{
-          "physicalLocation": {
-            "artifactLocation": {
-              "uri": "elasticsearch:7.16.2",
-              "uriBaseId": "ROOTPATH"
-            },
-            "region": {
-              "startLine": 1
-            }
-          }
-        }]
-      }, {
-        "ruleId": "CVE-2021-3984",
-        "ruleIndex": 6,
-        "level": "warning",
-        "message": {
-          "text": "Package: xxd\nInstalled Version: 2:8.1.2269-1ubuntu5.4\nVulnerability CVE-2021-3984\nSeverity: MEDIUM\nFixed Version: \nLink: [CVE-2021-3984](https://avd.aquasec.com/nvd/cve-2021-3984)"
-        },
-        "locations": [{
-          "physicalLocation": {
-            "artifactLocation": {
-              "uri": "elasticsearch:7.16.2",
-              "uriBaseId": "ROOTPATH"
-            },
-            "region": {
-              "startLine": 1
-            }
-          }
-        }]
-      }, {
-        "ruleId": "CVE-2021-4019",
-        "ruleIndex": 7,
-        "level": "warning",
-        "message": {
-          "text": "Package: xxd\nInstalled Version: 2:8.1.2269-1ubuntu5.4\nVulnerability CVE-2021-4019\nSeverity: MEDIUM\nFixed Version: \nLink: [CVE-2021-4019](https://avd.aquasec.com/nvd/cve-2021-4019)"
-        },
-        "locations": [{
-          "physicalLocation": {
-            "artifactLocation": {
-              "uri": "elasticsearch:7.16.2",
-              "uriBaseId": "ROOTPATH"
-            },
-            "region": {
-              "startLine": 1
-            }
-          }
-        }]
-      }, {
-        "ruleId": "CVE-2021-4069",
-        "ruleIndex": 8,
-        "level": "warning",
-        "message": {
-          "text": "Package: xxd\nInstalled Version: 2:8.1.2269-1ubuntu5.4\nVulnerability CVE-2021-4069\nSeverity: MEDIUM\nFixed Version: \nLink: [CVE-2021-4069](https://avd.aquasec.com/nvd/cve-2021-4069)"
-        },
-        "locations": [{
-          "physicalLocation": {
-            "artifactLocation": {
-              "uri": "elasticsearch:7.16.2",
-              "uriBaseId": "ROOTPATH"
-            },
-            "region": {
-              "startLine": 1
-            }
-          }
-        }]
-      }, {
-        "ruleId": "CVE-2021-4166",
-        "ruleIndex": 9,
-        "level": "warning",
-        "message": {
-          "text": "Package: xxd\nInstalled Version: 2:8.1.2269-1ubuntu5.4\nVulnerability CVE-2021-4166\nSeverity: MEDIUM\nFixed Version: \nLink: [CVE-2021-4166](https://avd.aquasec.com/nvd/cve-2021-4166)"
-        },
-        "locations": [{
-          "physicalLocation": {
-            "artifactLocation": {
-              "uri": "elasticsearch:7.16.2",
-              "uriBaseId": "ROOTPATH"
-            },
-            "region": {
-              "startLine": 1
-            }
-          }
-        }]
-      }, {
-        "ruleId": "CVE-2020-25649",
-        "ruleIndex": 10,
-        "level": "error",
-        "message": {
-          "text": "Package: com.fasterxml.jackson.core:jackson-databind\nInstalled Version: 2.10.4\nVulnerability CVE-2020-25649\nSeverity: HIGH\nFixed Version: 2.6.7.4, 2.9.10.7, 2.10.5.1\nLink: [CVE-2020-25649](https://avd.aquasec.com/nvd/cve-2020-25649)"
-        },
-        "locations": [{
-          "physicalLocation": {
-            "artifactLocation": {
-              "uri": "Java",
-              "uriBaseId": "ROOTPATH"
-            },
-            "region": {
-              "startLine": 1
-            }
-          }
-        }]
-      }, {
-        "ruleId": "CVE-2018-10237",
-        "ruleIndex": 11,
-        "level": "warning",
-        "message": {
-          "text": "Package: com.google.guava:guava\nInstalled Version: 19.0\nVulnerability CVE-2018-10237\nSeverity: MEDIUM\nFixed Version: 24.1.1-jre, 24.1.1-android\nLink: [CVE-2018-10237](https://avd.aquasec.com/nvd/cve-2018-10237)"
-        },
-        "locations": [{
-          "physicalLocation": {
-            "artifactLocation": {
-              "uri": "Java",
-              "uriBaseId": "ROOTPATH"
-            },
-            "region": {
-              "startLine": 1
-            }
-          }
-        }]
-      }, {
-        "ruleId": "CVE-2021-22569",
-        "ruleIndex": 12,
-        "level": "error",
-        "message": {
-          "text": "Package: com.google.protobuf:protobuf-java\nInstalled Version: 3.14.0\nVulnerability CVE-2021-22569\nSeverity: HIGH\nFixed Version: 3.19.2, 3.18.2, 3.16.1\nLink: [CVE-2021-22569](https://avd.aquasec.com/nvd/cve-2021-22569)"
-        },
-        "locations": [{
-          "physicalLocation": {
-            "artifactLocation": {
-              "uri": "Java",
-              "uriBaseId": "ROOTPATH"
-            },
-            "region": {
-              "startLine": 1
-            }
-          }
-        }]
-      }, {
-        "ruleId": "CVE-2021-37136",
-        "ruleIndex": 13,
-        "level": "warning",
-        "message": {
-          "text": "Package: io.netty:netty-codec\nInstalled Version: 4.1.66.Final\nVulnerability CVE-2021-37136\nSeverity: MEDIUM\nFixed Version: 4.1.68.Final\nLink: [CVE-2021-37136](https://avd.aquasec.com/nvd/cve-2021-37136)"
-        },
-        "locations": [{
-          "physicalLocation": {
-            "artifactLocation": {
-              "uri": "Java",
-              "uriBaseId": "ROOTPATH"
-            },
-            "region": {
-              "startLine": 1
-            }
-          }
-        }]
-      }, {
-        "ruleId": "CVE-2021-37137",
-        "ruleIndex": 14,
-        "level": "warning",
-        "message": {
-          "text": "Package: io.netty:netty-codec\nInstalled Version: 4.1.66.Final\nVulnerability CVE-2021-37137\nSeverity: MEDIUM\nFixed Version: 4.1.68.Final\nLink: [CVE-2021-37137](https://avd.aquasec.com/nvd/cve-2021-37137)"
-        },
-        "locations": [{
-          "physicalLocation": {
-            "artifactLocation": {
-              "uri": "Java",
-              "uriBaseId": "ROOTPATH"
-            },
-            "region": {
-              "startLine": 1
-            }
-          }
-        }]
-      }, {
-        "ruleId": "CVE-2021-43797",
-        "ruleIndex": 15,
-        "level": "warning",
-        "message": {
-          "text": "Package: io.netty:netty-codec-http\nInstalled Version: 4.1.66.Final\nVulnerability CVE-2021-43797\nSeverity: MEDIUM\nFixed Version: 4.1.71.Final\nLink: [CVE-2021-43797](https://avd.aquasec.com/nvd/cve-2021-43797)"
-        },
-        "locations": [{
-          "physicalLocation": {
-            "artifactLocation": {
-              "uri": "Java",
-              "uriBaseId": "ROOTPATH"
-            },
-            "region": {
-              "startLine": 1
-            }
-          }
-        }]
-      }, {
-        "ruleId": "CVE-2020-13956",
-        "ruleIndex": 16,
-        "level": "warning",
-        "message": {
-          "text": "Package: org.apache.httpcomponents:httpclient\nInstalled Version: 4.5.10\nVulnerability CVE-2020-13956\nSeverity: MEDIUM\nFixed Version: 4.5.13\nLink: [CVE-2020-13956](https://avd.aquasec.com/nvd/cve-2020-13956)"
-        },
-        "locations": [{
-          "physicalLocation": {
-            "artifactLocation": {
-              "uri": "Java",
-              "uriBaseId": "ROOTPATH"
-            },
-            "region": {
-              "startLine": 1
-            }
-          }
-        }]
-      }, {
-        "ruleId": "CVE-2021-44832",
-        "ruleIndex": 17,
-        "level": "warning",
-        "message": {
-          "text": "Package: org.apache.logging.log4j:log4j-api\nInstalled Version: 2.17.0\nVulnerability CVE-2021-44832\nSeverity: MEDIUM\nFixed Version: 2.17.1, 2.12.4, 2.3.2\nLink: [CVE-2021-44832](https://avd.aquasec.com/nvd/cve-2021-44832)"
-        },
-        "locations": [{
-          "physicalLocation": {
-            "artifactLocation": {
-              "uri": "Java",
-              "uriBaseId": "ROOTPATH"
-            },
-            "region": {
-              "startLine": 1
-            }
-          }
-        }]
-      }, {
-        "ruleId": "CVE-2021-44832",
-        "ruleIndex": 17,
-        "level": "warning",
-        "message": {
-          "text": "Package: org.apache.logging.log4j:log4j-core\nInstalled Version: 2.17.0\nVulnerability CVE-2021-44832\nSeverity: MEDIUM\nFixed Version: 2.17.1, 2.12.4, 2.3.2\nLink: [CVE-2021-44832](https://avd.aquasec.com/nvd/cve-2021-44832)"
-        },
-        "locations": [{
-          "physicalLocation": {
-            "artifactLocation": {
-              "uri": "Java",
-              "uriBaseId": "ROOTPATH"
-            },
-            "region": {
-              "startLine": 1
-            }
-          }
-        }]
-      }, {
-        "ruleId": "CVE-2021-40690",
-        "ruleIndex": 18,
-        "level": "error",
-        "message": {
-          "text": "Package: org.apache.santuario:xmlsec\nInstalled Version: 2.1.4\nVulnerability CVE-2021-40690\nSeverity: HIGH\nFixed Version: 2.1.7, 2.2.3\nLink: [CVE-2021-40690](https://avd.aquasec.com/nvd/cve-2021-40690)"
-        },
-        "locations": [{
-          "physicalLocation": {
-            "artifactLocation": {
-              "uri": "Java",
-              "uriBaseId": "ROOTPATH"
-            },
-            "region": {
-              "startLine": 1
-            }
-          }
-        }]
-      }, {
-        "ruleId": "CVE-2020-15522",
-        "ruleIndex": 19,
-        "level": "warning",
-        "message": {
-          "text": "Package: org.bouncycastle:bc-fips\nInstalled Version: 1.0.2\nVulnerability CVE-2020-15522\nSeverity: MEDIUM\nFixed Version: 1.0.2.1\nLink: [CVE-2020-15522](https://avd.aquasec.com/nvd/cve-2020-15522)"
-        },
-        "locations": [{
-          "physicalLocation": {
-            "artifactLocation": {
-              "uri": "Java",
-              "uriBaseId": "ROOTPATH"
-            },
-            "region": {
-              "startLine": 1
-            }
-          }
-        }]
-      }],
-      "columnKind": "utf16CodeUnits",
-      "originalUriBaseIds": {
-        "ROOTPATH": {
-          "uri": "file:///"
-        }
       }
     },
-      []
-    ]
-  ]
+    "results": [{
+      "ruleId": "CVE-2021-35942",
+      "ruleIndex": 0,
+      "level": "warning",
+      "message": {
+        "text": "Package: libc-bin\nInstalled Version: 2.31-0ubuntu9.2\nVulnerability CVE-2021-35942\nSeverity: MEDIUM\nFixed Version: \nLink: [CVE-2021-35942](https://avd.aquasec.com/nvd/cve-2021-35942)"
+      },
+      "locations": [{
+        "physicalLocation": {
+          "artifactLocation": {
+            "uri": "elasticsearch:7.16.2",
+            "uriBaseId": "ROOTPATH"
+          },
+          "region": {
+            "startLine": 1
+          }
+        }
+      }]
+    }, {
+      "ruleId": "CVE-2021-38604",
+      "ruleIndex": 1,
+      "level": "warning",
+      "message": {
+        "text": "Package: libc-bin\nInstalled Version: 2.31-0ubuntu9.2\nVulnerability CVE-2021-38604\nSeverity: MEDIUM\nFixed Version: \nLink: [CVE-2021-38604](https://avd.aquasec.com/nvd/cve-2021-38604)"
+      },
+      "locations": [{
+        "physicalLocation": {
+          "artifactLocation": {
+            "uri": "elasticsearch:7.16.2",
+            "uriBaseId": "ROOTPATH"
+          },
+          "region": {
+            "startLine": 1
+          }
+        }
+      }]
+    }, {
+      "ruleId": "CVE-2021-35942",
+      "ruleIndex": 0,
+      "level": "warning",
+      "message": {
+        "text": "Package: libc6\nInstalled Version: 2.31-0ubuntu9.2\nVulnerability CVE-2021-35942\nSeverity: MEDIUM\nFixed Version: \nLink: [CVE-2021-35942](https://avd.aquasec.com/nvd/cve-2021-35942)"
+      },
+      "locations": [{
+        "physicalLocation": {
+          "artifactLocation": {
+            "uri": "elasticsearch:7.16.2",
+            "uriBaseId": "ROOTPATH"
+          },
+          "region": {
+            "startLine": 1
+          }
+        }
+      }]
+    }, {
+      "ruleId": "CVE-2021-38604",
+      "ruleIndex": 1,
+      "level": "warning",
+      "message": {
+        "text": "Package: libc6\nInstalled Version: 2.31-0ubuntu9.2\nVulnerability CVE-2021-38604\nSeverity: MEDIUM\nFixed Version: \nLink: [CVE-2021-38604](https://avd.aquasec.com/nvd/cve-2021-38604)"
+      },
+      "locations": [{
+        "physicalLocation": {
+          "artifactLocation": {
+            "uri": "elasticsearch:7.16.2",
+            "uriBaseId": "ROOTPATH"
+          },
+          "region": {
+            "startLine": 1
+          }
+        }
+      }]
+    }, {
+      "ruleId": "CVE-2021-36222",
+      "ruleIndex": 2,
+      "level": "warning",
+      "message": {
+        "text": "Package: libgssapi-krb5-2\nInstalled Version: 1.17-6ubuntu4.1\nVulnerability CVE-2021-36222\nSeverity: MEDIUM\nFixed Version: \nLink: [CVE-2021-36222](https://avd.aquasec.com/nvd/cve-2021-36222)"
+      },
+      "locations": [{
+        "physicalLocation": {
+          "artifactLocation": {
+            "uri": "elasticsearch:7.16.2",
+            "uriBaseId": "ROOTPATH"
+          },
+          "region": {
+            "startLine": 1
+          }
+        }
+      }]
+    }, {
+      "ruleId": "CVE-2021-36222",
+      "ruleIndex": 2,
+      "level": "warning",
+      "message": {
+        "text": "Package: libk5crypto3\nInstalled Version: 1.17-6ubuntu4.1\nVulnerability CVE-2021-36222\nSeverity: MEDIUM\nFixed Version: \nLink: [CVE-2021-36222](https://avd.aquasec.com/nvd/cve-2021-36222)"
+      },
+      "locations": [{
+        "physicalLocation": {
+          "artifactLocation": {
+            "uri": "elasticsearch:7.16.2",
+            "uriBaseId": "ROOTPATH"
+          },
+          "region": {
+            "startLine": 1
+          }
+        }
+      }]
+    }, {
+      "ruleId": "CVE-2021-36222",
+      "ruleIndex": 2,
+      "level": "warning",
+      "message": {
+        "text": "Package: libkrb5-3\nInstalled Version: 1.17-6ubuntu4.1\nVulnerability CVE-2021-36222\nSeverity: MEDIUM\nFixed Version: \nLink: [CVE-2021-36222](https://avd.aquasec.com/nvd/cve-2021-36222)"
+      },
+      "locations": [{
+        "physicalLocation": {
+          "artifactLocation": {
+            "uri": "elasticsearch:7.16.2",
+            "uriBaseId": "ROOTPATH"
+          },
+          "region": {
+            "startLine": 1
+          }
+        }
+      }]
+    }, {
+      "ruleId": "CVE-2021-36222",
+      "ruleIndex": 2,
+      "level": "warning",
+      "message": {
+        "text": "Package: libkrb5support0\nInstalled Version: 1.17-6ubuntu4.1\nVulnerability CVE-2021-36222\nSeverity: MEDIUM\nFixed Version: \nLink: [CVE-2021-36222](https://avd.aquasec.com/nvd/cve-2021-36222)"
+      },
+      "locations": [{
+        "physicalLocation": {
+          "artifactLocation": {
+            "uri": "elasticsearch:7.16.2",
+            "uriBaseId": "ROOTPATH"
+          },
+          "region": {
+            "startLine": 1
+          }
+        }
+      }]
+    }, {
+      "ruleId": "CVE-2020-9794",
+      "ruleIndex": 3,
+      "level": "warning",
+      "message": {
+        "text": "Package: libsqlite3-0\nInstalled Version: 3.31.1-4ubuntu0.2\nVulnerability CVE-2020-9794\nSeverity: MEDIUM\nFixed Version: \nLink: [CVE-2020-9794](https://avd.aquasec.com/nvd/cve-2020-9794)"
+      },
+      "locations": [{
+        "physicalLocation": {
+          "artifactLocation": {
+            "uri": "elasticsearch:7.16.2",
+            "uriBaseId": "ROOTPATH"
+          },
+          "region": {
+            "startLine": 1
+          }
+        }
+      }]
+    }, {
+      "ruleId": "CVE-2021-3997",
+      "ruleIndex": 4,
+      "level": "warning",
+      "message": {
+        "text": "Package: libsystemd0\nInstalled Version: 245.4-4ubuntu3.13\nVulnerability CVE-2021-3997\nSeverity: MEDIUM\nFixed Version: 245.4-4ubuntu3.15\nLink: [CVE-2021-3997](https://avd.aquasec.com/nvd/cve-2021-3997)"
+      },
+      "locations": [{
+        "physicalLocation": {
+          "artifactLocation": {
+            "uri": "elasticsearch:7.16.2",
+            "uriBaseId": "ROOTPATH"
+          },
+          "region": {
+            "startLine": 1
+          }
+        }
+      }]
+    }, {
+      "ruleId": "CVE-2021-3997",
+      "ruleIndex": 4,
+      "level": "warning",
+      "message": {
+        "text": "Package: libudev1\nInstalled Version: 245.4-4ubuntu3.13\nVulnerability CVE-2021-3997\nSeverity: MEDIUM\nFixed Version: 245.4-4ubuntu3.15\nLink: [CVE-2021-3997](https://avd.aquasec.com/nvd/cve-2021-3997)"
+      },
+      "locations": [{
+        "physicalLocation": {
+          "artifactLocation": {
+            "uri": "elasticsearch:7.16.2",
+            "uriBaseId": "ROOTPATH"
+          },
+          "region": {
+            "startLine": 1
+          }
+        }
+      }]
+    }, {
+      "ruleId": "CVE-2020-16156",
+      "ruleIndex": 5,
+      "level": "warning",
+      "message": {
+        "text": "Package: perl-base\nInstalled Version: 5.30.0-9ubuntu0.2\nVulnerability CVE-2020-16156\nSeverity: MEDIUM\nFixed Version: \nLink: [CVE-2020-16156](https://avd.aquasec.com/nvd/cve-2020-16156)"
+      },
+      "locations": [{
+        "physicalLocation": {
+          "artifactLocation": {
+            "uri": "elasticsearch:7.16.2",
+            "uriBaseId": "ROOTPATH"
+          },
+          "region": {
+            "startLine": 1
+          }
+        }
+      }]
+    }, {
+      "ruleId": "CVE-2021-3984",
+      "ruleIndex": 6,
+      "level": "warning",
+      "message": {
+        "text": "Package: vim-common\nInstalled Version: 2:8.1.2269-1ubuntu5.4\nVulnerability CVE-2021-3984\nSeverity: MEDIUM\nFixed Version: \nLink: [CVE-2021-3984](https://avd.aquasec.com/nvd/cve-2021-3984)"
+      },
+      "locations": [{
+        "physicalLocation": {
+          "artifactLocation": {
+            "uri": "elasticsearch:7.16.2",
+            "uriBaseId": "ROOTPATH"
+          },
+          "region": {
+            "startLine": 1
+          }
+        }
+      }]
+    }, {
+      "ruleId": "CVE-2021-4019",
+      "ruleIndex": 7,
+      "level": "warning",
+      "message": {
+        "text": "Package: vim-common\nInstalled Version: 2:8.1.2269-1ubuntu5.4\nVulnerability CVE-2021-4019\nSeverity: MEDIUM\nFixed Version: \nLink: [CVE-2021-4019](https://avd.aquasec.com/nvd/cve-2021-4019)"
+      },
+      "locations": [{
+        "physicalLocation": {
+          "artifactLocation": {
+            "uri": "elasticsearch:7.16.2",
+            "uriBaseId": "ROOTPATH"
+          },
+          "region": {
+            "startLine": 1
+          }
+        }
+      }]
+    }, {
+      "ruleId": "CVE-2021-4069",
+      "ruleIndex": 8,
+      "level": "warning",
+      "message": {
+        "text": "Package: vim-common\nInstalled Version: 2:8.1.2269-1ubuntu5.4\nVulnerability CVE-2021-4069\nSeverity: MEDIUM\nFixed Version: \nLink: [CVE-2021-4069](https://avd.aquasec.com/nvd/cve-2021-4069)"
+      },
+      "locations": [{
+        "physicalLocation": {
+          "artifactLocation": {
+            "uri": "elasticsearch:7.16.2",
+            "uriBaseId": "ROOTPATH"
+          },
+          "region": {
+            "startLine": 1
+          }
+        }
+      }]
+    }, {
+      "ruleId": "CVE-2021-4166",
+      "ruleIndex": 9,
+      "level": "warning",
+      "message": {
+        "text": "Package: vim-common\nInstalled Version: 2:8.1.2269-1ubuntu5.4\nVulnerability CVE-2021-4166\nSeverity: MEDIUM\nFixed Version: \nLink: [CVE-2021-4166](https://avd.aquasec.com/nvd/cve-2021-4166)"
+      },
+      "locations": [{
+        "physicalLocation": {
+          "artifactLocation": {
+            "uri": "elasticsearch:7.16.2",
+            "uriBaseId": "ROOTPATH"
+          },
+          "region": {
+            "startLine": 1
+          }
+        }
+      }]
+    }, {
+      "ruleId": "CVE-2021-3984",
+      "ruleIndex": 6,
+      "level": "warning",
+      "message": {
+        "text": "Package: vim-tiny\nInstalled Version: 2:8.1.2269-1ubuntu5.4\nVulnerability CVE-2021-3984\nSeverity: MEDIUM\nFixed Version: \nLink: [CVE-2021-3984](https://avd.aquasec.com/nvd/cve-2021-3984)"
+      },
+      "locations": [{
+        "physicalLocation": {
+          "artifactLocation": {
+            "uri": "elasticsearch:7.16.2",
+            "uriBaseId": "ROOTPATH"
+          },
+          "region": {
+            "startLine": 1
+          }
+        }
+      }]
+    }, {
+      "ruleId": "CVE-2021-4019",
+      "ruleIndex": 7,
+      "level": "warning",
+      "message": {
+        "text": "Package: vim-tiny\nInstalled Version: 2:8.1.2269-1ubuntu5.4\nVulnerability CVE-2021-4019\nSeverity: MEDIUM\nFixed Version: \nLink: [CVE-2021-4019](https://avd.aquasec.com/nvd/cve-2021-4019)"
+      },
+      "locations": [{
+        "physicalLocation": {
+          "artifactLocation": {
+            "uri": "elasticsearch:7.16.2",
+            "uriBaseId": "ROOTPATH"
+          },
+          "region": {
+            "startLine": 1
+          }
+        }
+      }]
+    }, {
+      "ruleId": "CVE-2021-4069",
+      "ruleIndex": 8,
+      "level": "warning",
+      "message": {
+        "text": "Package: vim-tiny\nInstalled Version: 2:8.1.2269-1ubuntu5.4\nVulnerability CVE-2021-4069\nSeverity: MEDIUM\nFixed Version: \nLink: [CVE-2021-4069](https://avd.aquasec.com/nvd/cve-2021-4069)"
+      },
+      "locations": [{
+        "physicalLocation": {
+          "artifactLocation": {
+            "uri": "elasticsearch:7.16.2",
+            "uriBaseId": "ROOTPATH"
+          },
+          "region": {
+            "startLine": 1
+          }
+        }
+      }]
+    }, {
+      "ruleId": "CVE-2021-4166",
+      "ruleIndex": 9,
+      "level": "warning",
+      "message": {
+        "text": "Package: vim-tiny\nInstalled Version: 2:8.1.2269-1ubuntu5.4\nVulnerability CVE-2021-4166\nSeverity: MEDIUM\nFixed Version: \nLink: [CVE-2021-4166](https://avd.aquasec.com/nvd/cve-2021-4166)"
+      },
+      "locations": [{
+        "physicalLocation": {
+          "artifactLocation": {
+            "uri": "elasticsearch:7.16.2",
+            "uriBaseId": "ROOTPATH"
+          },
+          "region": {
+            "startLine": 1
+          }
+        }
+      }]
+    }, {
+      "ruleId": "CVE-2021-3984",
+      "ruleIndex": 6,
+      "level": "warning",
+      "message": {
+        "text": "Package: xxd\nInstalled Version: 2:8.1.2269-1ubuntu5.4\nVulnerability CVE-2021-3984\nSeverity: MEDIUM\nFixed Version: \nLink: [CVE-2021-3984](https://avd.aquasec.com/nvd/cve-2021-3984)"
+      },
+      "locations": [{
+        "physicalLocation": {
+          "artifactLocation": {
+            "uri": "elasticsearch:7.16.2",
+            "uriBaseId": "ROOTPATH"
+          },
+          "region": {
+            "startLine": 1
+          }
+        }
+      }]
+    }, {
+      "ruleId": "CVE-2021-4019",
+      "ruleIndex": 7,
+      "level": "warning",
+      "message": {
+        "text": "Package: xxd\nInstalled Version: 2:8.1.2269-1ubuntu5.4\nVulnerability CVE-2021-4019\nSeverity: MEDIUM\nFixed Version: \nLink: [CVE-2021-4019](https://avd.aquasec.com/nvd/cve-2021-4019)"
+      },
+      "locations": [{
+        "physicalLocation": {
+          "artifactLocation": {
+            "uri": "elasticsearch:7.16.2",
+            "uriBaseId": "ROOTPATH"
+          },
+          "region": {
+            "startLine": 1
+          }
+        }
+      }]
+    }, {
+      "ruleId": "CVE-2021-4069",
+      "ruleIndex": 8,
+      "level": "warning",
+      "message": {
+        "text": "Package: xxd\nInstalled Version: 2:8.1.2269-1ubuntu5.4\nVulnerability CVE-2021-4069\nSeverity: MEDIUM\nFixed Version: \nLink: [CVE-2021-4069](https://avd.aquasec.com/nvd/cve-2021-4069)"
+      },
+      "locations": [{
+        "physicalLocation": {
+          "artifactLocation": {
+            "uri": "elasticsearch:7.16.2",
+            "uriBaseId": "ROOTPATH"
+          },
+          "region": {
+            "startLine": 1
+          }
+        }
+      }]
+    }, {
+      "ruleId": "CVE-2021-4166",
+      "ruleIndex": 9,
+      "level": "warning",
+      "message": {
+        "text": "Package: xxd\nInstalled Version: 2:8.1.2269-1ubuntu5.4\nVulnerability CVE-2021-4166\nSeverity: MEDIUM\nFixed Version: \nLink: [CVE-2021-4166](https://avd.aquasec.com/nvd/cve-2021-4166)"
+      },
+      "locations": [{
+        "physicalLocation": {
+          "artifactLocation": {
+            "uri": "elasticsearch:7.16.2",
+            "uriBaseId": "ROOTPATH"
+          },
+          "region": {
+            "startLine": 1
+          }
+        }
+      }]
+    }, {
+      "ruleId": "CVE-2020-25649",
+      "ruleIndex": 10,
+      "level": "error",
+      "message": {
+        "text": "Package: com.fasterxml.jackson.core:jackson-databind\nInstalled Version: 2.10.4\nVulnerability CVE-2020-25649\nSeverity: HIGH\nFixed Version: 2.6.7.4, 2.9.10.7, 2.10.5.1\nLink: [CVE-2020-25649](https://avd.aquasec.com/nvd/cve-2020-25649)"
+      },
+      "locations": [{
+        "physicalLocation": {
+          "artifactLocation": {
+            "uri": "Java",
+            "uriBaseId": "ROOTPATH"
+          },
+          "region": {
+            "startLine": 1
+          }
+        }
+      }]
+    }, {
+      "ruleId": "CVE-2018-10237",
+      "ruleIndex": 11,
+      "level": "warning",
+      "message": {
+        "text": "Package: com.google.guava:guava\nInstalled Version: 19.0\nVulnerability CVE-2018-10237\nSeverity: MEDIUM\nFixed Version: 24.1.1-jre, 24.1.1-android\nLink: [CVE-2018-10237](https://avd.aquasec.com/nvd/cve-2018-10237)"
+      },
+      "locations": [{
+        "physicalLocation": {
+          "artifactLocation": {
+            "uri": "Java",
+            "uriBaseId": "ROOTPATH"
+          },
+          "region": {
+            "startLine": 1
+          }
+        }
+      }]
+    }, {
+      "ruleId": "CVE-2021-22569",
+      "ruleIndex": 12,
+      "level": "error",
+      "message": {
+        "text": "Package: com.google.protobuf:protobuf-java\nInstalled Version: 3.14.0\nVulnerability CVE-2021-22569\nSeverity: HIGH\nFixed Version: 3.19.2, 3.18.2, 3.16.1\nLink: [CVE-2021-22569](https://avd.aquasec.com/nvd/cve-2021-22569)"
+      },
+      "locations": [{
+        "physicalLocation": {
+          "artifactLocation": {
+            "uri": "Java",
+            "uriBaseId": "ROOTPATH"
+          },
+          "region": {
+            "startLine": 1
+          }
+        }
+      }]
+    }, {
+      "ruleId": "CVE-2021-37136",
+      "ruleIndex": 13,
+      "level": "warning",
+      "message": {
+        "text": "Package: io.netty:netty-codec\nInstalled Version: 4.1.66.Final\nVulnerability CVE-2021-37136\nSeverity: MEDIUM\nFixed Version: 4.1.68.Final\nLink: [CVE-2021-37136](https://avd.aquasec.com/nvd/cve-2021-37136)"
+      },
+      "locations": [{
+        "physicalLocation": {
+          "artifactLocation": {
+            "uri": "Java",
+            "uriBaseId": "ROOTPATH"
+          },
+          "region": {
+            "startLine": 1
+          }
+        }
+      }]
+    }, {
+      "ruleId": "CVE-2021-37137",
+      "ruleIndex": 14,
+      "level": "warning",
+      "message": {
+        "text": "Package: io.netty:netty-codec\nInstalled Version: 4.1.66.Final\nVulnerability CVE-2021-37137\nSeverity: MEDIUM\nFixed Version: 4.1.68.Final\nLink: [CVE-2021-37137](https://avd.aquasec.com/nvd/cve-2021-37137)"
+      },
+      "locations": [{
+        "physicalLocation": {
+          "artifactLocation": {
+            "uri": "Java",
+            "uriBaseId": "ROOTPATH"
+          },
+          "region": {
+            "startLine": 1
+          }
+        }
+      }]
+    }, {
+      "ruleId": "CVE-2021-43797",
+      "ruleIndex": 15,
+      "level": "warning",
+      "message": {
+        "text": "Package: io.netty:netty-codec-http\nInstalled Version: 4.1.66.Final\nVulnerability CVE-2021-43797\nSeverity: MEDIUM\nFixed Version: 4.1.71.Final\nLink: [CVE-2021-43797](https://avd.aquasec.com/nvd/cve-2021-43797)"
+      },
+      "locations": [{
+        "physicalLocation": {
+          "artifactLocation": {
+            "uri": "Java",
+            "uriBaseId": "ROOTPATH"
+          },
+          "region": {
+            "startLine": 1
+          }
+        }
+      }]
+    }, {
+      "ruleId": "CVE-2020-13956",
+      "ruleIndex": 16,
+      "level": "warning",
+      "message": {
+        "text": "Package: org.apache.httpcomponents:httpclient\nInstalled Version: 4.5.10\nVulnerability CVE-2020-13956\nSeverity: MEDIUM\nFixed Version: 4.5.13\nLink: [CVE-2020-13956](https://avd.aquasec.com/nvd/cve-2020-13956)"
+      },
+      "locations": [{
+        "physicalLocation": {
+          "artifactLocation": {
+            "uri": "Java",
+            "uriBaseId": "ROOTPATH"
+          },
+          "region": {
+            "startLine": 1
+          }
+        }
+      }]
+    }, {
+      "ruleId": "CVE-2021-44832",
+      "ruleIndex": 17,
+      "level": "warning",
+      "message": {
+        "text": "Package: org.apache.logging.log4j:log4j-api\nInstalled Version: 2.17.0\nVulnerability CVE-2021-44832\nSeverity: MEDIUM\nFixed Version: 2.17.1, 2.12.4, 2.3.2\nLink: [CVE-2021-44832](https://avd.aquasec.com/nvd/cve-2021-44832)"
+      },
+      "locations": [{
+        "physicalLocation": {
+          "artifactLocation": {
+            "uri": "Java",
+            "uriBaseId": "ROOTPATH"
+          },
+          "region": {
+            "startLine": 1
+          }
+        }
+      }]
+    }, {
+      "ruleId": "CVE-2021-44832",
+      "ruleIndex": 17,
+      "level": "warning",
+      "message": {
+        "text": "Package: org.apache.logging.log4j:log4j-core\nInstalled Version: 2.17.0\nVulnerability CVE-2021-44832\nSeverity: MEDIUM\nFixed Version: 2.17.1, 2.12.4, 2.3.2\nLink: [CVE-2021-44832](https://avd.aquasec.com/nvd/cve-2021-44832)"
+      },
+      "locations": [{
+        "physicalLocation": {
+          "artifactLocation": {
+            "uri": "Java",
+            "uriBaseId": "ROOTPATH"
+          },
+          "region": {
+            "startLine": 1
+          }
+        }
+      }]
+    }, {
+      "ruleId": "CVE-2021-40690",
+      "ruleIndex": 18,
+      "level": "error",
+      "message": {
+        "text": "Package: org.apache.santuario:xmlsec\nInstalled Version: 2.1.4\nVulnerability CVE-2021-40690\nSeverity: HIGH\nFixed Version: 2.1.7, 2.2.3\nLink: [CVE-2021-40690](https://avd.aquasec.com/nvd/cve-2021-40690)"
+      },
+      "locations": [{
+        "physicalLocation": {
+          "artifactLocation": {
+            "uri": "Java",
+            "uriBaseId": "ROOTPATH"
+          },
+          "region": {
+            "startLine": 1
+          }
+        }
+      }]
+    }, {
+      "ruleId": "CVE-2020-15522",
+      "ruleIndex": 19,
+      "level": "warning",
+      "message": {
+        "text": "Package: org.bouncycastle:bc-fips\nInstalled Version: 1.0.2\nVulnerability CVE-2020-15522\nSeverity: MEDIUM\nFixed Version: 1.0.2.1\nLink: [CVE-2020-15522](https://avd.aquasec.com/nvd/cve-2020-15522)"
+      },
+      "locations": [{
+        "physicalLocation": {
+          "artifactLocation": {
+            "uri": "Java",
+            "uriBaseId": "ROOTPATH"
+          },
+          "region": {
+            "startLine": 1
+          }
+        }
+      }]
+    }],
+    "columnKind": "utf16CodeUnits",
+    "originalUriBaseIds": {
+      "ROOTPATH": {
+        "uri": "file:///"
+      }
+    }
+  }]
 }

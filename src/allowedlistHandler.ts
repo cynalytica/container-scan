@@ -30,7 +30,7 @@ export function init() {
     initializeTrivyAllowedlistPath();
 
     try {
-        const allowedlistYaml = jsyaml.safeLoad(fs.readFileSync(allowedlistFilePath, 'utf8'));
+        const allowedlistYaml = jsyaml.load(fs.readFileSync(allowedlistFilePath, 'utf8'));
         if (allowedlistYaml.general) {
             if (allowedlistYaml.general.vulnerabilities) {
                 trivyAllowedlistExists = true;

@@ -65,7 +65,7 @@ export async function runTrivySarif(imageName,): Promise<TrivyResult> {
     return trivyResult;
 }
 
-export async function runTrivy(imageName): Promise<TrivyResult> {
+export async function runTrivy(imageName:string = ""): Promise<TrivyResult> {
     let trivyResult: TrivyResult;
     try {
 

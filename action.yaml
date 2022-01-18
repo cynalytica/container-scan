@@ -37,10 +37,6 @@ inputs:
     description: 'Github token'
     default: ${{ github.token }}
     required: true
-  run-quality-checks:
-    description: 'Add additional checks to ensure the image is secure and follows best practices and CIS standards'
-    default: 'true'
-    required: false
   run-issue-create:
     description: 'Create issues on the repo instead of using SARIF reports.'
     default: 'false'
@@ -48,14 +44,10 @@ inputs:
 
 
 outputs:
-  scan-report-path:
-    description: 'File path where the scan results are stored'
   sarif-report-path:
     description: 'File path where the scan results are stored'
   audit-reports-path:
     description: 'File path where the scan results are stored'
-  check-run-url:
-    description: 'URL of the check run. Overview about finding of vulnerabilities and best-practices.'
 
 runs:
   using: 'node12'

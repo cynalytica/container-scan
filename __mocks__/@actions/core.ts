@@ -1,12 +1,14 @@
 const actionsCore = jest.requireActual('@actions/core');
 
 let __mockInputValues = {
-    'image-name': 'nginx',
     'token': 'token',
     'username': 'username',
     'password': 'password',
-    'severit-threshold': 'HIGH',
-    'run-quality-checks': 'true'
+    'severity-threshold': 'HIGH',
+    'run-quality-checks': 'true',
+    'wont-fix-label': 'wontfix',
+    'no-fix-label': 'no-fix',
+    'is-fixed-label': 'fixed'
 };
 
 function __setMockInputValues(mockObject) {

@@ -41,7 +41,7 @@ describe('Initialize allowedlist file', () => {
         expect(allowedlistHandler.init).not.toThrow();
         expect(mockedFs.existsSync).toReturnWith(true);
         expect(mockedFs.existsSync).toHaveBeenCalledTimes(1);
-        expect(mockedFs.writeFileSync).toHaveBeenCalledTimes(2);
+        expect(mockedFs.writeFileSync).toHaveBeenCalledTimes(1);
     });
 
     test('allowedlist.yml file is given', () => {
@@ -53,7 +53,7 @@ describe('Initialize allowedlist file', () => {
         expect(allowedlistHandler.init).not.toThrow();
         expect(mockedFs.existsSync).toReturnWith(true);
         expect(mockedFs.existsSync).toHaveBeenCalledTimes(2);
-        expect(mockedFs.writeFileSync).toHaveBeenCalledTimes(2);
+        expect(mockedFs.writeFileSync).toHaveBeenCalledTimes(1);
     });
 
     test('Invalid allowedlist.yaml file is given', () => {
