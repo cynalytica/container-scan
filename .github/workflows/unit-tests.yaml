@@ -17,6 +17,7 @@ jobs:
       - uses: actions/setup-node@v2
         with:
           node-version: 12
+      - run: rm -rf node_modules #remove current node_modules. This could be causing problems here :/
       - run: npm install
       - run: sudo npm test
 
