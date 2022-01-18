@@ -115,7 +115,7 @@ Where your CI would:
 ```yaml
 on: 
   schedule: 
-    - cron: '* 0 * * *'
+    - cron: '0 0 * * *'
 
 jobs:
   build-secure-and-push:
