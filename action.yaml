@@ -43,7 +43,7 @@ inputs:
     required: false
   run-issue-create:
     description: 'Create issues on the repo instead of using SARIF reports.'
-    default: 'true'
+    default: 'false'
     required: false
 
 
