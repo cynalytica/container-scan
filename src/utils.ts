@@ -31,7 +31,7 @@ export async function concatSarifs(){
     if (/\.sarif.json$/.test(filename)) sarifs.push(fileHelper.getFileJson(filename) as SarifFormat);
   }
   const mainFile: SarifFormat = sarifs[0];
-  mainFile.runs = sarifs.map(sarif => sarif.runs).reduce((curr, agg) => [...agg, curr], []) as SarifRun[]
+  mainFile.runs = sarifs.map((sarif) => sarif.runs).reduce((cur, agg) => [...agg, ...cur])
 
   fileHelper.writeFileJson(`${dir}/trivy.sarif.json`,mainFile)
   core.setOutput('sarif-report-path',`${dir}/trivy.sarif.json`)
