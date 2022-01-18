@@ -1,26 +1,26 @@
 import * as core from '@actions/core';
-// import * as dockleHelper from './dockleHelper';
 import * as inputHelper from './inputHelper';
 import * as allowedlistHandler from './allowedlistHandler';
 import * as trivyHelper from './trivyHelper';
 import * as utils from './utils';
 import * as issueHelper from './createIssue'
-import {getSecurityLevel, globalClient, SecurtiyLabels} from "./createIssue";
-import {getSeveritiesToInclude, getTrivy} from "./trivyHelper";
-// let issuesList = [];
+import { concatSarifs } from "./utils";
 
 export async function run(): Promise<void> {
     inputHelper.validateRequiredInputs();
     allowedlistHandler.init();
     await trivyHelper.getTrivy()//get trivy download first this will prevent multiple downloads.
     const images = inputHelper.imageNames.split(/\s|,/).filter(v => v !== "")//white space or comma seperated. remove any empty ones also.
-    await issueHelper.getIssuesList(issueHelper.globalClient)// populate isssues here.
-    await Promise.allSettled(images.map(runImage))
+    await issueHelper.getIssuesList(issueHelper.globalClient)// populate issues here.
+    await Promise.allSettled(images.map(runImageSarif))
+    await concatSarifs()
+    if(inputHelper.isRunIssueCreateEnabled()){
+        await Promise.allSettled(images.map(runImage))
+    }
     //TODO: create audit log output (configurable output location)
-    //TODO: create a SARIF output for each image, concat - upload to Github Code Scanning
+
 
 }
-
 
 function arrayToMDlist(arr:string[]): string {
 
@@ -60,7 +60,7 @@ ${vuln.severitySource}
 ${arrayToMDlist(vuln.references)}
 `
         //Add in the no-fix label
-        const labels = SecurtiyLabels[vuln.severity]
+        const labels = issueHelper.SecurtiyLabels[vuln.severity]
         if(vuln.fixedVersion === undefined){
             labels.push('no-fix')
         }
@@ -74,6 +74,20 @@ ${arrayToMDlist(vuln.references)}
 
 
 }
+
+
+
+async function runImageSarif(image:string) {
+    const trivyResult = await trivyHelper.runTrivySarif(image)
+    const trivyStatus = trivyResult.status;
+    if (trivyStatus === trivyHelper.TRIVY_EXIT_CODE) {
+        const vulns = trivyHelper.getFilteredOutput(image);
+        core.info(`Vulnerabilities were detected in the container ${image} ${vulns.length}`);
+    } else if (trivyStatus === 0) {
+        core.info(`No vulnerabilities were detected in the container ${image}`);
+    }
+}
+
 async function runImage(image){
     const trivyResult = await trivyHelper.runTrivy(image);
     const trivyStatus = trivyResult.status;
@@ -93,35 +107,6 @@ async function runImage(image){
         });
         throw new Error(`An error occurred while scanning container image: ${image} for vulnerabilities.`);
     }
-
-    // let dockleStatus: number;
-    // if (inputHelper.isRunQualityChecksEnabled()) {
-    //     dockleStatus = await dockleHelper.runDockle();
-    //     if (dockleStatus === dockleHelper.DOCKLE_EXIT_CODE) {
-    //         dockleHelper.printFormattedOutput();
-    //     } else if (dockleStatus === 0) {
-    //         console.log("No best practice violations were detected in the container image");
-    //     } else {
-    //         const errors = utils.extractErrorsFromLogs(dockleHelper.getDockleLogPath(), dockleHelper.dockleToolName);
-    //         errors.forEach(err => {
-    //             core.error(err);
-    //         });
-    //         throw new Error("An error occurred while scanning the container image for best practice violations");
-    //     }
-    // }
-    //
-    // try {
-    //     await utils.createScanResult(trivyStatus, dockleStatus);
-    // } catch (error) {
-    //     core.warning(`An error occurred while creating the check run for container scan. Error: ${error}`);
-    // }
-    //
-    // const scanReportPath = utils.getScanReport(trivyResult, dockleStatus);
-    // core.setOutput('scan-report-path', scanReportPath);
-    //
-    // if (trivyStatus == trivyHelper.TRIVY_EXIT_CODE) {
-    //     throw new Error("Vulnerabilities were detected in the container image");
-    // }
 }
 
 run().catch(error => core.setFailed(error.message));

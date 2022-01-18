@@ -3,7 +3,6 @@ import * as util from 'util';
 import * as fs from 'fs';
 import * as toolCache from '@actions/tool-cache';
 import * as core from '@actions/core';
-import * as table from 'table';
 import * as semver from 'semver';
 import { ExecOptions } from '@actions/exec/lib/interfaces';
 import { ToolRunner } from '@actions/exec/lib/toolrunner';
@@ -11,6 +10,7 @@ import * as fileHelper from './fileHelper';
 import * as inputHelper from './inputHelper';
 import * as utils from './utils';
 import * as allowedlistHandler from './allowedlistHandler';
+import {SARIFTemplate} from "./sarif/sarif";
 
 export const TRIVY_EXIT_CODE = 5;
 export const trivyToolName = "trivy";
@@ -36,17 +36,34 @@ export const SEVERITY_HIGH = "HIGH";
 export const SEVERITY_MEDIUM = "MEDIUM";
 export const SEVERITY_LOW = "LOW";
 export const SEVERITY_UNKNOWN = "UNKNOWN";
-const TITLE_COUNT = "COUNT";
-const TITLE_VULNERABILITY_ID = "VULNERABILITY ID";
-const TITLE_PACKAGE_NAME = "PACKAGE NAME";
-const TITLE_SEVERITY = "SEVERITY";
-const TITLE_DESCRIPTION = "DESCRIPTION";
-const TITLE_TARGET = "TARGET";
+
+
 
 export interface TrivyResult {
     status: number;
     timestamp: string;
 };
+
+
+export async function runTrivySarif(imageName,): Promise<TrivyResult> {
+    let trivyResult: TrivyResult;
+    try {
+
+        const trivyPath = await getTrivy();
+        const trivyOptions: ExecOptions = await getTrivyExecOptionsSarif(imageName);
+        const trivyToolRunner = new ToolRunner(trivyPath, ["image",imageName ], trivyOptions);
+        const timestamp = new Date().toISOString();
+        const trivyStatus = await trivyToolRunner.exec();
+        utils.addLogsToDebug(getTrivyLogPath(imageName));
+        trivyResult = {
+            status: trivyStatus,
+            timestamp: timestamp
+        };
+    }catch (e) {
+        core.error(e)
+    }
+    return trivyResult;
+}
 
 export async function runTrivy(imageName): Promise<TrivyResult> {
     let trivyResult: TrivyResult;
@@ -57,7 +74,7 @@ export async function runTrivy(imageName): Promise<TrivyResult> {
         // const imageName = inputHelper.imageName;
         const trivyOptions: ExecOptions = await getTrivyExecOptions(imageName);
         core.info(`Scanning for vulnerabilities in image: ${imageName}`);
-        const trivyToolRunner = new ToolRunner(trivyPath, [imageName], trivyOptions);
+        const trivyToolRunner = new ToolRunner(trivyPath, ["image",imageName], trivyOptions);
         const timestamp = new Date().toISOString();
         const trivyStatus = await trivyToolRunner.exec();
         utils.addLogsToDebug(getTrivyLogPath(imageName));
@@ -103,78 +120,21 @@ export function getOutputPath(image:string): string {
     //lets take the name:version as the output
     const reReplace = /[\/:]/g;
     const iName = image.replace(reReplace,"_");
-    const trivyOutputPath = `${fileHelper.getContainerScanDirectory()}/${iName}_trivyoutput.json`;
-    return trivyOutputPath;
+    return `${fileHelper.getContainerScanDirectory()}/${iName}_trivyoutput.json`;
 }
 
 export function getTrivyLogPath(image:string): string {
     const reReplace = /[\/:]/g;
     const iName = image.replace(reReplace,"_");
-    const trivyLogPath = `${fileHelper.getContainerScanDirectory()}/${iName}_trivylog`;
-    return trivyLogPath;
+    return `${fileHelper.getContainerScanDirectory()}/${iName}_trivylog`;
 }
 
-export function getText(image:string,trivyStatus: number): string {
-    let clusteredVulnerabilities = '';
-    const vulnerabilityIdsBySeverity = getVulnerabilityIdsBySeverity(image,trivyStatus, true);
-    for (let severity in vulnerabilityIdsBySeverity) {
-        if (vulnerabilityIdsBySeverity[severity].length > 0) {
-            clusteredVulnerabilities = `${clusteredVulnerabilities}\n- **${severity}**:\n${vulnerabilityIdsBySeverity[severity].join('\n')}`;
-        }
-    }
-
-    return `**Vulnerabilities** -${clusteredVulnerabilities ? clusteredVulnerabilities : '\nNone found.'}`;
+export function getTrivySarifOutputPath(image:string): string {
+    const reReplace = /[\/:]/g;
+    const iName = image.replace(reReplace,"_");
+    return `${fileHelper.getContainerScanDirectory()}/${iName}_sarif.json`;
 }
 
-export function getSummary(image:string, trivyStatus: number): string {
-    let summary = '';
-    switch (trivyStatus) {
-        case 0:
-            summary = 'No vulnerabilities were detected in the container image'
-            break;
-        case TRIVY_EXIT_CODE:
-            let summaryDetails = '';
-            let total = 0;
-            const vulnerabilityIdsBySeverity = getVulnerabilityIdsBySeverity(image,trivyStatus, true);
-            for (let severity in vulnerabilityIdsBySeverity) {
-                const severityCount = vulnerabilityIdsBySeverity[severity].length;
-                const isBold = severityCount > 0;
-                summaryDetails = isBold
-                    ? `${summaryDetails}\n**${severity}**: **${severityCount}**`
-                    : summaryDetails = `${summaryDetails}\n${severity}: ${severityCount}`;
-
-                total += severityCount;
-            }
-
-            summary = `Found ${total} vulnerabilities -${summaryDetails}`;
-            break;
-        default:
-            summary = 'An error occurred while scanning the container image for vulnerabilities';
-            break;
-    }
-
-    return `- ${summary}`;
-}
-
-export function printFormattedOutput(image:string) {
-    let rows = [];
-    let titles = [TITLE_VULNERABILITY_ID, TITLE_PACKAGE_NAME, TITLE_SEVERITY, TITLE_DESCRIPTION, TITLE_TARGET];
-    rows.push(titles);
-
-    const vulnerabilities = getVulnerabilities(image);
-    vulnerabilities.forEach((cve: any) => {
-        let row = [];
-        row.push(cve[KEY_VULNERABILITY_ID]);
-        row.push(cve[KEY_PACKAGE_NAME]);
-        row.push(cve[KEY_SEVERITY]);
-        row.push(cve[KEY_DESCRIPTION]);
-        row.push(cve[KEY_TARGET]);
-        rows.push(row);
-    });
-
-    let widths = [20, 15, 15, 50, 20];
-    console.log(table.table(rows, utils.getConfigForTable(widths)));
-}
 
 export function getSeveritiesToInclude(warnIfInvalid?: boolean): string[] {
     let severities: string[] = [];
@@ -271,20 +231,34 @@ async function getTrivyEnvVariables(image:string): Promise<{ [key: string]: stri
     return trivyEnv;
 }
 
-function getVulnerabilityIdsBySeverity(image:string,trivyStatus: number, removeDuplicates?: boolean): any {
-    const severities = getSeveritiesToInclude();
-    let vulnerabilityIdsBySeverity: any = {};
 
-    if (trivyStatus == TRIVY_EXIT_CODE) {
-        const vulnerabilities = getVulnerabilities(image,removeDuplicates);
-        for (let severity of severities) {
-            vulnerabilityIdsBySeverity[severity] = vulnerabilities
-                .filter(v => v[KEY_SEVERITY].toUpperCase() === severity)
-                .map(v => v[KEY_VULNERABILITY_ID]);
-        }
+async function getTrivyEnvVariablesSarif(image:string): Promise<{ [key: string]: string }> {
+    let trivyEnv: { [key: string]: string } = {};
+    for (let key in process.env) {
+        trivyEnv[key] = process.env[key] || "";
     }
 
-    return vulnerabilityIdsBySeverity;
+    const username = inputHelper.username;
+    const password = inputHelper.password;
+    if (username && password) {
+        trivyEnv["TRIVY_USERNAME"] = username;
+        trivyEnv["TRIVY_PASSWORD"] = password;
+    }
+
+    trivyEnv["TRIVY_EXIT_CODE"] = TRIVY_EXIT_CODE.toString();
+    trivyEnv["TRIVY_FORMAT"] = 'template';
+    trivyEnv["TRIVY_TEMPLATE"] = SARIFTemplate
+    trivyEnv["TRIVY_OUTPUT"] = getTrivySarifOutputPath(image);
+    trivyEnv["GITHUB_TOKEN"] = inputHelper.githubToken;
+
+    if (allowedlistHandler.trivyAllowedlistExists) {
+        trivyEnv["TRIVY_IGNOREFILE"] = allowedlistHandler.getTrivyAllowedlist();
+    }
+
+    const severities = getSeveritiesToInclude(true);
+    trivyEnv["TRIVY_SEVERITY"] = severities.join(',');
+
+    return trivyEnv;
 }
 
 function getTrivyOutput(image:string): any {
@@ -351,6 +325,14 @@ function getTrivyDownloadUrl(trivyVersion: string): string {
 
 async function getTrivyExecOptions(image: string) {
     const trivyEnv = await getTrivyEnvVariables(image);
+    return {
+        env: trivyEnv,
+        ignoreReturnCode: true,
+        outStream: fs.createWriteStream(getTrivyLogPath(image))
+    };
+}
+async function getTrivyExecOptionsSarif(image: string) {
+    const trivyEnv = await getTrivyEnvVariablesSarif(image);
     return {
         env: trivyEnv,
         ignoreReturnCode: true,

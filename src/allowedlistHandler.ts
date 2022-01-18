@@ -3,7 +3,6 @@ import * as jsyaml from 'js-yaml';
 import * as fileHelper from './fileHelper';
 
 let trivyAllowedlistPath = "";
-let dockleAllowedlistPath = "";
 export let trivyAllowedlistExists = false;
 
 export function getTrivyAllowedlist(): string {
@@ -17,10 +16,6 @@ function initializeTrivyAllowedlistPath() {
     trivyAllowedlistPath = `${fileHelper.getContainerScanDirectory()}/.trivyignore`;
 }
 
-function initializeDockleAllowedlistPath() {
-    //Dockle expects .dockleignore file at the root of the repo 
-    dockleAllowedlistPath = `${process.env['GITHUB_WORKSPACE']}/.dockleignore`;
-}
 
 export function init() {
     let allowedlistFilePath = `${process.env['GITHUB_WORKSPACE']}/.github/containerscan/allowedlist.yaml`;
@@ -33,7 +28,6 @@ export function init() {
     }
 
     initializeTrivyAllowedlistPath();
-    initializeDockleAllowedlistPath();
 
     try {
         const allowedlistYaml = jsyaml.safeLoad(fs.readFileSync(allowedlistFilePath, 'utf8'));
@@ -43,11 +37,6 @@ export function init() {
                 const vulnArray: string[] = allowedlistYaml.general.vulnerabilities;
                 const trivyAllowedlistContent = vulnArray.join("\n");
                 fs.writeFileSync(trivyAllowedlistPath, trivyAllowedlistContent);
-            }
-            if (allowedlistYaml.general.bestPracticeViolations) {
-                const vulnArray: string[] = allowedlistYaml.general.bestPracticeViolations;
-                const dockleAllowedlistContent = vulnArray.join("\n");
-                fs.writeFileSync(dockleAllowedlistPath, dockleAllowedlistContent);
             }
         }
     } catch (error) {

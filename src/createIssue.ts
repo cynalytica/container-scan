@@ -4,7 +4,6 @@ import { Octokit } from '@octokit/rest';
 import * as github from './client/github';
 import * as inputHelper from './inputHelper'
 import { SEVERITY_CRITICAL, SEVERITY_HIGH, SEVERITY_MEDIUM, SEVERITY_LOW, SEVERITY_UNKNOWN } from './trivyHelper'
-import {maxCreationRetryCount} from "./inputHelper";
 
 export const globalClient = github.getOctokit(inputHelper.githubToken,{throttle:{
         onRateLimit: (retryAfter, options) => {
@@ -92,7 +91,16 @@ async function removeLabelFromIssue(client:Octokit & any,issue_number:number, na
     }
 }
 
-async function issueCanBeFixedNow(client:Octokit & any,issue_number:number,fixedVersion:string){
+async function issueCanBeFixedNow(client:Octokit & any,issue_number:number,fixedVersion:string,state: 'open'|'closed'){
+
+    if(state === 'closed'){
+        try{
+            await client.rest.issues.update({...github.context.repo, issue_number, state: 'open'})
+        }catch (e){
+             core.error(`reopenIssue: ${e}`)
+        }
+    }
+
     await removeLabelFromIssue(client,issue_number,inputHelper.noFixYetLabel)
     try{
         await client.rest.issues.createComment({...github.context.repo,issue_number, body: `A Fix can be found now by updating to version(s) ${fixedVersion}`})
@@ -103,24 +111,20 @@ async function issueCanBeFixedNow(client:Octokit & any,issue_number:number,fixed
 
 export async function createAnIssue(client: Octokit & any, issuesList: IssueItem[], issue:Issue,fixedVersion?: string):Promise<void>{
     try {
-
         const issueExists = issuesList.findIndex(({title}) => title === issue.title)
         if ( issueExists !== -1 ) {
                 const { number:id, state, labels:issueLabels } = issuesList[issueExists]
                 const hasWontFix = (issueLabels.findIndex(({name}) => name === inputHelper.wontFixLabel) !== -1)
                 const isFixed = (issueLabels.findIndex(({name}) => name === inputHelper.isFixedLabel) !== -1)
                 const cantFixLabel = (issueLabels.findIndex(({name}) => name === inputHelper.noFixYetLabel) !== -1)
-                if (state === "closed" && hasWontFix) {
-                    core.info(`issue has wont fix and is closed. doing nothing.`)
-                }else if(state === "closed" && !hasWontFix && isFixed) {
-                    core.info(`issue has been fixed. doing nothing.`)
-                }else if(state === "closed" && !hasWontFix && !isFixed) {
-                    core.info(`reopening issue. doing nothing.`)
+                if(state === "closed" && !hasWontFix && !isFixed && !cantFixLabel) {
+                    core.info(`Issue is not fixed, and can be fixed reopening issue.`)
                     await reopenIssue(client,id)
-                }
-                else if(state === "open" && cantFixLabel && fixedVersion !== undefined){
-                    core.info(`Fix has been found. Removing Label.`)
-                    await issueCanBeFixedNow(client,id,fixedVersion)
+                } else if(cantFixLabel && fixedVersion !== undefined){
+                    core.info(`Fix has been found. Updating issue`)
+                    await issueCanBeFixedNow(client,id,fixedVersion,state)
+                }else {
+                    core.info(`${id} => ${state} wontFix:${hasWontFix} isFixed:${isFixed} noFix:${cantFixLabel}`)
                 }
         }
         else if (issueExists == -1 ) {

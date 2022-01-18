@@ -10,10 +10,17 @@ export function getFileJson(path: string): any {
         throw new Error(`An error occurred while parsing the contents of the file: ${path}. Error: ${ex}`);
     }
 }
+export function writeFileJson(path: string,json:object): any {
+    try {
+        fs.writeFileSync(path, JSON.stringify(json));
+    } catch (ex) {
+        throw new Error(`An error occurred while writing the contents of the file: ${path}. Error: ${ex}`);
+    }
+}
 
 export function getContainerScanDirectory(): string {
     if (!CONTAINER_SCAN_DIRECTORY) {
-        CONTAINER_SCAN_DIRECTORY = `${process.env['GITHUB_WORKSPACE']}/_temp/containerscan_${Date.now()}`;
+        CONTAINER_SCAN_DIRECTORY = `${process.env['GITHUB_WORKSPACE']}/_temp/containerscan}`;
         ensureDirExists(CONTAINER_SCAN_DIRECTORY);
     }
 
