@@ -6,7 +6,7 @@ let CONTAINER_SCAN_DIRECTORY = '';
 export function getFileJson(path: string): any {
     try {
         const rawContent = fs.readFileSync(path, 'utf-8');
-        core.info(`${path}, ${rawContent}`)
+        console.log(path,rawContent)
         return JSON.parse(rawContent);
     } catch (ex) {
         console.trace(`An error occurred while parsing the contents of the file: ${path}. Error: ${ex}`)
