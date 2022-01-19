@@ -74,10 +74,11 @@ ${arrayToList(files)}
 function arrayToList(arr:string[]): string {
 
   let ret = ""
+
   if(arr === undefined || arr === null){
     return ret
   }
-  arr.forEach(s => ret += `<li>${s}</li>`)
+  arr.forEach(s => ret += `<li><a href="${s}">${s.replace(".html","")}</a></li>`)
   return `<ul>${ret}</ul>`
 
 }
