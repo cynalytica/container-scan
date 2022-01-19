@@ -88,5 +88,5 @@ export function addLogsToDebug(outputPath: string) {
 }
 export function addLogsToError(outputPath: string) {
   const out = fs.readFileSync(outputPath, 'utf8');
-  core.debug(out);
+  core.error(out);
 }
