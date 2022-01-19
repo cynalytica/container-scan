@@ -1,4 +1,5 @@
 import * as fs from 'fs'
+import * as core from '@actions/core';
 
 let CONTAINER_SCAN_DIRECTORY = '';
 
@@ -7,6 +8,7 @@ export function getFileJson(path: string): any {
         const rawContent = fs.readFileSync(path, 'utf-8');
         return JSON.parse(rawContent);
     } catch (ex) {
+        console.trace(`An error occurred while parsing the contents of the file: ${path}. Error: ${ex}`)
         throw new Error(`An error occurred while parsing the contents of the file: ${path}. Error: ${ex}`);
     }
 }

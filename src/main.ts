@@ -22,8 +22,8 @@ export async function run(): Promise<void> {
 }
 
 
-async function runImage(image:string): Promise<[PromiseSettledResult<void>,PromiseSettledResult<void>,PromiseSettledResult<void>]>{
-    return Promise.allSettled([runImageSarif(image),inputHelper.isRunIssueCreateEnabled() && runImageIssue(image), runImageAudit(image) ])
+async function runImage(image:string){
+    await Promise.allSettled([runImageSarif(image),inputHelper.isRunIssueCreateEnabled() && runImageIssue(image), runImageAudit(image) ])
 }
 
 async function runImageSarif(image:string) {
