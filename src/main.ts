@@ -7,6 +7,7 @@ import * as issueHelper from './createIssue'
 import {concatSarifs, createHtmlOutput} from "./utils";
 import {SARIFTemplate} from "./sarif/sarif";
 import {HTMLTableTemplate} from "./sarif/table";
+import {getOutputPath} from "./trivyHelper";
 
 export async function run(): Promise<void> {
     inputHelper.validateRequiredInputs();
@@ -38,7 +39,7 @@ async function runImage(image:string){
 
 async function runImageSarif(image:string) {
     core.info(`Running SARIF Generation for the container ${image}`);
-    const {status} = await trivyHelper.runTrivyTemplate(image,SARIFTemplate,trivyHelper.getTrivySarifOutputPath(image))
+    const {status} = await trivyHelper.runTrivyTemplate(image,SARIFTemplate,trivyHelper.getOutputPath(image))
     if (status === trivyHelper.TRIVY_EXIT_CODE) {
         const vulns = trivyHelper.getFilteredOutput(image);
         core.info(`Vulnerabilities were detected in the container ${image} ${vulns.length}`);
