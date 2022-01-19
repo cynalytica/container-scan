@@ -4,101 +4,54 @@ import * as allowedlistHandler from './allowedlistHandler';
 import * as trivyHelper from './trivyHelper';
 import * as utils from './utils';
 import * as issueHelper from './createIssue'
-import { concatSarifs } from "./utils";
+import {concatSarifs, createHtmlOutput} from "./utils";
+import {SARIFTemplate} from "./sarif/sarif";
+import {HTMLTableTemplate} from "./sarif/table";
 
 export async function run(): Promise<void> {
     inputHelper.validateRequiredInputs();
     allowedlistHandler.init();
     await trivyHelper.getTrivy()//get trivy download first this will prevent multiple downloads.
     const images = inputHelper.imageNames.split(/\s|,/).filter(v => v !== "")//white space or comma seperated. remove any empty ones also.
-    await issueHelper.getIssuesList(issueHelper.globalClient)// populate issues here.
-    await Promise.allSettled(images.map(runImageSarif))
-    await concatSarifs()
     if(inputHelper.isRunIssueCreateEnabled()){
-        await Promise.allSettled(images.map(runImage))
+        await issueHelper.getIssuesList(issueHelper.globalClient)// populate issues here.
     }
-    //TODO: create audit log output (configurable output location)
-
-
-}
-
-function arrayToMDlist(arr:string[]): string {
-
-    let ret = ""
-    if(arr === undefined || arr === null){
-        return ret
-    }
-    arr.forEach(s => ret += `* [${s}](${s})\r\n`)
-    return ret
-
-}
-
-async function createIssueFromVuln(vuln:trivyHelper.FilterOutput,imageName:string) {
-    const severities = trivyHelper.getSeveritiesToInclude();
-    if(severities.includes(vuln.severity)) {
-        //figure out labels
-        const title = `${imageName} ${vuln.vulnerabilityId}`
-        const body = `# ${vuln.vulnerabilityId}
-
-${vuln.title}
-
-${vuln.description}
-
-## Version
-${vuln.version}
-
-## Fixed Version
-${vuln.fixedVersion || `None`} 
-
-## Severity Source
-${vuln.severity}
-
-${vuln.severitySource}
-
-## References
-
-${arrayToMDlist(vuln.references)}
-`
-        //Add in the no-fix label
-        const labels = issueHelper.SecurtiyLabels[vuln.severity]
-        if(vuln.fixedVersion === undefined){
-            labels.push('no-fix')
-        }
-        const issue: issueHelper.Issue = {
-            title,
-            body,
-            labels: labels,
-        }
-        await issueHelper.createAnIssue(issueHelper.globalClient,issueHelper.issues,issue,vuln.fixedVersion)
-    }
-
+    await Promise.all(images.map(runImage))
+    await Promise.all([concatSarifs(),createHtmlOutput()]);
 
 }
 
 
+async function runImage(image:string){
+    await Promise.allSettled([runImageSarif(image),inputHelper.isRunIssueCreateEnabled() && runImageIssue(image), runImageAudit(image) ])
+}
 
 async function runImageSarif(image:string) {
-    const trivyResult = await trivyHelper.runTrivySarif(image)
-    const trivyStatus = trivyResult.status;
-    if (trivyStatus === trivyHelper.TRIVY_EXIT_CODE) {
+    const {status} = await trivyHelper.runTrivyTemplate(image,SARIFTemplate,trivyHelper.getTrivySarifOutputPath(image))
+    if (status === trivyHelper.TRIVY_EXIT_CODE) {
         const vulns = trivyHelper.getFilteredOutput(image);
         core.info(`Vulnerabilities were detected in the container ${image} ${vulns.length}`);
-    } else if (trivyStatus === 0) {
+    } else if (status === 0) {
         core.info(`No vulnerabilities were detected in the container ${image}`);
     }
 }
+async function runImageAudit(image:string){
+    const {status} = await trivyHelper.runTrivyTemplate(image,HTMLTableTemplate,trivyHelper.getTrivyHtmlOutputPath(image))
+    if (status === trivyHelper.TRIVY_EXIT_CODE) {
+        const vulns = trivyHelper.getFilteredOutput(image);
+        core.info(`Vulnerabilities were detected in the container ${image} ${vulns.length}`);
+    } else if (status === 0) {
+        core.info(`No vulnerabilities were detected in the container ${image}`);
+    }
+}
+async function runImageIssue(image:string){
+    const {status} = await trivyHelper.runTrivy(image);
 
-async function runImage(image){
-    const trivyResult = await trivyHelper.runTrivy(image);
-    const trivyStatus = trivyResult.status;
-    if (trivyStatus === trivyHelper.TRIVY_EXIT_CODE) {
+    if (status === trivyHelper.TRIVY_EXIT_CODE) {
         //create issues here?!
         const vulns = trivyHelper.getFilteredOutput(image);
-        vulns.forEach(v => createIssueFromVuln(v,image))
-
-        // vulns.forEach(v => createIssueFromVuln(v,image))
-        //create a AUDIT entry for image.
-    } else if (trivyStatus === 0) {
+        vulns.forEach(v => issueHelper.createIssueFromVuln(v,image))
+    } else if (status === 0) {
         core.info("No vulnerabilities were detected in the container image");
     } else {
         const errors = utils.extractErrorsFromLogs(trivyHelper.getTrivyLogPath(image), trivyHelper.trivyToolName);

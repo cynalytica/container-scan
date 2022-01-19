@@ -45,12 +45,12 @@ export interface TrivyResult {
 };
 
 
-export async function runTrivySarif(imageName,): Promise<TrivyResult> {
+export async function runTrivyTemplate(imageName:string,template:string, outputPath:string): Promise<TrivyResult> {
     let trivyResult: TrivyResult;
     try {
 
         const trivyPath = await getTrivy();
-        const trivyOptions: ExecOptions = await getTrivyExecOptionsSarif(imageName);
+        const trivyOptions: ExecOptions = await getTrivyExecOptionsTemplate(imageName,template,outputPath);
         const trivyToolRunner = new ToolRunner(trivyPath, ["image",imageName ], trivyOptions);
         const timestamp = new Date().toISOString();
         const trivyStatus = await trivyToolRunner.exec();
@@ -133,6 +133,11 @@ export function getTrivySarifOutputPath(image:string): string {
     const reReplace = /[\/:]/g;
     const iName = image.replace(reReplace,"_");
     return `${fileHelper.getContainerScanDirectory()}/${iName}.sarif.json`;
+}
+export function getTrivyHtmlOutputPath(image:string): string {
+    const reReplace = /[\/:.]/g;
+    const iName = image.replace(reReplace,"_");
+    return `${fileHelper.getContainerScanDirectory()}/${iName}.html`;
 }
 
 
@@ -232,7 +237,7 @@ async function getTrivyEnvVariables(image:string): Promise<{ [key: string]: stri
 }
 
 
-async function getTrivyEnvVariablesSarif(image:string): Promise<{ [key: string]: string }> {
+async function getTrivyEnvVariablesTemplate(image:string, template:string,outputPath:string): Promise<{ [key: string]: string }> {
     let trivyEnv: { [key: string]: string } = {};
     for (let key in process.env) {
         trivyEnv[key] = process.env[key] || "";
@@ -247,8 +252,8 @@ async function getTrivyEnvVariablesSarif(image:string): Promise<{ [key: string]:
 
     trivyEnv["TRIVY_EXIT_CODE"] = TRIVY_EXIT_CODE.toString();
     trivyEnv["TRIVY_FORMAT"] = 'template';
-    trivyEnv["TRIVY_TEMPLATE"] = SARIFTemplate
-    trivyEnv["TRIVY_OUTPUT"] = getTrivySarifOutputPath(image);
+    trivyEnv["TRIVY_TEMPLATE"] = template
+    trivyEnv["TRIVY_OUTPUT"] = outputPath; //getTrivySarifOutputPath(image);
     trivyEnv["GITHUB_TOKEN"] = inputHelper.githubToken;
 
     if (allowedlistHandler.trivyAllowedlistExists) {
@@ -331,8 +336,8 @@ async function getTrivyExecOptions(image: string) {
         outStream: fs.createWriteStream(getTrivyLogPath(image))
     };
 }
-async function getTrivyExecOptionsSarif(image: string) {
-    const trivyEnv = await getTrivyEnvVariablesSarif(image);
+async function getTrivyExecOptionsTemplate(image: string, template:string, outputPath:string) {
+    const trivyEnv = await getTrivyEnvVariablesTemplate(image,template,outputPath);
     return {
         env: trivyEnv,
         ignoreReturnCode: true,

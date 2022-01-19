@@ -10,9 +10,9 @@ export function getFileJson(path: string): any {
         throw new Error(`An error occurred while parsing the contents of the file: ${path}. Error: ${ex}`);
     }
 }
-export function writeFileJson(path: string,json:object): any {
+export function writeFile(path: string,body:string | NodeJS.ArrayBufferView): any {
     try {
-        fs.writeFileSync(path, JSON.stringify(json));
+        fs.writeFileSync(path, body);
     } catch (ex) {
         throw new Error(`An error occurred while writing the contents of the file: ${path}. Error: ${ex}`);
     }

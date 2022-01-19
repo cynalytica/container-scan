@@ -4,6 +4,7 @@ import { Octokit } from '@octokit/rest';
 import * as github from './client/github';
 import * as inputHelper from './inputHelper'
 import { SEVERITY_CRITICAL, SEVERITY_HIGH, SEVERITY_MEDIUM, SEVERITY_LOW, SEVERITY_UNKNOWN } from './trivyHelper'
+import * as trivyHelper from "./trivyHelper";
 
 export const globalClient = github.getOctokit(inputHelper.githubToken,{throttle:{
         onRateLimit: (retryAfter, options) => {
@@ -32,6 +33,60 @@ export interface Issue {
     labels?: string[]
     body?: string
 }
+
+function arrayToMDlist(arr:string[]): string {
+
+    let ret = ""
+    if(arr === undefined || arr === null){
+        return ret
+    }
+    arr.forEach(s => ret += `* [${s}](${s})\r\n`)
+    return ret
+
+}
+
+export async function createIssueFromVuln(vuln:trivyHelper.FilterOutput,imageName:string) {
+    const severities = trivyHelper.getSeveritiesToInclude();
+    if(severities.includes(vuln.severity)) {
+        //figure out labels
+        const title = `${imageName} ${vuln.vulnerabilityId}`
+        const body = `# ${vuln.vulnerabilityId}
+
+${vuln.title}
+
+${vuln.description}
+
+## Version
+${vuln.version}
+
+## Fixed Version
+${vuln.fixedVersion || `None`} 
+
+## Severity Source
+${vuln.severity}
+
+${vuln.severitySource}
+
+## References
+
+${arrayToMDlist(vuln.references)}
+`
+        //Add in the no-fix label
+        const labels = SecurtiyLabels[vuln.severity]
+        if(vuln.fixedVersion === undefined){
+            labels.push('no-fix')
+        }
+        const issue: Issue = {
+            title,
+            body,
+            labels: labels,
+        }
+        await createAnIssue(globalClient,issues,issue,vuln.fixedVersion)
+    }
+
+
+}
+
 
 
 const dockerLabel = "docker :whale:"
