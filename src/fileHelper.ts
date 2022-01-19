@@ -6,10 +6,18 @@ let CONTAINER_SCAN_DIRECTORY = '';
 export function getFileJson(path: string): any {
     try {
         const rawContent = fs.readFileSync(path, 'utf-8');
+        core.info(`${path}, ${rawContent}`)
         return JSON.parse(rawContent);
     } catch (ex) {
         console.trace(`An error occurred while parsing the contents of the file: ${path}. Error: ${ex}`)
         throw new Error(`An error occurred while parsing the contents of the file: ${path}. Error: ${ex}`);
+    }
+}
+export function writeJsonFile(path: string,obj:object): any {
+    try {
+        fs.writeFileSync(path, JSON.stringify(obj));
+    } catch (ex) {
+        throw new Error(`An error occurred while writing the contents of the file: ${path}. Error: ${ex}`);
     }
 }
 export function writeFile(path: string,body:string | NodeJS.ArrayBufferView): any {
