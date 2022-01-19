@@ -38,8 +38,7 @@ async function runImageSarif(image:string) {
 async function runImageAudit(image:string){
     const {status} = await trivyHelper.runTrivyTemplate(image,HTMLTableTemplate,trivyHelper.getTrivyHtmlOutputPath(image))
     if (status === trivyHelper.TRIVY_EXIT_CODE) {
-        const vulns = trivyHelper.getFilteredOutput(image);
-        core.info(`Vulnerabilities were detected in the container ${image} ${vulns.length}`);
+        core.info(`Vulnerabilities were detected in the container ${image}`);
     } else if (status === 0) {
         core.info(`No vulnerabilities were detected in the container ${image}`);
     }
