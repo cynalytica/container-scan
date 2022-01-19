@@ -16,7 +16,7 @@ export async function run(): Promise<void> {
     if(inputHelper.isRunIssueCreateEnabled()){
         await issueHelper.getIssuesList(issueHelper.globalClient)// populate issues here.
     }
-    await Promise.allSettled(images.map(runImage))
+    await images.map( async i => await runImage(i))
     await concatSarifs()
     await createHtmlOutput();
 
@@ -36,6 +36,7 @@ async function runImageSarif(image:string) {
     } else if (status === 0) {
         core.info(`No vulnerabilities were detected in the container ${image}`);
     }
+    core.info(`Completed SARIF Generation for the container ${image}`);
 }
 async function runImageAudit(image:string){
     core.info(`Running Audit Generation for the container ${image}`);
@@ -45,6 +46,7 @@ async function runImageAudit(image:string){
     } else if (status === 0) {
         core.info(`No vulnerabilities were detected in the container ${image}`);
     }
+    core.info(`Completed Audit Generation for the container ${image}`);
 }
 async function runImageIssue(image:string){
     const {status} = await trivyHelper.runTrivy(image);
