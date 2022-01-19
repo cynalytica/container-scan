@@ -17,7 +17,8 @@ export async function run(): Promise<void> {
         await issueHelper.getIssuesList(issueHelper.globalClient)// populate issues here.
     }
     await Promise.allSettled(images.map(runImage))
-    await Promise.all([concatSarifs(),createHtmlOutput()]);
+    await concatSarifs()
+    await createHtmlOutput();
 
 }
 
@@ -27,6 +28,7 @@ async function runImage(image:string){
 }
 
 async function runImageSarif(image:string) {
+    core.info(`Running SARIF Generation for the container ${image}`);
     const {status} = await trivyHelper.runTrivyTemplate(image,SARIFTemplate,trivyHelper.getTrivySarifOutputPath(image))
     if (status === trivyHelper.TRIVY_EXIT_CODE) {
         const vulns = trivyHelper.getFilteredOutput(image);
@@ -36,6 +38,7 @@ async function runImageSarif(image:string) {
     }
 }
 async function runImageAudit(image:string){
+    core.info(`Running Audit Generation for the container ${image}`);
     const {status} = await trivyHelper.runTrivyTemplate(image,HTMLTableTemplate,trivyHelper.getTrivyHtmlOutputPath(image))
     if (status === trivyHelper.TRIVY_EXIT_CODE) {
         core.info(`Vulnerabilities were detected in the container ${image}`);
