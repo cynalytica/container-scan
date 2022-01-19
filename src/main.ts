@@ -39,32 +39,44 @@ async function runImage(image:string){
 
 async function runImageSarif(image:string) {
     core.info(`Running SARIF Generation for the container ${image}`);
-    const {status} = await trivyHelper.runTrivyTemplate(image,SARIFTemplate,trivyHelper.getTrivySarifOutputPath(image))
-    if (status === trivyHelper.TRIVY_EXIT_CODE) {
+    const trivyResult = await trivyHelper.runTrivyTemplate(image,SARIFTemplate,trivyHelper.getTrivySarifOutputPath(image))
+    if (trivyResult.status === trivyHelper.TRIVY_EXIT_CODE) {
         core.info(`Vulnerabilities were detected in the container ${image}`);
-    } else if (status === 0) {
+    } else if (trivyResult.status === 0) {
         core.info(`No vulnerabilities were detected in the container ${image}`);
+    }else {
+        const errors = utils.extractErrorsFromLogs(trivyHelper.getTrivyLogPath(image), trivyHelper.trivyToolName);
+        errors.forEach(err => {
+            core.error(err);
+        });
+        throw new Error(`An error occurred while scanning container image: ${image} for vulnerabilities.`);
     }
     core.info(`Completed SARIF Generation for the container ${image}`);
 }
 async function runImageAudit(image:string){
     core.info(`Running Audit Generation for the container ${image}`);
-    const {status} = await trivyHelper.runTrivyTemplate(image,HTMLTableTemplate,trivyHelper.getTrivyHtmlOutputPath(image))
-    if (status === trivyHelper.TRIVY_EXIT_CODE) {
+    const trivyResult = await trivyHelper.runTrivyTemplate(image,HTMLTableTemplate,trivyHelper.getTrivyHtmlOutputPath(image))
+    if (trivyResult.status === trivyHelper.TRIVY_EXIT_CODE) {
         core.info(`Vulnerabilities were detected in the container ${image}`);
-    } else if (status === 0) {
+    } else if (trivyResult.status === 0) {
         core.info(`No vulnerabilities were detected in the container ${image}`);
+    }else {
+        const errors = utils.extractErrorsFromLogs(trivyHelper.getTrivyLogPath(image), trivyHelper.trivyToolName);
+        errors.forEach(err => {
+            core.error(err);
+        });
+        throw new Error(`An error occurred while scanning container image: ${image} for vulnerabilities.`);
     }
     core.info(`Completed Audit Generation for the container ${image}`);
 }
 async function runImageIssue(image:string){
-    const {status} = await trivyHelper.runTrivy(image);
+    const trivyResult = await trivyHelper.runTrivy(image);
 
-    if (status === trivyHelper.TRIVY_EXIT_CODE) {
+    if (trivyResult.status === trivyHelper.TRIVY_EXIT_CODE) {
         //create issues here?!
         const vulns = trivyHelper.getFilteredOutput(image);
         vulns.forEach(v => issueHelper.createIssueFromVuln(v,image))
-    } else if (status === 0) {
+    } else if (trivyResult.status === 0) {
         core.info("No vulnerabilities were detected in the container image");
     } else {
         const errors = utils.extractErrorsFromLogs(trivyHelper.getTrivyLogPath(image), trivyHelper.trivyToolName);
