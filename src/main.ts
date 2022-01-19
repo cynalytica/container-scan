@@ -16,7 +16,10 @@ export async function run(): Promise<void> {
     if(inputHelper.isRunIssueCreateEnabled()){
         await issueHelper.getIssuesList(issueHelper.globalClient)// populate issues here.
     }
-    await images.map( async i => await runImage(i))
+    for(const i of images){
+        await runImage(i)
+    }
+    // await images.map( async i => )
     await concatSarifs()
     await createHtmlOutput();
 
@@ -24,7 +27,13 @@ export async function run(): Promise<void> {
 
 
 async function runImage(image:string){
-    await Promise.allSettled([runImageSarif(image),inputHelper.isRunIssueCreateEnabled() && runImageIssue(image), runImageAudit(image) ])
+    await runImageSarif(image)
+    await runImageAudit(image)
+    if (inputHelper.isRunIssueCreateEnabled()){
+        await runImageIssue(image)
+    }
+
+    // await Promise.allSettled([runImageSarif(image),inputHelper.isRunIssueCreateEnabled() && runImageIssue(image), runImageAudit(image) ])
 }
 
 async function runImageSarif(image:string) {
