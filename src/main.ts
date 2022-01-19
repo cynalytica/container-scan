@@ -4,7 +4,7 @@ import * as allowedlistHandler from './allowedlistHandler';
 import * as trivyHelper from './trivyHelper';
 import * as utils from './utils';
 import * as issueHelper from './createIssue'
-import {concatSarifs, createHtmlOutput} from "./utils";
+import {addLogsToError, concatSarifs, createHtmlOutput} from "./utils";
 import {SARIFTemplate} from "./sarif/sarif";
 import {HTMLTableTemplate} from "./sarif/table";
 import {getOutputPath, getTrivySarifOutputPath} from "./trivyHelper";
@@ -45,11 +45,7 @@ async function runImageSarif(image:string) {
     } else if (trivyResult.status === 0) {
         core.info(`No vulnerabilities were detected in the container ${image}`);
     }else {
-        const errors = utils.extractErrorsFromLogs(trivyHelper.getTrivyLogPath(image), trivyHelper.trivyToolName);
-        errors.forEach(err => {
-            core.error(err);
-        });
-        throw new Error(`An error occurred while scanning container image: ${image} for vulnerabilities.`);
+         utils.addLogsToError(trivyHelper.getTrivyLogPath(image));
     }
     core.info(`Completed SARIF Generation for the container ${image}`);
 }
@@ -61,11 +57,7 @@ async function runImageAudit(image:string){
     } else if (trivyResult.status === 0) {
         core.info(`No vulnerabilities were detected in the container ${image}`);
     }else {
-        const errors = utils.extractErrorsFromLogs(trivyHelper.getTrivyLogPath(image), trivyHelper.trivyToolName);
-        errors.forEach(err => {
-            core.error(err);
-        });
-        throw new Error(`An error occurred while scanning container image: ${image} for vulnerabilities.`);
+        utils.addLogsToError(trivyHelper.getTrivyLogPath(image));
     }
     core.info(`Completed Audit Generation for the container ${image}`);
 }
@@ -79,11 +71,7 @@ async function runImageIssue(image:string){
     } else if (trivyResult.status === 0) {
         core.info("No vulnerabilities were detected in the container image");
     } else {
-        const errors = utils.extractErrorsFromLogs(trivyHelper.getTrivyLogPath(image), trivyHelper.trivyToolName);
-        errors.forEach(err => {
-            core.error(err);
-        });
-        throw new Error(`An error occurred while scanning container image: ${image} for vulnerabilities.`);
+        utils.addLogsToError(trivyHelper.getTrivyLogPath(image));
     }
 }
 
