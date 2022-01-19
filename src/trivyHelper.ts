@@ -114,28 +114,25 @@ export async function getTrivy(): Promise<string> {
     core.debug(util.format("Trivy executable found at path ", trivyToolPath));
     return trivyToolPath;
 }
-
+const reReplace = /[\/:.-]/g;
 export function getOutputPath(image:string): string {
     //image name format = group/name:version
     //lets take the name:version as the output
-    const reReplace = /[\/:.]/g;
     const iName = image.replace(reReplace,"_");
     return `${fileHelper.getContainerScanDirectory()}/${iName}_trivyoutput.json`;
 }
 
 export function getTrivyLogPath(image:string): string {
-    const reReplace = /[\/:.]/g;
+
     const iName = image.replace(reReplace,"_");
     return `${fileHelper.getContainerScanDirectory()}/${iName}_trivylog`;
 }
 
 export function getTrivySarifOutputPath(image:string): string {
-    const reReplace = /[\/:.]/g;
     const iName = image.replace(reReplace,"_");
     return `${fileHelper.getContainerScanDirectory()}/${iName}.sarif.json`;
 }
 export function getTrivyHtmlOutputPath(image:string): string {
-    const reReplace = /[\/:.]/g;
     const iName = image.replace(reReplace,"_");
     return `${fileHelper.getContainerScanDirectory()}/${iName}.html`;
 }
