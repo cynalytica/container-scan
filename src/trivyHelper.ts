@@ -15,7 +15,7 @@ import {SARIFTemplate} from "./sarif/sarif";
 export const TRIVY_EXIT_CODE = 5;
 export const trivyToolName = "trivy";
 const stableTrivyVersion = "0.5.2";
-const trivyLatestReleaseUrl = "https://github.com/aquasecurity/trivy/releases/tag/v0.22.0";
+const trivyLatestReleaseUrl = "https://api.github.com/repos/aquasecurity/trivy/releases/tags/v0.24.2";
 const KEY_TARGET = "Target";
 const KEY_VULNERABILITIES = "Vulnerabilities";
 
