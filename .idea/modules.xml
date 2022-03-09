@@ -3,6 +3,7 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/.idea/container-scan.iml" filepath="$PROJECT_DIR$/.idea/container-scan.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../../GitLab/AnalyticsEngine/debian/.idea/debian.iml" filepath="$PROJECT_DIR$/../../GitLab/AnalyticsEngine/debian/.idea/debian.iml" />
       <module fileurl="file://$PROJECT_DIR$/../../GitLab/AnalyticsEngine/.github/workflows/.idea/workflows.iml" filepath="$PROJECT_DIR$/../../GitLab/AnalyticsEngine/.github/workflows/.idea/workflows.iml" />
     </modules>
   </component>

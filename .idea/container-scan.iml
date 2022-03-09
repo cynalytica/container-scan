@@ -9,5 +9,6 @@
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="module" module-name="workflows" />
+    <orderEntry type="module" module-name="debian" />
   </component>
 </module>
