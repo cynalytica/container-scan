@@ -31,7 +31,7 @@
     "download": "^8.0.0",
     "http": "0.0.1-security",
     "js-yaml": "^4.1.0",
-    "semver": "^7.3.5",
+    "semver": "^7.5.2",
     "table": "^6.8.0",
     "typed-rest-client": "^1.8.6"
   }
